@@ -23,8 +23,48 @@ namespace PSIShoppingEngine
         {
             InitializeComponent();
         }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            string SQLiteEx = null;
+            DbHelper DbHelper = new DbHelper();
+            if(DbHelper.ValidateDB())
+            {
+                connection = DbHelper.ConnectToDB(SQLiteEx);
+                if(connection != null)
+                {
+                    DbHelper.PopulateDataGrid(receiptListGridView, connection,"SELECT receiptid, receiptdate, shopname FROM Receipts");
+                    stripStatus.Text = "Populated the grid with stored receipts.";
+                }
+                else
+                {
+                    stripStatus.Text = SQLiteEx;
+                }
+            }
+            else
+            {
+                stripStatus.Text = "Failed to locate the database, creating a new one.";
+                connection = DbHelper.CreateDB(SQLiteEx);
+                if(connection != null)
+                {
+                    stripStatus.Text = "New database created. Connection sucessful.";
+                }
+                else
+                {
+                    stripStatus.Text = SQLiteEx;
+                }
+            }
 
-        private void btnAddOCR_Click(object sender, EventArgs e)
+        }
+
+        private void btnAddManually_Click_1(object sender, EventArgs e)
+        {
+            NewReceipt newReceiptForm = new NewReceipt();
+            newReceiptForm.OCR = false;
+            newReceiptForm.connection = connection;
+            newReceiptForm.Show();
+        }
+
+        private void btnAddOCR_Click_1(object sender, EventArgs e)
         {
             using (OpenFileDialog ReceiptDialog = new OpenFileDialog())
             {
@@ -32,50 +72,15 @@ namespace PSIShoppingEngine
                 ReceiptDialog.FilterIndex = 2;
                 ReceiptDialog.RestoreDirectory = true;
 
-                if(ReceiptDialog.ShowDialog() == DialogResult.OK)
+                if (ReceiptDialog.ShowDialog() == DialogResult.OK)
                 {
                     NewReceipt newReceiptForm = new NewReceipt();
                     newReceiptForm.ReceiptFilePath = ReceiptDialog.FileName;
                     newReceiptForm.OCR = true;
+                    newReceiptForm.connection = connection;
                     newReceiptForm.Show();
                 }
             }
-        }
-        private void btnAddManually_Click(object sender, EventArgs e)
-        {
-            NewReceipt newReceiptForm = new NewReceipt();
-            newReceiptForm.OCR = false;
-            newReceiptForm.Show();
-        }
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            string SQLiteEx = null;
-            DbHelper DbHelper = new DbHelper();
-            if(DbHelper.ValidateDB())
-            {
-                if (DbHelper.ConnectToDB(connection, SQLiteEx))
-                {
-                    stripStatus.Text = "Connection to the database sucessful.";
-                    DbHelper.PopulateDataGrid(receiptListGridView, connection, "SELECT receiptid, receiptdate, shopname FROM Receipts");
-                }
-                else
-                {
-                    stripStatus.Text = "Failed to connect to the database : " + SQLiteEx;
-                }
-            }
-            else
-            {
-                stripStatus.Text = "Failed to locate the database, creating a new one.";
-                if(DbHelper.CreateDB(connection, SQLiteEx))
-                {
-                    stripStatus.Text = "Connection to the database sucessful.";
-                }
-                else
-                {
-                    stripStatus.Text = "Failed to create a new database: " + SQLiteEx;
-                }
-            }
-
         }
     }
 }

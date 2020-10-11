@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,46 +26,47 @@ namespace PSIShoppingEngine.Classes
             }
         }
 
-        public bool ConnectToDB(SQLiteConnection connection, string exception)
+        public SQLiteConnection ConnectToDB(string exception)
         {
-            connection = new SQLiteConnection("Data Source=.\\PSIDB.sqlite;Version=3;");
+            SQLiteConnection connection = new SQLiteConnection("Data Source=.\\PSIDB.sqlite;Version=3;");
             try
             {
                 connection.Open();
-                return true;
+                return connection;
             }
             catch (SQLiteException ex)
             {
-                return false;
+                return null;
             }
         }
-        public bool CreateDB(SQLiteConnection connection, string exception)
+        public SQLiteConnection CreateDB(string exception)
         {
             SQLiteConnection.CreateFile(DBPath);
-            connection = new SQLiteConnection("Data Source ="+DBPath+"; Version = 3;");
+            SQLiteConnection connection = new SQLiteConnection("Data Source ="+DBPath+"; Version = 3;");
             try
             {
                 connection.Open();
                 string sqlQuery = "CREATE TABLE Receipts (receiptid INTEGER PRIMARY KEY, receiptdate TEXT, itemdata TEXT, shopname TEXT)";
                 SQLiteCommand command = new SQLiteCommand(sqlQuery, connection);
                 command.ExecuteNonQuery();
-                //connection.Close();
-                return true;
+                return connection;
             }
             catch(SQLiteException ex)
             {
                 exception = ex.Message;
-                return false;
+                return null;
             }
         }
 
         public void PopulateDataGrid(DataGridView gridView, SQLiteConnection connection, string sqlQuery)
         {
-            SQLiteCommand command = new SQLiteCommand(sqlQuery,connection);
-            SQLiteDataReader sqldatareader = command.ExecuteReader();
-            BindingSource bs = new BindingSource();
-            bs.DataSource = sqldatareader;
-            gridView.DataSource = bs;
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, connection);
+            using (SQLiteDataReader sqldatareader = command.ExecuteReader())
+            {
+                DataTable dt = new DataTable();
+                dt.Load(sqldatareader);
+                gridView.DataSource = dt;
+            }
         }
 
     }

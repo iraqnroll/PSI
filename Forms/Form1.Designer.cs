@@ -59,6 +59,7 @@
             this.btnAddManually.TabIndex = 9;
             this.btnAddManually.Text = "Add Manually";
             this.btnAddManually.UseVisualStyleBackColor = true;
+            this.btnAddManually.Click += new System.EventHandler(this.btnAddManually_Click_1);
             // 
             // btnAddOCR
             // 
@@ -68,6 +69,7 @@
             this.btnAddOCR.TabIndex = 10;
             this.btnAddOCR.Text = "Add with OCR";
             this.btnAddOCR.UseVisualStyleBackColor = true;
+            this.btnAddOCR.Click += new System.EventHandler(this.btnAddOCR_Click_1);
             // 
             // receiptListGridView
             // 

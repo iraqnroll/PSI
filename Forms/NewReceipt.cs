@@ -9,13 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Tesseract;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using Newtonsoft.Json;
 
 namespace PSIShoppingEngine.Forms
 {
     public partial class NewReceipt : Form
     {
+        public SQLiteConnection connection { get; set; }
         public string ReceiptFilePath { get; set; }
         public bool OCR { get; set; }
         public Receipt rec { get; set; }
