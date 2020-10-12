@@ -83,6 +83,7 @@ namespace PSIShoppingEngine.Forms
             string sqlQuery = "INSERT INTO Receipts (receiptdate, itemdata, shopname) VALUES ('" + DateTime.Today.ToString("dd/MM/yyyy") + "','" + convertedReceiptItems + "','" + txtShop.Text + "')";
             DbHelper dbHelper = new DbHelper();
             dbHelper.InsertIntoDB(connection, sqlQuery);
+            Close();
         }
 
         private void label1_Click(object sender, EventArgs e)
