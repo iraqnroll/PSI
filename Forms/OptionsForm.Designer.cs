@@ -1,5 +1,5 @@
 ﻿
-namespace PSIShoppingEngine.UI
+namespace PSIShoppingEngine.Forms
 {
     partial class OptionsForm
     {
