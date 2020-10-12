@@ -66,20 +66,21 @@ namespace PSIShoppingEngine.Forms
 
         private void btnSaveReceipt_Click(object sender, EventArgs e)
         {
-           List<Item> ReceiptItems = new List<Item>();
-           Item ReceiptItem = new Item();
-           foreach (DataGridViewRow row in ReceiptDataGrid.Rows)
-           {
+            List<Item> ReceiptItems = new List<Item>();
+
+            foreach (DataGridViewRow row in ReceiptDataGrid.Rows)   //Handle serializing null values.
+            {
+                Item ReceiptItem = new Item();
                 ReceiptItem.ItemName = (string)row.Cells["ItemName"].Value;
                 ReceiptItem.ItemPrice = (string)row.Cells["ItemPrice"].Value;
-                if(row.Cells["Item Type"].Value != null)
+                if (row.Cells["Item Type"].Value != null)
                 {
                     ReceiptItem.Type = (Item.ItemType)row.Cells["Item Type"].Value;
                     ReceiptItems.Add(ReceiptItem);
                 }
-           }
-           string convertedReceiptItems = JsonConvert.SerializeObject(ReceiptItems);
-            string sqlQuery = "INSERT INTO Receipts (receiptdate, itemdata, shopname) VALUES ('"+ DateTime.Today.ToString("dd/MM/yyyy")+"','"+convertedReceiptItems+"','"+txtShop.Text+"')";
+            }
+            string convertedReceiptItems = JsonConvert.SerializeObject(ReceiptItems);
+            string sqlQuery = "INSERT INTO Receipts (receiptdate, itemdata, shopname) VALUES ('" + DateTime.Today.ToString("dd/MM/yyyy") + "','" + convertedReceiptItems + "','" + txtShop.Text + "')";
             DbHelper dbHelper = new DbHelper();
             dbHelper.InsertIntoDB(connection, sqlQuery);
         }

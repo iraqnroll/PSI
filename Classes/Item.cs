@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,8 +20,11 @@ namespace PSIShoppingEngine.Classes
             Vegetables,
             Other
         }
+        [JsonProperty]
         public string ItemName { get; set; }
+        [JsonProperty]
         public ItemType Type { get; set; }
+        [JsonProperty]
         public string ItemPrice { get; set; }
     }
 }
