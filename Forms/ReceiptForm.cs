@@ -82,5 +82,16 @@ namespace PSIShoppingEngine
                 }
             }
         }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            DbHelper dbHelper = new DbHelper();
+            if (connection != null)
+            {
+                dbHelper.PopulateDataGrid(receiptListGridView, connection, "SELECT receiptid, receiptdate, shopname FROM Receipts");
+                stripStatus.Text = "Refreshed the grid with stored receipts.";
+            }
+            else stripStatus.Text = "Could not establish a connection with a database.";
+        }
     }
 }

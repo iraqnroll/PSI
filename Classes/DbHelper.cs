@@ -58,6 +58,12 @@ namespace PSIShoppingEngine.Classes
             }
         }
 
+        public void InsertIntoDB(SQLiteConnection connection, string sqlQuery)
+        {
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, connection);
+            command.ExecuteNonQuery();
+        }
+
         public void PopulateDataGrid(DataGridView gridView, SQLiteConnection connection, string sqlQuery)
         {
             SQLiteCommand command = new SQLiteCommand(sqlQuery, connection);

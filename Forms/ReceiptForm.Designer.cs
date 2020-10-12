@@ -33,6 +33,7 @@
             this.btnAddManually = new System.Windows.Forms.Button();
             this.btnAddOCR = new System.Windows.Forms.Button();
             this.receiptListGridView = new System.Windows.Forms.DataGridView();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.receiptListGridView)).BeginInit();
             this.SuspendLayout();
@@ -81,11 +82,22 @@
             this.receiptListGridView.Size = new System.Drawing.Size(260, 392);
             this.receiptListGridView.TabIndex = 11;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(280, 418);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(92, 34);
+            this.btnRefresh.TabIndex = 12;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 478);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.receiptListGridView);
             this.Controls.Add(this.btnAddOCR);
             this.Controls.Add(this.btnAddManually);
@@ -107,6 +119,7 @@
         private System.Windows.Forms.Button btnAddManually;
         private System.Windows.Forms.Button btnAddOCR;
         private System.Windows.Forms.DataGridView receiptListGridView;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }
 

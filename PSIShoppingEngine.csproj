@@ -141,11 +141,11 @@
     <Compile Include="Classes\DbHelper.cs" />
     <Compile Include="Classes\Item.cs" />
     <Compile Include="Classes\ParseOCR.cs" />
-    <Compile Include="Forms\Form1.cs">
+    <Compile Include="Forms\ReceiptForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\ReceiptForm.Designer.cs">
+      <DependentUpon>ReceiptForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Forms\NewReceipt.cs">
@@ -156,8 +156,8 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\Receipt.cs" />
-    <EmbeddedResource Include="Forms\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ReceiptForm.resx">
+      <DependentUpon>ReceiptForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\NewReceipt.resx">
       <DependentUpon>NewReceipt.cs</DependentUpon>
