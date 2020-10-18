@@ -12,12 +12,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using PSIShoppingEngine.Classes;
 using PSIShoppingEngine.Forms;
+using Newtonsoft.Json;
 
 namespace PSIShoppingEngine
 {
     public partial class Form1 : Form
     {
         SQLiteConnection connection;
+        string SelectedReceiptID = "1";
 
         public Form1()
         {
@@ -25,14 +27,25 @@ namespace PSIShoppingEngine
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            selectedReceiptGridView.Hide();
             string SQLiteEx = null;
             DbHelper DbHelper = new DbHelper();
-            if(DbHelper.ValidateDB())
+            if (DbHelper.ValidateDB())
             {
                 connection = DbHelper.ConnectToDB(SQLiteEx);
-                if(connection != null)
+                if (connection != null)
                 {
-                    DbHelper.PopulateDataGrid(receiptListGridView, connection,"SELECT receiptid, receiptdate, shopname FROM Receipts");
+                    
+                    DbHelper.PopulateDataGrid(receiptListGridView, connection, "SELECT receiptid, receiptdate, shopname FROM Receipts");
+
+                    //VERY UGLY EW
+                    receiptListGridView.Columns[0].HeaderText = "ID";
+                    receiptListGridView.Columns[1].HeaderText = "Date";
+                    receiptListGridView.Columns[2].HeaderText = "Shop";
+                    receiptListGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    receiptListGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    receiptListGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
                     stripStatus.Text = "Populated the grid with stored receipts.";
                 }
                 else
@@ -44,7 +57,7 @@ namespace PSIShoppingEngine
             {
                 stripStatus.Text = "Failed to locate the database, creating a new one.";
                 connection = DbHelper.CreateDB(SQLiteEx);
-                if(connection != null)
+                if (connection != null)
                 {
                     stripStatus.Text = "New database created. Connection sucessful.";
                 }
@@ -92,6 +105,28 @@ namespace PSIShoppingEngine
                 stripStatus.Text = "Refreshed the grid with stored receipts.";
             }
             else stripStatus.Text = "Could not establish a connection with a database.";
+        }
+
+        private void selectedRowsButton_Click(object sender, System.EventArgs e)
+        {
+            selectedReceiptGridView.Rows.Clear();
+            
+            foreach (DataGridViewRow row in receiptListGridView.SelectedRows)
+            {
+                SelectedReceiptID = row.Cells[0].Value.ToString();
+            }
+            DbHelper dbHelper = new DbHelper();
+            string sqlQuery = "SELECT itemdata, shopname FROM Receipts WHERE receiptid = "+SelectedReceiptID;
+            SQLiteCommand command = new SQLiteCommand(sqlQuery,connection);
+            string Items = (string)command.ExecuteScalar();
+
+            List<Item> ItemList = JsonConvert.DeserializeObject<List<Item>>(Items);
+
+            foreach (var item in ItemList)
+            {
+                selectedReceiptGridView.Rows.Add(item.ItemName, item.ItemPrice, item.Type);
+            }
+            selectedReceiptGridView.Show();
         }
     }
 }
