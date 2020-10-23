@@ -19,12 +19,47 @@ namespace PSIShoppingEngine
     public partial class Form1 : Form
     {
       
-        string SelectedReceiptID = "1";
 
         public Form1()
         {
             InitializeComponent();
         }
+
+        private string selectReceipts = @"	SELECT r.receipt_id, shop_name, date, ROUND( SUM(price),2)
+                                            FROM receipts r
+                                            JOIN shops USING(shop_id)
+                                            JOIN norfa USING(receipt_id)
+                                            GROUP BY r.receipt_id
+                                        UNION
+
+                                            SELECT r.receipt_id, shop_name, date, ROUND( SUM(price),2)
+                                            FROM receipts r
+                                            JOIN shops USING(shop_id)
+                                            JOIN iki USING(receipt_id)
+                                            GROUP BY r.receipt_id
+                                        UNION
+
+                                            SELECT r.receipt_id, shop_name, date, ROUND( SUM(price),2)
+                                            FROM receipts r
+                                            JOIN shops USING(shop_id)
+                                            JOIN rimi USING(receipt_id)
+                                            GROUP BY r.receipt_id
+                                        UNION
+
+                                            SELECT r.receipt_id, shop_name, date, ROUND( SUM(price),2)
+                                            FROM receipts r
+                                            JOIN shops USING(shop_id)
+                                            JOIN lidl USING(receipt_id)
+                                            GROUP BY r.receipt_id
+                                        UNION
+
+                                            SELECT r.receipt_id, shop_name, date, ROUND( SUM(price),2)
+                                            FROM receipts r
+                                            JOIN shops USING(shop_id)
+                                            JOIN maxima USING(receipt_id)
+                                            GROUP BY r.receipt_id";
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             selectedReceiptGridView.Hide();
@@ -36,15 +71,19 @@ namespace PSIShoppingEngine
                 if (DbHelper.myConnection != null)
                 {
 
-                    receiptListGridView.DataSource = DbHelper.PopulateDataGrid( "SELECT receiptid, receiptdate, shopname FROM Receipts");
+                    receiptListGridView.DataSource = DbHelper.PopulateDataGrid(selectReceipts);
 
-                    //VERY UGLY EW
+
                     receiptListGridView.Columns[0].HeaderText = "ID";
-                    receiptListGridView.Columns[1].HeaderText = "Date";
-                    receiptListGridView.Columns[2].HeaderText = "Shop";
+                    receiptListGridView.Columns[1].HeaderText = "Parduotuve";
+                    receiptListGridView.Columns[2].HeaderText = "Data";
+                    receiptListGridView.Columns[3].HeaderText = "Bendra suma";
+
                     receiptListGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     receiptListGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     receiptListGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    receiptListGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
 
                     stripStatus.Text = "Populated the grid with stored receipts.";
                 }
@@ -101,7 +140,7 @@ namespace PSIShoppingEngine
            
             if (DbHelper.myConnection != null)
             {
-                receiptListGridView.DataSource = DbHelper.PopulateDataGrid( "SELECT receiptid, receiptdate, shopname FROM Receipts");
+                receiptListGridView.DataSource = DbHelper.PopulateDataGrid(selectReceipts);
                 stripStatus.Text = "Refreshed the grid with stored receipts.";
             }
             else stripStatus.Text = "Could not establish a connection with a database.";
@@ -109,26 +148,29 @@ namespace PSIShoppingEngine
 
         private void selectedRowsButton_Click(object sender, System.EventArgs e)
         {
-            selectedReceiptGridView.Rows.Clear();
-            
-            foreach (DataGridViewRow row in receiptListGridView.SelectedRows)
-            {
-                SelectedReceiptID = row.Cells[0].Value.ToString();
-            }
           
-            string sqlQuery = "SELECT itemdata, shopname FROM Receipts WHERE receiptid = "+SelectedReceiptID;
-            DbHelper.OpenConnection();
-            SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
-            string Items = (string)command.ExecuteScalar();
 
-            List<Item> ItemList = JsonConvert.DeserializeObject<List<Item>>(Items);
+            string SelectedReceiptID = receiptListGridView.CurrentRow.Cells[0].Value.ToString();
+            string SelectedShopName = receiptListGridView.CurrentRow.Cells[1].Value.ToString();
+            
+            string sqlQuery = @"SELECT product_name, price, type_name
+                            FROM "+ SelectedShopName+
+                            @" JOIN products USING(product_id)
+                            JOIN types USING(type_id)
+                            WHERE receipt_id = " + SelectedReceiptID;
 
-            foreach (var item in ItemList)
-            {
-                selectedReceiptGridView.Rows.Add(item.ItemName, item.ItemPrice, item.Type);
-            }
+            selectedReceiptGridView.DataSource = DbHelper.PopulateDataGrid(sqlQuery);
+
+            selectedReceiptGridView.Columns[0].HeaderText = "Pavadinimas";
+            selectedReceiptGridView.Columns[1].HeaderText = "Kaina";
+            selectedReceiptGridView.Columns[2].HeaderText = "Rusis";
+
+            selectedReceiptGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            selectedReceiptGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            selectedReceiptGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
             selectedReceiptGridView.Show();
-            DbHelper.CloseConnection();
+
         }
         
     }

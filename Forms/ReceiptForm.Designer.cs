@@ -35,9 +35,6 @@
             this.receiptListGridView = new System.Windows.Forms.DataGridView();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.selectedReceiptGridView = new System.Windows.Forms.DataGridView();
-            this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ItemPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ItemType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.receiptListGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectedReceiptGridView)).BeginInit();
@@ -47,9 +44,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stripStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 456);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 497);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(686, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(788, 22);
             this.statusStrip1.TabIndex = 8;
             // 
             // stripStatus
@@ -90,7 +87,7 @@
             this.receiptListGridView.ReadOnly = true;
             this.receiptListGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.receiptListGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.receiptListGridView.Size = new System.Drawing.Size(240, 392);
+            this.receiptListGridView.Size = new System.Drawing.Size(322, 392);
             this.receiptListGridView.TabIndex = 11;
             this.receiptListGridView.SelectionChanged += new System.EventHandler(this.selectedRowsButton_Click);
             // 
@@ -109,40 +106,17 @@
             this.selectedReceiptGridView.AllowUserToAddRows = false;
             this.selectedReceiptGridView.AllowUserToDeleteRows = false;
             this.selectedReceiptGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.selectedReceiptGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ItemName,
-            this.ItemPrice,
-            this.ItemType});
-            this.selectedReceiptGridView.Location = new System.Drawing.Point(270, 12);
+            this.selectedReceiptGridView.Location = new System.Drawing.Point(352, 12);
             this.selectedReceiptGridView.Name = "selectedReceiptGridView";
             this.selectedReceiptGridView.ReadOnly = true;
             this.selectedReceiptGridView.Size = new System.Drawing.Size(404, 392);
             this.selectedReceiptGridView.TabIndex = 13;
             // 
-            // ItemName
-            // 
-            this.ItemName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ItemName.HeaderText = "Item Name";
-            this.ItemName.Name = "ItemName";
-            this.ItemName.ReadOnly = true;
-            // 
-            // ItemPrice
-            // 
-            this.ItemPrice.HeaderText = "Item Price";
-            this.ItemPrice.Name = "ItemPrice";
-            this.ItemPrice.ReadOnly = true;
-            // 
-            // ItemType
-            // 
-            this.ItemType.HeaderText = "Item Type";
-            this.ItemType.Name = "ItemType";
-            this.ItemType.ReadOnly = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(686, 478);
+            this.ClientSize = new System.Drawing.Size(788, 519);
             this.Controls.Add(this.selectedReceiptGridView);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.receiptListGridView);
@@ -169,9 +143,6 @@
         private System.Windows.Forms.DataGridView receiptListGridView;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.DataGridView selectedReceiptGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ItemPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ItemType;
     }
 }
 

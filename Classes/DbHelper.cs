@@ -13,6 +13,7 @@ namespace PSIShoppingEngine.Classes
     public static class DbHelper  
     {
         public static SQLiteConnection myConnection = new SQLiteConnection("Data Source=TestDB.db");
+
         public static bool ValidateDB()
         {
             if(File.Exists(".\\TestDB.db"))
@@ -60,7 +61,6 @@ namespace PSIShoppingEngine.Classes
             {
                 DataTable myDataTable = new DataTable();
                 myDataTable.Load(sqldatareader);
-                // gridView.DataSource = dt;
                 CloseConnection();
                 return myDataTable;
             }
