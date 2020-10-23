@@ -52,8 +52,8 @@ namespace PSIShoppingEngine.Forms
             }
             else
             {
-                rec = new Receipt();
-                rec.Groceries = new List<Item>();
+               // rec = new Receipt();
+                //rec.Groceries = new List<Item>();
 
                 DataGridViewComboBoxColumn TypeCol = new DataGridViewComboBoxColumn();
                 TypeCol.Name = "Item Type";
@@ -88,6 +88,61 @@ namespace PSIShoppingEngine.Forms
 
         private void label1_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string[] lal = { "" };
+
+            DataGridViewRow RowSample = new DataGridViewRow();
+            DataGridViewComboBoxCell CellSample = new DataGridViewComboBoxCell();
+            CellSample.DataSource = lal; // list of the string items that I want to insert in ComboBox
+            CellSample.Value = lal[0]; // default value for the ComboBox
+            DataGridViewCell cell = new DataGridViewTextBoxCell();
+            cell.Value = ""; // creating the text cell
+            RowSample.Cells.Add(cell);
+            RowSample.Cells.Add(CellSample);
+            ReceiptDataGrid.Rows.Add(RowSample);
+        }
+
+        private void ReceiptDataGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            
+
+            var newValue = ReceiptDataGrid.CurrentCell.EditedFormattedValue;
+            var test = ReceiptDataGrid.CurrentCell;
+           
+
+            if (test.ColumnIndex == 2)
+            {
+                DataGridViewComboBoxCell itemNameBoxColumn = ReceiptDataGrid.Rows[test.RowIndex].Cells[test.ColumnIndex - 1] as DataGridViewComboBoxCell;
+                ReceiptDataGrid.Rows[test.RowIndex].Cells[1].Value = "";
+                switch (newValue)
+                {
+                    case "Electronics":
+                        itemNameBoxColumn.DataSource = new string[] { "Ausines", "Blenderis", "Dziovintuvas", "Svarstykles", "Pelyte", "Klaviatura" };
+                        break;
+                    case "Meat":
+                        itemNameBoxColumn.DataSource = new string[] { "Malta mesa", "Vistienos file", "Rukyta desra", "Pieniskos desreles", "Jautiena", "Kiauliena" };
+                        break;
+                    case "Dairy":
+                        itemNameBoxColumn.DataSource = new string[] { "Pienas", "Sviestas", "Grietine", "Kefyras", "Suris", "Surelis" };
+                        break;
+                    case "Beverage":
+                        itemNameBoxColumn.DataSource = new string[] { "Cola", "Sprite", "Alus", "Sultys", "Gira", "Fanta" };
+                        break;
+                    case "Pastry":
+                        itemNameBoxColumn.DataSource = new string[] { "Bandeles", "Tortas", "Pyragas", "Keksas", "Vyniotinis", "Spurgos" };
+                        break;
+                    case "Vegetables":
+                        itemNameBoxColumn.DataSource = new string[] { "Morkos", "Bulves", "Kopustas", "Pomidoras", "Agurkas", "Rope" };
+                        break;
+                    default:
+                        itemNameBoxColumn.DataSource = new string[] { "random", "random", "random", "random", "random", "random" };
+                        break;
+                }
+            }
 
         }
     }

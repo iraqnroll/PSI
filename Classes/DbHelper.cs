@@ -12,7 +12,7 @@ namespace PSIShoppingEngine.Classes
 {
     public class DbHelper   //Maybe change this to a static class ??
     {
-        const string DBPath = ".\\PSIDB.sqlite";
+        const string DBPath = ".\\TestDB.db";
 
         public bool ValidateDB()
         {
@@ -28,7 +28,7 @@ namespace PSIShoppingEngine.Classes
 
         public SQLiteConnection ConnectToDB(string exception)
         {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=.\\PSIDB.sqlite;Version=3;");
+            SQLiteConnection connection = new SQLiteConnection("Data Source=.\\TestDB.db");
             try
             {
                 connection.Open();
@@ -42,7 +42,7 @@ namespace PSIShoppingEngine.Classes
         public SQLiteConnection CreateDB(string exception)
         {
             SQLiteConnection.CreateFile(DBPath);
-            SQLiteConnection connection = new SQLiteConnection("Data Source ="+DBPath+"; Version = 3;");
+            SQLiteConnection connection = new SQLiteConnection("Data Source ="+DBPath);
             try
             {
                 connection.Open();
