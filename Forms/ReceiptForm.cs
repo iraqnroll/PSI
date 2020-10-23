@@ -18,7 +18,7 @@ namespace PSIShoppingEngine
 {
     public partial class Form1 : Form
     {
-        SQLiteConnection connection;
+      
         string SelectedReceiptID = "1";
 
         public Form1()
@@ -29,14 +29,14 @@ namespace PSIShoppingEngine
         {
             selectedReceiptGridView.Hide();
             string SQLiteEx = null;
-            DbHelper DbHelper = new DbHelper();
+            
             if (DbHelper.ValidateDB())
             {
-                connection = DbHelper.ConnectToDB(SQLiteEx);
-                if (connection != null)
+                
+                if (DbHelper.myConnection != null)
                 {
                     
-                    DbHelper.PopulateDataGrid(receiptListGridView, connection, "SELECT receiptid, receiptdate, shopname FROM Receipts");
+                    DbHelper.PopulateDataGrid(receiptListGridView,  "SELECT receiptid, receiptdate, shopname FROM Receipts");
 
                     //VERY UGLY EW
                     receiptListGridView.Columns[0].HeaderText = "ID";
@@ -56,8 +56,8 @@ namespace PSIShoppingEngine
             else
             {
                 stripStatus.Text = "Failed to locate the database, creating a new one.";
-                connection = DbHelper.CreateDB(SQLiteEx);
-                if (connection != null)
+              
+                if (DbHelper.myConnection != null)
                 {
                     stripStatus.Text = "New database created. Connection sucessful.";
                 }
@@ -73,7 +73,7 @@ namespace PSIShoppingEngine
         {
             NewReceipt newReceiptForm = new NewReceipt();
             newReceiptForm.OCR = false;
-            newReceiptForm.connection = connection;
+            
             newReceiptForm.Show();
         }
 
@@ -90,7 +90,7 @@ namespace PSIShoppingEngine
                     NewReceipt newReceiptForm = new NewReceipt();
                     newReceiptForm.ReceiptFilePath = ReceiptDialog.FileName;
                     newReceiptForm.OCR = true;
-                    newReceiptForm.connection = connection;
+                  
                     newReceiptForm.Show();
                 }
             }
@@ -98,10 +98,10 @@ namespace PSIShoppingEngine
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            DbHelper dbHelper = new DbHelper();
-            if (connection != null)
+           
+            if (DbHelper.myConnection != null)
             {
-                dbHelper.PopulateDataGrid(receiptListGridView, connection, "SELECT receiptid, receiptdate, shopname FROM Receipts");
+                DbHelper.PopulateDataGrid(receiptListGridView, "SELECT receiptid, receiptdate, shopname FROM Receipts");
                 stripStatus.Text = "Refreshed the grid with stored receipts.";
             }
             else stripStatus.Text = "Could not establish a connection with a database.";
@@ -115,9 +115,10 @@ namespace PSIShoppingEngine
             {
                 SelectedReceiptID = row.Cells[0].Value.ToString();
             }
-            DbHelper dbHelper = new DbHelper();
+          
             string sqlQuery = "SELECT itemdata, shopname FROM Receipts WHERE receiptid = "+SelectedReceiptID;
-            SQLiteCommand command = new SQLiteCommand(sqlQuery,connection);
+            DbHelper.OpenConnection();
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
             string Items = (string)command.ExecuteScalar();
 
             List<Item> ItemList = JsonConvert.DeserializeObject<List<Item>>(Items);
@@ -127,6 +128,8 @@ namespace PSIShoppingEngine
                 selectedReceiptGridView.Rows.Add(item.ItemName, item.ItemPrice, item.Type);
             }
             selectedReceiptGridView.Show();
+            DbHelper.CloseConnection();
         }
+        
     }
 }

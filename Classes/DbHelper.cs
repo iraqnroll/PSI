@@ -10,13 +10,12 @@ using System.Windows.Forms;
 
 namespace PSIShoppingEngine.Classes
 {
-    public class DbHelper   //Maybe change this to a static class ??
+    public static class DbHelper  
     {
-        const string DBPath = ".\\TestDB.db";
-
-        public bool ValidateDB()
+        public static SQLiteConnection myConnection = new SQLiteConnection("Data Source=TestDB.db");
+        public static bool ValidateDB()
         {
-            if(File.Exists(DBPath))
+            if(File.Exists(".\\TestDB.db"))
             {
                 return true;
             }
@@ -26,53 +25,45 @@ namespace PSIShoppingEngine.Classes
             }
         }
 
-        public SQLiteConnection ConnectToDB(string exception)
+        public static void OpenConnection()
         {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=.\\TestDB.db");
-            try
+            if (myConnection.State != System.Data.ConnectionState.Open)
             {
-                connection.Open();
-                return connection;
-            }
-            catch (SQLiteException ex)
-            {
-                return null;
-            }
-        }
-        public SQLiteConnection CreateDB(string exception)
-        {
-            SQLiteConnection.CreateFile(DBPath);
-            SQLiteConnection connection = new SQLiteConnection("Data Source ="+DBPath);
-            try
-            {
-                connection.Open();
-                string sqlQuery = "CREATE TABLE Receipts (receiptid INTEGER PRIMARY KEY, receiptdate TEXT, itemdata TEXT, shopname TEXT)";
-                SQLiteCommand command = new SQLiteCommand(sqlQuery, connection);
-                command.ExecuteNonQuery();
-                return connection;
-            }
-            catch(SQLiteException ex)
-            {
-                exception = ex.Message;
-                return null;
+                myConnection.Open();
             }
         }
 
-        public void InsertIntoDB(SQLiteConnection connection, string sqlQuery)
+        public static void CloseConnection()
         {
-            SQLiteCommand command = new SQLiteCommand(sqlQuery, connection);
+            if (myConnection.State != System.Data.ConnectionState.Closed)
+            {
+                myConnection.Close();
+            }
+        }
+
+        public static void InsertIntoDB(string sqlQuery)
+        {
+            OpenConnection();
+
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
             command.ExecuteNonQuery();
+
+            CloseConnection();
         }
 
-        public void PopulateDataGrid(DataGridView gridView, SQLiteConnection connection, string sqlQuery)
+        public static void PopulateDataGrid(DataGridView gridView, string sqlQuery)
         {
-            SQLiteCommand command = new SQLiteCommand(sqlQuery, connection);
+            OpenConnection();
+
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
             using (SQLiteDataReader sqldatareader = command.ExecuteReader())
             {
                 DataTable dt = new DataTable();
                 dt.Load(sqldatareader);
                 gridView.DataSource = dt;
             }
+
+            CloseConnection();
         }
 
     }

@@ -16,7 +16,6 @@ namespace PSIShoppingEngine.Forms
 {
     public partial class NewReceipt : Form
     {
-        public SQLiteConnection connection { get; set; }
         public string ReceiptFilePath { get; set; }
         public bool OCR { get; set; }
         public Receipt rec { get; set; }
@@ -52,8 +51,6 @@ namespace PSIShoppingEngine.Forms
             }
             else
             {
-               // rec = new Receipt();
-                //rec.Groceries = new List<Item>();
 
                 DataGridViewComboBoxColumn TypeCol = new DataGridViewComboBoxColumn();
                 TypeCol.Name = "Item Type";
@@ -81,8 +78,8 @@ namespace PSIShoppingEngine.Forms
             }
             string convertedReceiptItems = JsonConvert.SerializeObject(ReceiptItems);
             string sqlQuery = "INSERT INTO Receipts (receiptdate, itemdata, shopname) VALUES ('" + DateTime.Today.ToString("dd/MM/yyyy") + "','" + convertedReceiptItems + "','" + txtShop.Text + "')";
-            DbHelper dbHelper = new DbHelper();
-            dbHelper.InsertIntoDB(connection, sqlQuery);
+
+            DbHelper.InsertIntoDB(sqlQuery);
             Close();
         }
 
