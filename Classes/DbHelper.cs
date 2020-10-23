@@ -64,8 +64,25 @@ namespace PSIShoppingEngine.Classes
                 CloseConnection();
                 return myDataTable;
             }
+        }
 
+        public static List<String> SingleColumSelection(string query, string name)
+        {
+            List<String> shopNames = new List<String>();
+            DbHelper.OpenConnection();
 
+            using (SQLiteCommand command = DbHelper.myConnection.CreateCommand())
+            {
+                command.CommandText = query;
+                command.CommandType = CommandType.Text;
+                SQLiteDataReader r = command.ExecuteReader();
+                while (r.Read())
+                {
+                    shopNames.Add(Convert.ToString(r[name]));
+                }
+            }
+            DbHelper.CloseConnection();
+            return shopNames;
         }
 
     }

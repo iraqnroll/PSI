@@ -26,6 +26,8 @@ namespace PSIShoppingEngine.Forms
 
         private void NewReceipt_Load(object sender, EventArgs e)
         {
+            shopNameComboBox.DataSource = DbHelper.SingleColumSelection("SELECT shop_name FROM shops", "shop_name");
+
             if (OCR)
             {
                 rec = new Receipt();
@@ -40,8 +42,9 @@ namespace PSIShoppingEngine.Forms
 
                 DataGridViewComboBoxColumn TypeCol = new DataGridViewComboBoxColumn();
                 TypeCol.Name = "Item Type";
-                TypeCol.DataSource = Enum.GetValues(typeof(Item.ItemType));
-                TypeCol.ValueType = typeof(Item.ItemType);
+                
+                TypeCol.DataSource = DbHelper.SingleColumSelection("SELECT type_name FROM types", "type_name");
+               
                 ReceiptDataGrid.Columns.Add(TypeCol);
 
                 foreach (var item in rec.Groceries)
@@ -54,8 +57,8 @@ namespace PSIShoppingEngine.Forms
 
                 DataGridViewComboBoxColumn TypeCol = new DataGridViewComboBoxColumn();
                 TypeCol.Name = "Item Type";
-                TypeCol.DataSource = Enum.GetValues(typeof(Item.ItemType));
-                TypeCol.ValueType = typeof(Item.ItemType);
+                TypeCol.DataSource = DbHelper.SingleColumSelection("SELECT type_name FROM types", "type_name");
+               
                 ReceiptDataGrid.Columns.Add(TypeCol);
 
             }
@@ -77,27 +80,22 @@ namespace PSIShoppingEngine.Forms
                 }
             }
             string convertedReceiptItems = JsonConvert.SerializeObject(ReceiptItems);
-            string sqlQuery = "INSERT INTO Receipts (receiptdate, itemdata, shopname) VALUES ('" + DateTime.Today.ToString("dd/MM/yyyy") + "','" + convertedReceiptItems + "','" + txtShop.Text + "')";
+            string sqlQuery = "INSERT INTO Receipts (receiptdate, itemdata, shopname) VALUES ('" + DateTime.Today.ToString("dd/MM/yyyy") + "','" + convertedReceiptItems + "','" + shopNameComboBox.Text + "')";
 
             DbHelper.InsertIntoDB(sqlQuery);
             Close();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] lal = { "" };
+            string[] empty = { "" };
 
             DataGridViewRow RowSample = new DataGridViewRow();
             DataGridViewComboBoxCell CellSample = new DataGridViewComboBoxCell();
-            CellSample.DataSource = lal; // list of the string items that I want to insert in ComboBox
-            CellSample.Value = lal[0]; // default value for the ComboBox
+            CellSample.DataSource = empty; 
+            CellSample.Value = empty[0]; 
             DataGridViewCell cell = new DataGridViewTextBoxCell();
-            cell.Value = ""; // creating the text cell
+            cell.Value = ""; 
             RowSample.Cells.Add(cell);
             RowSample.Cells.Add(CellSample);
             ReceiptDataGrid.Rows.Add(RowSample);
@@ -115,30 +113,9 @@ namespace PSIShoppingEngine.Forms
             {
                 DataGridViewComboBoxCell itemNameBoxColumn = ReceiptDataGrid.Rows[test.RowIndex].Cells[test.ColumnIndex - 1] as DataGridViewComboBoxCell;
                 ReceiptDataGrid.Rows[test.RowIndex].Cells[1].Value = "";
-                switch (newValue)
-                {
-                    case "Electronics":
-                        itemNameBoxColumn.DataSource = new string[] { "Ausines", "Blenderis", "Dziovintuvas", "Svarstykles", "Pelyte", "Klaviatura" };
-                        break;
-                    case "Meat":
-                        itemNameBoxColumn.DataSource = new string[] { "Malta mesa", "Vistienos file", "Rukyta desra", "Pieniskos desreles", "Jautiena", "Kiauliena" };
-                        break;
-                    case "Dairy":
-                        itemNameBoxColumn.DataSource = new string[] { "Pienas", "Sviestas", "Grietine", "Kefyras", "Suris", "Surelis" };
-                        break;
-                    case "Beverage":
-                        itemNameBoxColumn.DataSource = new string[] { "Cola", "Sprite", "Alus", "Sultys", "Gira", "Fanta" };
-                        break;
-                    case "Pastry":
-                        itemNameBoxColumn.DataSource = new string[] { "Bandeles", "Tortas", "Pyragas", "Keksas", "Vyniotinis", "Spurgos" };
-                        break;
-                    case "Vegetables":
-                        itemNameBoxColumn.DataSource = new string[] { "Morkos", "Bulves", "Kopustas", "Pomidoras", "Agurkas", "Rope" };
-                        break;
-                    default:
-                        itemNameBoxColumn.DataSource = new string[] { "random", "random", "random", "random", "random", "random" };
-                        break;
-                }
+
+              itemNameBoxColumn.DataSource = DbHelper.SingleColumSelection("SELECT product_name FROM products JOIN types USING(type_id) WHERE type_name = \"" + newValue + "\"" , "product_name");
+
             }
 
         }
