@@ -35,8 +35,8 @@ namespace PSIShoppingEngine
                 
                 if (DbHelper.myConnection != null)
                 {
-                    
-                    DbHelper.PopulateDataGrid(receiptListGridView,  "SELECT receiptid, receiptdate, shopname FROM Receipts");
+
+                    receiptListGridView.DataSource = DbHelper.PopulateDataGrid( "SELECT receiptid, receiptdate, shopname FROM Receipts");
 
                     //VERY UGLY EW
                     receiptListGridView.Columns[0].HeaderText = "ID";
@@ -101,7 +101,7 @@ namespace PSIShoppingEngine
            
             if (DbHelper.myConnection != null)
             {
-                DbHelper.PopulateDataGrid(receiptListGridView, "SELECT receiptid, receiptdate, shopname FROM Receipts");
+                receiptListGridView.DataSource = DbHelper.PopulateDataGrid( "SELECT receiptid, receiptdate, shopname FROM Receipts");
                 stripStatus.Text = "Refreshed the grid with stored receipts.";
             }
             else stripStatus.Text = "Could not establish a connection with a database.";

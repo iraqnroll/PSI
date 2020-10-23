@@ -51,19 +51,21 @@ namespace PSIShoppingEngine.Classes
             CloseConnection();
         }
 
-        public static void PopulateDataGrid(DataGridView gridView, string sqlQuery)
+        public static DataTable PopulateDataGrid( string sqlQuery)
         {
             OpenConnection();
 
             SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
             using (SQLiteDataReader sqldatareader = command.ExecuteReader())
             {
-                DataTable dt = new DataTable();
-                dt.Load(sqldatareader);
-                gridView.DataSource = dt;
+                DataTable myDataTable = new DataTable();
+                myDataTable.Load(sqldatareader);
+                // gridView.DataSource = dt;
+                CloseConnection();
+                return myDataTable;
             }
 
-            CloseConnection();
+
         }
 
     }
