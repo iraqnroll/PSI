@@ -75,9 +75,9 @@ namespace PSIShoppingEngine
 
 
                     receiptListGridView.Columns[0].HeaderText = "ID";
-                    receiptListGridView.Columns[1].HeaderText = "Parduotuve";
-                    receiptListGridView.Columns[2].HeaderText = "Data";
-                    receiptListGridView.Columns[3].HeaderText = "Bendra suma";
+                    receiptListGridView.Columns[1].HeaderText = "Shop name";
+                    receiptListGridView.Columns[2].HeaderText = "Date";
+                    receiptListGridView.Columns[3].HeaderText = "Total price";
 
                     receiptListGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     receiptListGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -161,9 +161,9 @@ namespace PSIShoppingEngine
 
             selectedReceiptGridView.DataSource = DbHelper.PopulateDataGrid(sqlQuery);
 
-            selectedReceiptGridView.Columns[0].HeaderText = "Pavadinimas";
-            selectedReceiptGridView.Columns[1].HeaderText = "Kaina";
-            selectedReceiptGridView.Columns[2].HeaderText = "Rusis";
+            selectedReceiptGridView.Columns[0].HeaderText = "Name";
+            selectedReceiptGridView.Columns[1].HeaderText = "Price";
+            selectedReceiptGridView.Columns[2].HeaderText = "Type";
 
             selectedReceiptGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             selectedReceiptGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;

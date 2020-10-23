@@ -7,6 +7,7 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySqlX.XDevAPI.Common;
 
 namespace PSIShoppingEngine.Classes
 {
@@ -45,10 +46,10 @@ namespace PSIShoppingEngine.Classes
         public static void InsertIntoDB(string sqlQuery)
         {
             OpenConnection();
-
+           
             SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
+           
             command.ExecuteNonQuery();
-
             CloseConnection();
         }
 
@@ -66,24 +67,43 @@ namespace PSIShoppingEngine.Classes
             }
         }
 
-        public static List<String> SingleColumSelection(string query, string name)
+        public static List<String> SingleColumSelection(string sqlQuery, string name)
         {
             List<String> shopNames = new List<String>();
-            DbHelper.OpenConnection();
+            OpenConnection();
 
-            using (SQLiteCommand command = DbHelper.myConnection.CreateCommand())
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
+
+            using (SQLiteDataReader sqldatareader = command.ExecuteReader())
             {
-                command.CommandText = query;
-                command.CommandType = CommandType.Text;
-                SQLiteDataReader r = command.ExecuteReader();
-                while (r.Read())
+
+                while (sqldatareader.Read())
                 {
-                    shopNames.Add(Convert.ToString(r[name]));
+                    shopNames.Add(Convert.ToString(sqldatareader[name]));
                 }
+
             }
-            DbHelper.CloseConnection();
+            CloseConnection();
             return shopNames;
         }
+
+        public static string SingleValueSelection(string sqlQuery, string name)
+        {
+            string result;
+            OpenConnection();
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
+            using (SQLiteDataReader sqldatareader = command.ExecuteReader())
+            {
+               sqldatareader.Read();
+                result = sqldatareader[name].ToString();
+                   
+            }
+
+            CloseConnection();
+            return result;
+
+        }
+        
 
     }
 }
