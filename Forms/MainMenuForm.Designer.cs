@@ -30,94 +30,143 @@ namespace PSIShoppingEngine.Forms
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.HistoryButton = new System.Windows.Forms.Button();
-            this.OptionsButton = new System.Windows.Forms.Button();
-            this.ScanButton = new System.Windows.Forms.Button();
+            this.ProfileButton = new System.Windows.Forms.Button();
+            this.PriceChanges = new System.Windows.Forms.Button();
+            this.UserButton = new System.Windows.Forms.Button();
+            this.ShoppingCartButton = new System.Windows.Forms.Button();
+            this.NewReceiptButton = new System.Windows.Forms.Button();
             this.panelChild = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.HistoryButton);
-            this.panel1.Controls.Add(this.OptionsButton);
-            this.panel1.Controls.Add(this.ScanButton);
+            this.panel1.Controls.Add(this.ProfileButton);
+            this.panel1.Controls.Add(this.PriceChanges);
+            this.panel1.Controls.Add(this.UserButton);
+            this.panel1.Controls.Add(this.ShoppingCartButton);
+            this.panel1.Controls.Add(this.NewReceiptButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 70);
+            this.panel1.Size = new System.Drawing.Size(1582, 57);
             this.panel1.TabIndex = 0;
             // 
-            // HistoryButton
+            // ProfileButton
             // 
-            this.HistoryButton.BackColor = System.Drawing.Color.White;
-            this.HistoryButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.HistoryButton.FlatAppearance.BorderSize = 0;
-            this.HistoryButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(0)))), ((int)(((byte)(57)))));
-            this.HistoryButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(0)))), ((int)(((byte)(57)))));
-            this.HistoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.HistoryButton.Font = new System.Drawing.Font("AXIS Extra Bold", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HistoryButton.Location = new System.Drawing.Point(260, 0);
-            this.HistoryButton.Name = "HistoryButton";
-            this.HistoryButton.Size = new System.Drawing.Size(280, 70);
-            this.HistoryButton.TabIndex = 2;
-            this.HistoryButton.Text = "HISTORY";
-            this.HistoryButton.UseVisualStyleBackColor = false;
-            this.HistoryButton.Click += new System.EventHandler(this.HistoryButton_Click);
+            this.ProfileButton.BackColor = System.Drawing.Color.White;
+            this.ProfileButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ProfileButton.FlatAppearance.BorderSize = 0;
+            this.ProfileButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(39)))), ((int)(((byte)(122)))));
+            this.ProfileButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(39)))), ((int)(((byte)(122)))));
+            this.ProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ProfileButton.Font = new System.Drawing.Font("AXIS Extra Bold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ProfileButton.Location = new System.Drawing.Point(1200, 0);
+            this.ProfileButton.Margin = new System.Windows.Forms.Padding(4);
+            this.ProfileButton.Name = "ProfileButton";
+            this.ProfileButton.Size = new System.Drawing.Size(382, 57);
+            this.ProfileButton.TabIndex = 6;
+            this.ProfileButton.Text = "PROFILE";
+            this.ProfileButton.UseVisualStyleBackColor = false;
+            this.ProfileButton.Click += new System.EventHandler(this.ProfileButton_Click);
             // 
-            // OptionsButton
+            // PriceChanges
             // 
-            this.OptionsButton.BackColor = System.Drawing.Color.White;
-            this.OptionsButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.OptionsButton.FlatAppearance.BorderSize = 0;
-            this.OptionsButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
-            this.OptionsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(87)))), ((int)(((byte)(51)))));
-            this.OptionsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.OptionsButton.Font = new System.Drawing.Font("AXIS Extra Bold", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OptionsButton.Location = new System.Drawing.Point(540, 0);
-            this.OptionsButton.Name = "OptionsButton";
-            this.OptionsButton.Size = new System.Drawing.Size(260, 70);
-            this.OptionsButton.TabIndex = 1;
-            this.OptionsButton.Text = "OPTIONS";
-            this.OptionsButton.UseVisualStyleBackColor = false;
-            this.OptionsButton.Click += new System.EventHandler(this.OptionsButton_Click);
+            this.PriceChanges.AutoSize = true;
+            this.PriceChanges.BackColor = System.Drawing.Color.White;
+            this.PriceChanges.Dock = System.Windows.Forms.DockStyle.Left;
+            this.PriceChanges.FlatAppearance.BorderSize = 0;
+            this.PriceChanges.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(39)))), ((int)(((byte)(122)))));
+            this.PriceChanges.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(39)))), ((int)(((byte)(122)))));
+            this.PriceChanges.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PriceChanges.Font = new System.Drawing.Font("AXIS Extra Bold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PriceChanges.Location = new System.Drawing.Point(900, 0);
+            this.PriceChanges.Margin = new System.Windows.Forms.Padding(4);
+            this.PriceChanges.Name = "PriceChanges";
+            this.PriceChanges.Size = new System.Drawing.Size(300, 57);
+            this.PriceChanges.TabIndex = 5;
+            this.PriceChanges.Text = "PRICE CHANGES";
+            this.PriceChanges.UseVisualStyleBackColor = false;
+            this.PriceChanges.Click += new System.EventHandler(this.PriceChanges_Click);
             // 
-            // ScanButton
+            // UserButton
             // 
-            this.ScanButton.BackColor = System.Drawing.Color.White;
-            this.ScanButton.Dock = System.Windows.Forms.DockStyle.Left;
-            this.ScanButton.FlatAppearance.BorderSize = 0;
-            this.ScanButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(12)))), ((int)(((byte)(62)))));
-            this.ScanButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(12)))), ((int)(((byte)(62)))));
-            this.ScanButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ScanButton.Font = new System.Drawing.Font("AXIS Extra Bold", 18F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ScanButton.Location = new System.Drawing.Point(0, 0);
-            this.ScanButton.Name = "ScanButton";
-            this.ScanButton.Size = new System.Drawing.Size(260, 70);
-            this.ScanButton.TabIndex = 0;
-            this.ScanButton.Text = "SCAN";
-            this.ScanButton.UseVisualStyleBackColor = false;
-            this.ScanButton.Click += new System.EventHandler(this.ScanButton_Click);
+            this.UserButton.BackColor = System.Drawing.Color.White;
+            this.UserButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.UserButton.FlatAppearance.BorderSize = 0;
+            this.UserButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(57)))), ((int)(((byte)(178)))));
+            this.UserButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(57)))), ((int)(((byte)(178)))));
+            this.UserButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.UserButton.Font = new System.Drawing.Font("AXIS Extra Bold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UserButton.Location = new System.Drawing.Point(600, 0);
+            this.UserButton.Margin = new System.Windows.Forms.Padding(4);
+            this.UserButton.Name = "UserButton";
+            this.UserButton.Size = new System.Drawing.Size(300, 57);
+            this.UserButton.TabIndex = 3;
+            this.UserButton.Text = "USER";
+            this.UserButton.UseVisualStyleBackColor = false;
+            this.UserButton.Click += new System.EventHandler(this.UserButton_Click);
+            // 
+            // ShoppingCartButton
+            // 
+            this.ShoppingCartButton.AutoSize = true;
+            this.ShoppingCartButton.BackColor = System.Drawing.Color.White;
+            this.ShoppingCartButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ShoppingCartButton.FlatAppearance.BorderSize = 0;
+            this.ShoppingCartButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(69)))), ((int)(((byte)(216)))));
+            this.ShoppingCartButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(69)))), ((int)(((byte)(216)))));
+            this.ShoppingCartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ShoppingCartButton.Font = new System.Drawing.Font("AXIS Extra Bold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ShoppingCartButton.Location = new System.Drawing.Point(300, 0);
+            this.ShoppingCartButton.Margin = new System.Windows.Forms.Padding(4);
+            this.ShoppingCartButton.Name = "ShoppingCartButton";
+            this.ShoppingCartButton.Size = new System.Drawing.Size(300, 57);
+            this.ShoppingCartButton.TabIndex = 2;
+            this.ShoppingCartButton.Text = "SHOPPING CART";
+            this.ShoppingCartButton.UseVisualStyleBackColor = false;
+            this.ShoppingCartButton.Click += new System.EventHandler(this.ShoppingCartButton_Click);
+            // 
+            // NewReceiptButton
+            // 
+            this.NewReceiptButton.BackColor = System.Drawing.Color.White;
+            this.NewReceiptButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.NewReceiptButton.FlatAppearance.BorderSize = 0;
+            this.NewReceiptButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(255)))));
+            this.NewReceiptButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(255)))));
+            this.NewReceiptButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.NewReceiptButton.Font = new System.Drawing.Font("AXIS Extra Bold", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NewReceiptButton.Location = new System.Drawing.Point(0, 0);
+            this.NewReceiptButton.Margin = new System.Windows.Forms.Padding(4);
+            this.NewReceiptButton.Name = "NewReceiptButton";
+            this.NewReceiptButton.Size = new System.Drawing.Size(300, 57);
+            this.NewReceiptButton.TabIndex = 0;
+            this.NewReceiptButton.Text = "NEW RECEiPT";
+            this.NewReceiptButton.UseVisualStyleBackColor = false;
+            this.NewReceiptButton.Click += new System.EventHandler(this.NewReceiptButton_Click);
             // 
             // panelChild
             // 
             this.panelChild.BackColor = System.Drawing.Color.White;
             this.panelChild.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelChild.Location = new System.Drawing.Point(0, 70);
+            this.panelChild.Location = new System.Drawing.Point(0, 57);
+            this.panelChild.Margin = new System.Windows.Forms.Padding(4);
             this.panelChild.Name = "panelChild";
-            this.panelChild.Size = new System.Drawing.Size(800, 380);
+            this.panelChild.Size = new System.Drawing.Size(1582, 796);
             this.panelChild.TabIndex = 1;
             // 
             // MainMenuForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1582, 853);
             this.Controls.Add(this.panelChild);
             this.Controls.Add(this.panel1);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainMenuForm";
             this.Text = "MainMenuForm";
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -125,9 +174,11 @@ namespace PSIShoppingEngine.Forms
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button HistoryButton;
-        private System.Windows.Forms.Button OptionsButton;
-        private System.Windows.Forms.Button ScanButton;
+        private System.Windows.Forms.Button NewReceiptButton;
         private System.Windows.Forms.Panel panelChild;
+        private System.Windows.Forms.Button UserButton;
+        private System.Windows.Forms.Button ShoppingCartButton;
+        private System.Windows.Forms.Button ProfileButton;
+        private System.Windows.Forms.Button PriceChanges;
     }
 }

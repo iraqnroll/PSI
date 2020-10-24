@@ -39,6 +39,7 @@ namespace PSIShoppingEngine.Forms
             currentForm.Show();
         }
 
+
         private void DisableButton()
         {
             if (currentBtn != null)
@@ -49,9 +50,9 @@ namespace PSIShoppingEngine.Forms
         }
 
 
-        private void ScanButton_Click(object sender, EventArgs e)
+        private void    NewReceiptButton_Click(object sender, EventArgs e)
         {
-            Color color = Color.FromArgb(144, 12, 62);
+            Color color = Color.FromArgb(0,120,255);
             activateButton(sender, color);
             openChildForm(new Form1(), color);
         }
@@ -67,19 +68,33 @@ namespace PSIShoppingEngine.Forms
             }
         }
 
-        private void HistoryButton_Click(object sender, EventArgs e)
+        private void ShoppingCartButton_Click(object sender, EventArgs e)
         {
-            Color color = Color.FromArgb(199, 0, 57);
+            Color color = Color.FromArgb(0, 69, 216);
             activateButton(sender, color);
-            openChildForm(new HistoryForm(), color);
+            openChildForm(new Form1(), color);
+
         }
 
-        private void OptionsButton_Click(object sender, EventArgs e)
+        private void UserButton_Click(object sender, EventArgs e)
         {
-            Color color = Color.FromArgb(255, 87, 51);
+            Color color = Color.FromArgb(1, 57, 178);
             activateButton(sender, color);
-            openChildForm(new OptionsForm(), color);
+            openChildForm(new Form1(), color);
+        }
 
+        private void PriceChanges_Click(object sender, EventArgs e)
+        {
+            Color color = Color.FromArgb(0, 39, 122);
+            activateButton(sender, color);
+            openChildForm(new Form1(), color);
+        }
+
+        private void ProfileButton_Click(object sender, EventArgs e)
+        {
+            Color color = Color.FromArgb(50, 39, 122);
+            activateButton(sender, color);
+            openChildForm(new Form1(), color);
         }
     }
 }
