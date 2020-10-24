@@ -16,7 +16,6 @@ namespace PSIShoppingEngine.Forms
 {
     public partial class NewReceipt : Form
     {
-        public SQLiteConnection connection { get; set; }
         public string ReceiptFilePath { get; set; }
         public bool OCR { get; set; }
         public Receipt rec { get; set; }
@@ -27,6 +26,8 @@ namespace PSIShoppingEngine.Forms
 
         private void NewReceipt_Load(object sender, EventArgs e)
         {
+            shopNameComboBox.DataSource = DbHelper.SingleColumSelection("SELECT shop_name FROM shops", "shop_name");
+
             if (OCR)
             {
                 rec = new Receipt();
@@ -41,8 +42,9 @@ namespace PSIShoppingEngine.Forms
 
                 DataGridViewComboBoxColumn TypeCol = new DataGridViewComboBoxColumn();
                 TypeCol.Name = "Item Type";
-                TypeCol.DataSource = Enum.GetValues(typeof(Item.ItemType));
-                TypeCol.ValueType = typeof(Item.ItemType);
+                
+                TypeCol.DataSource = DbHelper.SingleColumSelection("SELECT type_name FROM types", "type_name");
+               
                 ReceiptDataGrid.Columns.Add(TypeCol);
 
                 foreach (var item in rec.Groceries)
@@ -52,13 +54,11 @@ namespace PSIShoppingEngine.Forms
             }
             else
             {
-                rec = new Receipt();
-                rec.Groceries = new List<Item>();
 
                 DataGridViewComboBoxColumn TypeCol = new DataGridViewComboBoxColumn();
                 TypeCol.Name = "Item Type";
-                TypeCol.DataSource = Enum.GetValues(typeof(Item.ItemType));
-                TypeCol.ValueType = typeof(Item.ItemType);
+                TypeCol.DataSource = DbHelper.SingleColumSelection("SELECT type_name FROM types", "type_name");
+               
                 ReceiptDataGrid.Columns.Add(TypeCol);
 
             }
@@ -66,28 +66,61 @@ namespace PSIShoppingEngine.Forms
 
         private void btnSaveReceipt_Click(object sender, EventArgs e)
         {
+
+
+            string shopId = DbHelper.SingleValueSelection("SELECT shop_id FROM shops WHERE shop_name = \"" + shopNameComboBox.Text + "\"", "shop_id");
+            DbHelper.InsertIntoDB("INSERT INTO receipts(shop_id) VALUES('" + shopId + "')");
+
+            string receiptId = DbHelper.SingleValueSelection("SELECT receipt_id FROM receipts ORDER BY  receipt_id DESC LIMIT 1", "receipt_id");
+
+
+            
+            
             List<Item> ReceiptItems = new List<Item>();
 
-            foreach (DataGridViewRow row in ReceiptDataGrid.Rows)   //Handle serializing null values.
+            foreach (DataGridViewRow row in ReceiptDataGrid.Rows)  
             {
-                Item ReceiptItem = new Item();
-                ReceiptItem.ItemName = (string)row.Cells["ItemName"].Value;
-                ReceiptItem.ItemPrice = (string)row.Cells["ItemPrice"].Value;
-                if (row.Cells["Item Type"].Value != null)
+
+                if (row.Cells["ItemPrice"].Value != null)
                 {
-                    ReceiptItem.Type = (Item.ItemType)row.Cells["Item Type"].Value;
-                    ReceiptItems.Add(ReceiptItem);
+
+                    string productId = DbHelper.SingleValueSelection("SELECT product_id FROM products WHERE product_name = \""+ (string)row.Cells["ItemName"].Value +"\"", "product_id");
+
+                    DbHelper.InsertIntoDB("INSERT INTO "+ shopNameComboBox.Text + " (product_id, date, price, receipt_id) VALUES('" + productId + "','" + DateTime.Today.ToString("dd/MM/yyyy") + "','"+ (string)row.Cells["ItemPrice"].Value +"','"+receiptId+"')");
                 }
             }
-            string convertedReceiptItems = JsonConvert.SerializeObject(ReceiptItems);
-            string sqlQuery = "INSERT INTO Receipts (receiptdate, itemdata, shopname) VALUES ('" + DateTime.Today.ToString("dd/MM/yyyy") + "','" + convertedReceiptItems + "','" + txtShop.Text + "')";
-            DbHelper dbHelper = new DbHelper();
-            dbHelper.InsertIntoDB(connection, sqlQuery);
+            
             Close();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
+            string[] empty = { "" };
+
+            DataGridViewRow RowSample = new DataGridViewRow();
+            DataGridViewComboBoxCell productComboBox = new DataGridViewComboBoxCell();
+            productComboBox.DataSource = empty;
+            productComboBox.Value = empty[0]; 
+            DataGridViewCell cell = new DataGridViewTextBoxCell();
+            cell.Value = ""; 
+            RowSample.Cells.Add(cell);
+            RowSample.Cells.Add(productComboBox);
+            ReceiptDataGrid.Rows.Add(RowSample);
+        }
+
+        private void ReceiptDataGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+    
+            var cell = ReceiptDataGrid.CurrentCell; 
+
+            if (cell.ColumnIndex == 2)
+            {
+                DataGridViewComboBoxCell itemNameBoxColumn = ReceiptDataGrid.Rows[cell.RowIndex].Cells[cell.ColumnIndex - 1] as DataGridViewComboBoxCell;
+                ReceiptDataGrid.Rows[cell.RowIndex].Cells[1].Value = "";
+
+              itemNameBoxColumn.DataSource = DbHelper.SingleColumSelection("SELECT product_name FROM products JOIN types USING(type_id) WHERE type_name = \"" + cell.EditedFormattedValue + "\"" , "product_name");
+
+            }
 
         }
     }

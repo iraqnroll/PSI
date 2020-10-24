@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Org.BouncyCastle.Math.EC.Multiplier;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace PSIShoppingEngine.Classes
             Vegetables,
             Other
         }
+
+
         [JsonProperty]
         public string ItemName { get; set; }
         [JsonProperty]

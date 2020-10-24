@@ -7,16 +7,17 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySqlX.XDevAPI.Common;
 
 namespace PSIShoppingEngine.Classes
 {
-    public class DbHelper   //Maybe change this to a static class ??
+    public static class DbHelper  
     {
-        const string DBPath = ".\\PSIDB.sqlite";
+        public static SQLiteConnection myConnection = new SQLiteConnection("Data Source=TestDB.db");
 
-        public bool ValidateDB()
+        public static bool ValidateDB()
         {
-            if(File.Exists(DBPath))
+            if(File.Exists(".\\TestDB.db"))
             {
                 return true;
             }
@@ -26,54 +27,83 @@ namespace PSIShoppingEngine.Classes
             }
         }
 
-        public SQLiteConnection ConnectToDB(string exception)
+        public static void OpenConnection()
         {
-            SQLiteConnection connection = new SQLiteConnection("Data Source=.\\PSIDB.sqlite;Version=3;");
-            try
+            if (myConnection.State != System.Data.ConnectionState.Open)
             {
-                connection.Open();
-                return connection;
-            }
-            catch (SQLiteException ex)
-            {
-                return null;
-            }
-        }
-        public SQLiteConnection CreateDB(string exception)
-        {
-            SQLiteConnection.CreateFile(DBPath);
-            SQLiteConnection connection = new SQLiteConnection("Data Source ="+DBPath+"; Version = 3;");
-            try
-            {
-                connection.Open();
-                string sqlQuery = "CREATE TABLE Receipts (receiptid INTEGER PRIMARY KEY, receiptdate TEXT, itemdata TEXT, shopname TEXT)";
-                SQLiteCommand command = new SQLiteCommand(sqlQuery, connection);
-                command.ExecuteNonQuery();
-                return connection;
-            }
-            catch(SQLiteException ex)
-            {
-                exception = ex.Message;
-                return null;
+                myConnection.Open();
             }
         }
 
-        public void InsertIntoDB(SQLiteConnection connection, string sqlQuery)
+        public static void CloseConnection()
         {
-            SQLiteCommand command = new SQLiteCommand(sqlQuery, connection);
+            if (myConnection.State != System.Data.ConnectionState.Closed)
+            {
+                myConnection.Close();
+            }
+        }
+
+        public static void InsertIntoDB(string sqlQuery)
+        {
+            OpenConnection();
+           
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
+           
             command.ExecuteNonQuery();
+            CloseConnection();
         }
 
-        public void PopulateDataGrid(DataGridView gridView, SQLiteConnection connection, string sqlQuery)
+        public static DataTable PopulateDataGrid( string sqlQuery)
         {
-            SQLiteCommand command = new SQLiteCommand(sqlQuery, connection);
+            OpenConnection();
+
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
             using (SQLiteDataReader sqldatareader = command.ExecuteReader())
             {
-                DataTable dt = new DataTable();
-                dt.Load(sqldatareader);
-                gridView.DataSource = dt;
+                DataTable myDataTable = new DataTable();
+                myDataTable.Load(sqldatareader);
+                CloseConnection();
+                return myDataTable;
             }
         }
+
+        public static List<String> SingleColumSelection(string sqlQuery, string name)
+        {
+            List<String> shopNames = new List<String>();
+            OpenConnection();
+
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
+
+            using (SQLiteDataReader sqldatareader = command.ExecuteReader())
+            {
+
+                while (sqldatareader.Read())
+                {
+                    shopNames.Add(Convert.ToString(sqldatareader[name]));
+                }
+
+            }
+            CloseConnection();
+            return shopNames;
+        }
+
+        public static string SingleValueSelection(string sqlQuery, string name)
+        {
+            string result;
+            OpenConnection();
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
+            using (SQLiteDataReader sqldatareader = command.ExecuteReader())
+            {
+               sqldatareader.Read();
+                result = sqldatareader[name].ToString();
+                   
+            }
+
+            CloseConnection();
+            return result;
+
+        }
+        
 
     }
 }
