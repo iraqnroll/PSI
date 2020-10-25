@@ -138,6 +138,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\UserHelper.cs" />
     <Compile Include="Classes\DbHelper.cs" />
     <Compile Include="Classes\Item.cs" />
     <Compile Include="Classes\ParseOCR.cs" />
@@ -172,6 +173,12 @@
     <Compile Include="Forms\NewReceipt.Designer.cs">
       <DependentUpon>NewReceipt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\UserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserForm.Designer.cs">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\Receipt.cs" />
     <EmbeddedResource Include="Forms\MainMenuForm.resx">
@@ -182,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\NewReceipt.resx">
       <DependentUpon>NewReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserForm.resx">
+      <DependentUpon>UserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

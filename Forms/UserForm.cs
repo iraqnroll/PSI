@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,15 @@ namespace PSIShoppingEngine.Forms
             public int ReceiptCount { get; set; }
         }
 
+        public struct Item
+        {
+            public string ItemName { get; set; }
+            public int ItemID { get; set; }
+            public int ItemCount { get; set; }
+        }
+
         public List<Shop> shops = new List<Shop>();
+        public List<Item> items = new List<Item>();
 
         public UserForm()
         {
@@ -32,7 +41,18 @@ namespace PSIShoppingEngine.Forms
             //Retrieve most frequent shops info:
             UserHelper.RetrieveShopsInfo(shops);
 
+            /*foreach(var shop in shops)
+            {
+                Debug.WriteLine(shop.ShopName + " - " + shop.ReceiptCount);
+            }*/
 
+            //Retrieve 5 most frequent products:
+            UserHelper.RetrieveItemList(items, shops);
+
+            /*foreach(var item in items)
+            {
+               if(item.ItemCount > 0)Debug.WriteLine(item.ItemName + " - " + item.ItemCount);
+            }*/
         }
     }
 }
