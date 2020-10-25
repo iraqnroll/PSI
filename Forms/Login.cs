@@ -81,6 +81,7 @@ namespace PSIShoppingEngine.Forms
             if (dr.HasRows == true)
             {
                 this.Hide();
+                dr.Close();
                 MainMenuForm mainMenuForm = new MainMenuForm();
                 mainMenuForm.ShowDialog();
                 this.Close();
