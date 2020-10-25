@@ -78,7 +78,7 @@ namespace PSIShoppingEngine.Forms
 
         private void Sign_Up_Button_Click(object sender, EventArgs e)
         {
-            if (confirmUserPassword != string.Empty || userPassword != string.Empty || userName != string.Empty)
+            if (confirmUserPassword == string.Empty || userPassword == string.Empty || userName == string.Empty)
             {
                 if (userPassword == confirmUserPassword)
                 {
