@@ -10,11 +10,13 @@ using System.Windows.Forms;
 using PSIShoppingEngine.Classes;
 using PSIShoppingEngine.Forms;
 using System.Data.SQLite;
+using System.Text.RegularExpressions;
 
 namespace PSIShoppingEngine.Forms
 {
     public partial class Register : Form
     {
+        public string userEmail { get; set; }
         public string userName { get; set; }
         public string userPassword { get; set; }
         public string confirmUserPassword { get; set; }
@@ -63,54 +65,66 @@ namespace PSIShoppingEngine.Forms
         {
             userName = textBox1.Text;
         }
-
         private void Type_Password(object sender, EventArgs e)
         {
             textBox2.PasswordChar = '\u25CF';
             userPassword = textBox2.Text;
         }
-
         private void Confirm_Password(object sender, EventArgs e)
         {
             textBox3.PasswordChar = '\u25CF';
             confirmUserPassword = textBox3.Text;
         }
+        private void Type_Email(object sender, EventArgs e)
+        {
+            userEmail = textBox4.Text;
+        }
 
         private void Sign_Up_Button_Click(object sender, EventArgs e)
         {
-            if (confirmUserPassword != string.Empty && userPassword != string.Empty && userName != string.Empty)
+            if  (!string.IsNullOrEmpty(confirmUserPassword) && !string.IsNullOrEmpty(userPassword) && !string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(userEmail))
             {
-                if (userPassword == confirmUserPassword)
+                bool isEmail = Regex.IsMatch(userEmail, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+
+                if (isEmail)
                 {
-                    string sqlQuery = "SELECT * FROM users WHERE username = @userName";
-                    SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
-                    command.Parameters.Add(new SQLiteParameter("@username", userName));
-                    SQLiteDataReader dr = command.ExecuteReader();
 
-                    if (dr.Read())
+                    if (userPassword == confirmUserPassword)
                     {
-                        dr.Close();
-                        MessageBox.Show("Username already taken.");
-                    }
+                        string sqlQuery = "SELECT * FROM users WHERE username = @userName AND email = @email";
+                        SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
+                        command.Parameters.Add(new SQLiteParameter("@username", userName));
+                        command.Parameters.Add(new SQLiteParameter("@email", userEmail));
+                        SQLiteDataReader dr = command.ExecuteReader();
 
+                        if (dr.Read())
+                        {
+                            dr.Close();
+                            MessageBox.Show("Username or email already taken.");
+                        }
+
+                        else
+                        {
+                            dr.Close();
+                            string sqlQuery1 = "INSERT INTO users(username,password,email) VALUES(@username,@password,@email)";
+                            SQLiteCommand command1 = new SQLiteCommand(sqlQuery1, DbHelper.myConnection);
+                            command1.Parameters.AddWithValue("username", userName);
+                            command1.Parameters.AddWithValue("password", userPassword);
+                            command1.Parameters.AddWithValue("email", userEmail);
+                            command1.ExecuteNonQuery();
+                            MessageBox.Show("Account successfully created.");
+                        }
+                    }
                     else
                     {
-                        dr.Close();
-                        string sqlQuery1 = "INSERT INTO users(username,password) VALUES(@username,@password)";
-                        SQLiteCommand command1 = new SQLiteCommand(sqlQuery1, DbHelper.myConnection);
-                        command1.Parameters.AddWithValue("username", userName);
-                        command1.Parameters.AddWithValue("password", userPassword);
-                        command1.ExecuteNonQuery();      
-                        MessageBox.Show("Account successfully created.");
+                        MessageBox.Show("Passwords do not match.");
                     }
                 }
-
                 else
                 {
-                    MessageBox.Show("Passwords do not match.");
+                    MessageBox.Show("Invalid email.");
                 }
             }
-
             else
             {
                 MessageBox.Show("Check your entries.");
