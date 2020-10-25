@@ -96,5 +96,10 @@ namespace PSIShoppingEngine.Forms
             activateButton(sender, color);
             openChildForm(new Form1(), color);
         }
+
+        private void panelChild_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

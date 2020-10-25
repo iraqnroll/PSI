@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace PSIShoppingEngine.Forms
 {
@@ -18,6 +19,7 @@ namespace PSIShoppingEngine.Forms
         {
             public string ShopName { get; set; }
             public int shopID { get; set; }
+            public double MoneySpent { get; set; }
             public int ReceiptCount { get; set; }
         }
 
@@ -28,8 +30,11 @@ namespace PSIShoppingEngine.Forms
             public int ItemCount { get; set; }
         }
 
+
+        public const int TakeItems = 5;
         public List<Shop> shops = new List<Shop>();
         public List<Item> items = new List<Item>();
+
 
         public UserForm()
         {
@@ -38,21 +43,28 @@ namespace PSIShoppingEngine.Forms
 
         private void UserForm_Load(object sender, EventArgs e)
         {
-            //Retrieve most frequent shops info:
+            DbHelper.OpenConnection();
+            //Retrieve shops:
             UserHelper.RetrieveShopsInfo(shops);
+            //Retrieve products:
+            UserHelper.RetrieveItemList(items,shops);
 
-            /*foreach(var shop in shops)
-            {
-                Debug.WriteLine(shop.ShopName + " - " + shop.ReceiptCount);
-            }*/
 
-            //Retrieve 5 most frequent products:
-            UserHelper.RetrieveItemList(items, shops);
+            //Populate the shop pie-chart:
+            string[] shopNames = (from shop in shops where shop.ReceiptCount>0 select shop.ShopName).ToArray();
+            int[] shopFrequencies = (from shop in shops where shop.ReceiptCount > 0 select shop.ReceiptCount).ToArray();
 
-            /*foreach(var item in items)
-            {
-               if(item.ItemCount > 0)Debug.WriteLine(item.ItemName + " - " + item.ItemCount);
-            }*/
+            FrequentShopPieChart.Series[0].ChartType = SeriesChartType.Pie;
+            FrequentShopPieChart.Series[0].Points.DataBindXY(shopNames,shopFrequencies);
+            FrequentShopPieChart.Legends[0].Enabled = true;
+
+            //Populate the item pie-chart:
+            string[] itemNames = (from item in items orderby item.ItemCount descending where item.ItemCount > 0 select item.ItemName).Take(TakeItems).ToArray();
+            int[] itemFrequencies = (from item in items orderby item.ItemCount descending where item.ItemCount > 0 select item.ItemCount).Take(TakeItems).ToArray();
+
+            FrequentlyBoughItemsPieChart.Series[0].ChartType = SeriesChartType.Pie;
+            FrequentlyBoughItemsPieChart.Series[0].Points.DataBindXY(itemNames, itemFrequencies);
+            FrequentlyBoughItemsPieChart.Legends[0].Enabled = true;
         }
     }
 }

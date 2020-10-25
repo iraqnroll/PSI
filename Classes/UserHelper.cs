@@ -15,12 +15,22 @@ namespace PSIShoppingEngine.Classes
         {
             string sqlQuery = "SELECT COUNT(shop_id) FROM receipts WHERE shop_id = " + shopID;
             SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
-            int result = Convert.ToInt32(command.ExecuteScalar());
-            return result;
+            return Convert.ToInt32(command.ExecuteScalar());
         }
+        public static double RetrieveMoneySpentInShop(string shopName)
+        {
+            string sqlQuery = "SELECT SUM(price) FROM " + shopName.ToLower();
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
+            var Money = command.ExecuteScalar();
+            if (!(Money is DBNull))
+            {
+                return Convert.ToDouble(Money);
+            }
+            else return 0;
+        }
+
         public static void RetrieveShopsInfo(List<Forms.UserForm.Shop>shopList)
         {
-            DbHelper.OpenConnection();
             string sqlQuery = "SELECT * FROM shops";
             SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
             SQLiteDataReader reader = command.ExecuteReader();
@@ -29,11 +39,11 @@ namespace PSIShoppingEngine.Classes
                 Forms.UserForm.Shop shop = new Forms.UserForm.Shop();
                 shop.ShopName = (string)reader["shop_name"];
                 shop.shopID = Convert.ToInt32(reader["shop_id"]);
+                shop.MoneySpent = RetrieveMoneySpentInShop(shop.ShopName);
                 shop.ReceiptCount = RetrieveShopFrequency(shop.shopID);
                 shopList.Add(shop);
             }
             reader.Close();
-            DbHelper.CloseConnection();
         }
 
         public static int RetrieveItemFrequency(int itemID, List<Forms.UserForm.Shop> shopList)
@@ -50,7 +60,6 @@ namespace PSIShoppingEngine.Classes
 
         public static void RetrieveItemList(List<Forms.UserForm.Item>itemList, List<Forms.UserForm.Shop>shopList)
         {
-            DbHelper.OpenConnection();
             string sqlQuery = "SELECT product_id, product_name FROM products";
             SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
             SQLiteDataReader reader = command.ExecuteReader();
@@ -61,7 +70,6 @@ namespace PSIShoppingEngine.Classes
                 item.ItemID = Convert.ToInt32(reader["product_id"]);
                 item.ItemCount += RetrieveItemFrequency(item.ItemID, shopList);
                 itemList.Add(item);
-
             }
         }
         
