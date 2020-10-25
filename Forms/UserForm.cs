@@ -41,6 +41,21 @@ namespace PSIShoppingEngine.Forms
             InitializeComponent();
         }
 
+        private void PrepareMoneySpentPanel()
+        {
+            ListBox moneyview = new ListBox { Name = "moneySpent", Parent = MoneySpentPanel, Size = MoneySpentPanel.Size};
+            double totalSum = 0;
+            foreach(var shop in shops)
+            {
+                if(shop.MoneySpent > 0)
+                {
+                    moneyview.Items.Add(shop.ShopName + " : " + shop.MoneySpent.ToString());
+                    totalSum += shop.MoneySpent;
+                }
+            }
+            moneyview.Items.Add("TOTAL : " + totalSum.ToString());
+        }
+
         private void UserForm_Load(object sender, EventArgs e)
         {
             DbHelper.OpenConnection();
@@ -65,6 +80,8 @@ namespace PSIShoppingEngine.Forms
             FrequentlyBoughItemsPieChart.Series[0].ChartType = SeriesChartType.Pie;
             FrequentlyBoughItemsPieChart.Series[0].Points.DataBindXY(itemNames, itemFrequencies);
             FrequentlyBoughItemsPieChart.Legends[0].Enabled = true;
+
+            PrepareMoneySpentPanel();
         }
     }
 }
