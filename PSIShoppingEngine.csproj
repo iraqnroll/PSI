@@ -172,6 +172,18 @@
     <Compile Include="Forms\NewReceipt.Designer.cs">
       <DependentUpon>NewReceipt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ShoppingCartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ShoppingCartForm.Designer.cs">
+      <DependentUpon>ShoppingCartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ShoppingCartInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ShoppingCartInfoForm.Designer.cs">
+      <DependentUpon>ShoppingCartInfoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\Receipt.cs" />
     <EmbeddedResource Include="Forms\MainMenuForm.resx">
@@ -182,6 +194,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\NewReceipt.resx">
       <DependentUpon>NewReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShoppingCartForm.resx">
+      <DependentUpon>ShoppingCartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShoppingCartInfoForm.resx">
+      <DependentUpon>ShoppingCartInfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
