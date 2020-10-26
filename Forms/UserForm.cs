@@ -29,11 +29,18 @@ namespace PSIShoppingEngine.Forms
             public int ItemID { get; set; }
             public int ItemCount { get; set; }
         }
-
+        public struct Month
+        {
+            public DateTime Date { get; set; }
+            public List<Shop> Shops { get; set; }
+            public int OverallPurchaseCount { get; set; }
+        }
 
         public const int TakeItems = 5;
         public List<Shop> shops = new List<Shop>();
         public List<Item> items = new List<Item>();
+        public List<Month> shopmonths = new List<Month>();
+        
 
 
         public UserForm()
@@ -43,17 +50,18 @@ namespace PSIShoppingEngine.Forms
 
         private void PrepareMoneySpentPanel()
         {
-            ListBox moneyview = new ListBox { Name = "moneySpent", Parent = MoneySpentPanel, Size = MoneySpentPanel.Size};
+            ListBox moneyview = new ListBox { Name = "moneySpent", Parent = MoneySpentPanel };
             double totalSum = 0;
-            foreach(var shop in shops)
+            foreach (var shop in shops)
             {
-                if(shop.MoneySpent > 0)
+                if (shop.MoneySpent > 0)
                 {
                     moneyview.Items.Add(shop.ShopName + " : " + shop.MoneySpent.ToString());
                     totalSum += shop.MoneySpent;
                 }
             }
             moneyview.Items.Add("TOTAL : " + totalSum.ToString());
+            MoneySpentPanel.Size = moneyview.Size;
         }
 
         private void UserForm_Load(object sender, EventArgs e)
@@ -62,15 +70,15 @@ namespace PSIShoppingEngine.Forms
             //Retrieve shops:
             UserHelper.RetrieveShopsInfo(shops);
             //Retrieve products:
-            UserHelper.RetrieveItemList(items,shops);
+            UserHelper.RetrieveItemList(items, shops);
 
 
             //Populate the shop pie-chart:
-            string[] shopNames = (from shop in shops where shop.ReceiptCount>0 select shop.ShopName).ToArray();
+            string[] shopNames = (from shop in shops where shop.ReceiptCount > 0 select shop.ShopName).ToArray();
             int[] shopFrequencies = (from shop in shops where shop.ReceiptCount > 0 select shop.ReceiptCount).ToArray();
 
             FrequentShopPieChart.Series[0].ChartType = SeriesChartType.Pie;
-            FrequentShopPieChart.Series[0].Points.DataBindXY(shopNames,shopFrequencies);
+            FrequentShopPieChart.Series[0].Points.DataBindXY(shopNames, shopFrequencies);
             FrequentShopPieChart.Legends[0].Enabled = true;
 
             //Populate the item pie-chart:

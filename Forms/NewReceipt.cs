@@ -69,7 +69,7 @@ namespace PSIShoppingEngine.Forms
 
 
             string shopId = DbHelper.SingleValueSelection("SELECT shop_id FROM shops WHERE shop_name = \"" + shopNameComboBox.Text + "\"", "shop_id");
-            DbHelper.InsertIntoDB("INSERT INTO receipts(shop_id) VALUES('" + shopId + "')");
+            DbHelper.InsertIntoDB("INSERT INTO receipts(shop_id, receipt_date) VALUES('" + shopId + "','"+ DateTime.Today.ToString("dd/MM/yyyy")+"')");
 
             string receiptId = DbHelper.SingleValueSelection("SELECT receipt_id FROM receipts ORDER BY  receipt_id DESC LIMIT 1", "receipt_id");
 

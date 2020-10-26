@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.FrequentShopPieChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.FrequentlyBoughItemsPieChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -45,16 +45,16 @@
             // 
             // FrequentShopPieChart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.FrequentShopPieChart.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.FrequentShopPieChart.Legends.Add(legend3);
+            chartArea5.Name = "ChartArea1";
+            this.FrequentShopPieChart.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.FrequentShopPieChart.Legends.Add(legend5);
             this.FrequentShopPieChart.Location = new System.Drawing.Point(24, 21);
             this.FrequentShopPieChart.Name = "FrequentShopPieChart";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.FrequentShopPieChart.Series.Add(series3);
+            series5.ChartArea = "ChartArea1";
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.FrequentShopPieChart.Series.Add(series5);
             this.FrequentShopPieChart.Size = new System.Drawing.Size(311, 208);
             this.FrequentShopPieChart.TabIndex = 0;
             this.FrequentShopPieChart.Text = "chart1";
@@ -66,16 +66,16 @@
             // 
             // FrequentlyBoughItemsPieChart
             // 
-            chartArea4.Name = "ChartArea1";
-            this.FrequentlyBoughItemsPieChart.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.FrequentlyBoughItemsPieChart.Legends.Add(legend4);
+            chartArea6.Name = "ChartArea1";
+            this.FrequentlyBoughItemsPieChart.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            this.FrequentlyBoughItemsPieChart.Legends.Add(legend6);
             this.FrequentlyBoughItemsPieChart.Location = new System.Drawing.Point(462, 21);
             this.FrequentlyBoughItemsPieChart.Name = "FrequentlyBoughItemsPieChart";
-            series4.ChartArea = "ChartArea1";
-            series4.Legend = "Legend1";
-            series4.Name = "Series1";
-            this.FrequentlyBoughItemsPieChart.Series.Add(series4);
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.FrequentlyBoughItemsPieChart.Series.Add(series6);
             this.FrequentlyBoughItemsPieChart.Size = new System.Drawing.Size(311, 208);
             this.FrequentlyBoughItemsPieChart.TabIndex = 1;
             this.FrequentlyBoughItemsPieChart.Text = "chart1";
