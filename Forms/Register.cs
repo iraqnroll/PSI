@@ -91,13 +91,13 @@ namespace PSIShoppingEngine.Forms
 
                     if (userPassword == confirmUserPassword)
                     {
-                        string sqlQuery = "SELECT * FROM users WHERE username = @userName AND email = @email";
+                        string sqlQuery = "SELECT * FROM users WHERE username = @userName OR email = @email";
                         SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
                         command.Parameters.Add(new SQLiteParameter("@username", userName));
                         command.Parameters.Add(new SQLiteParameter("@email", userEmail));
                         SQLiteDataReader dr = command.ExecuteReader();
 
-                        if (dr.Read())
+                        if (dr.HasRows)
                         {
                             dr.Close();
                             MessageBox.Show("Username or email already taken.");

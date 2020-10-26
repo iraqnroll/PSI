@@ -78,7 +78,7 @@ namespace PSIShoppingEngine.Forms
             command.Parameters.Add(new SQLiteParameter("@password", userPassword));
             SQLiteDataReader dr = command.ExecuteReader();
 
-            if (dr.HasRows == true)
+            if (dr.HasRows)
             {
                 this.Hide();
                 dr.Close();
