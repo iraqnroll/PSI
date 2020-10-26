@@ -37,9 +37,9 @@ namespace PSIShoppingEngine.Forms
             // 
             // AddShoppingCart
             // 
-            this.AddShoppingCart.FlatAppearance.BorderSize = 0;
+            this.AddShoppingCart.FlatAppearance.BorderColor = System.Drawing.SystemColors.MenuHighlight;
             this.AddShoppingCart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AddShoppingCart.Location = new System.Drawing.Point(47, 47);
+            this.AddShoppingCart.Location = new System.Drawing.Point(57, 47);
             this.AddShoppingCart.Name = "AddShoppingCart";
             this.AddShoppingCart.Size = new System.Drawing.Size(149, 44);
             this.AddShoppingCart.TabIndex = 0;
@@ -49,11 +49,13 @@ namespace PSIShoppingEngine.Forms
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(121, 140);
+            this.button1.FlatAppearance.BorderColor = System.Drawing.SystemColors.MenuHighlight;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(57, 97);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(149, 50);
             this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
+            this.button1.Text = "Show shopping cart";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -62,14 +64,14 @@ namespace PSIShoppingEngine.Forms
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid.Location = new System.Drawing.Point(363, 47);
             this.dataGrid.Name = "dataGrid";
-            this.dataGrid.Size = new System.Drawing.Size(343, 190);
+            this.dataGrid.Size = new System.Drawing.Size(508, 429);
             this.dataGrid.TabIndex = 3;
             // 
             // ShoppingCartInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1078, 653);
             this.Controls.Add(this.dataGrid);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.AddShoppingCart);
