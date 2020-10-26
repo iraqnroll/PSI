@@ -29,17 +29,18 @@ namespace PSIShoppingEngine.Forms
             public int ItemID { get; set; }
             public int ItemCount { get; set; }
         }
-        public struct Month
+        public struct Day
         {
-            public DateTime Date { get; set; }
-            public List<Shop> Shops { get; set; }
+            public string Date { get; set; }
+            public List<string> Shops { get; set; }
+            public List<int> ReceiptID { get; set; }
             public int OverallPurchaseCount { get; set; }
         }
 
         public const int TakeItems = 5;
         public List<Shop> shops = new List<Shop>();
         public List<Item> items = new List<Item>();
-        public List<Month> shopmonths = new List<Month>();
+        public List<Day> shopmonth = new List<Day>();
         
 
 
@@ -90,6 +91,53 @@ namespace PSIShoppingEngine.Forms
             FrequentlyBoughItemsPieChart.Legends[0].Enabled = true;
 
             PrepareMoneySpentPanel();
+
+            UserHelper.RetrieveShoppingMonths(shopmonth);
+
+            //Populate the shopping-per-month line chart.
+            string[] dates = (from month in shopmonth select month.Date).ToArray();
+            int[] receiptCount = (from month in shopmonth select month.OverallPurchaseCount).ToArray();
+            ShoppingPerMonthChart.Series[0].Points.DataBindXY(dates, receiptCount);
+            ShoppingPerMonthChart.ChartAreas["ChartArea1"].AxisX.MajorGrid.Enabled = false;
+            ShoppingPerMonthChart.ChartAreas["ChartArea1"].AxisY.MajorGrid.Enabled = false;
+            ShoppingPerMonthChart.Series[0].BorderWidth = 3;
+            ShoppingPerMonthChart.Legends[0].Enabled = false;
+
+            //Prepare the chart for user interaction.
+            ShoppingPerMonthChart.ChartAreas["ChartArea1"].CursorX.IsUserEnabled = true;
+            ShoppingPerMonthChart.ChartAreas["ChartArea1"].CursorX.IsUserSelectionEnabled = true;
+            ShoppingPerMonthChart.ChartAreas["ChartArea1"].CursorX.SelectionColor = System.Drawing.Color.Transparent;
+
+            DbHelper.CloseConnection();
+        }
+
+
+        private void ShoppingPerMonthChart_CursorPositionChanged(object sender, CursorEventArgs e)
+        {
+            MonthChartListView.Items.Clear();
+            DataPoint pt = ShoppingPerMonthChart.Series[0].Points[(int)Math.Max(e.ChartArea.CursorX.Position - 1, 0)];
+            pt.MarkerStyle = MarkerStyle.Square;
+            foreach(var date in  shopmonth)
+            {
+                if(String.Equals(pt.AxisLabel,date.Date))
+                {
+                    foreach(var shop in date.Shops)
+                    {
+                        ListViewItem item = new ListViewItem(shop);
+                        MonthChartListView.Items.Add(item);
+                    }
+                }
+            }
+        }
+
+        private void ShoppingPerMonthChart_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MonthChartListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

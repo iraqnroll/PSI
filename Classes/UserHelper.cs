@@ -11,6 +11,14 @@ namespace PSIShoppingEngine.Classes
 {
     public static class UserHelper
     {
+
+
+        public static string RetrieveShopName(int shopID)
+        {
+            string sqlQuery = "SELECT shop_name FROM shops where shop_id = " + shopID.ToString();
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
+            return Convert.ToString(command.ExecuteScalar());
+        }
         public static int RetrieveShopFrequency(int shopID)
         {
             string sqlQuery = "SELECT COUNT(shop_id) FROM receipts WHERE shop_id = " + shopID;
@@ -70,6 +78,51 @@ namespace PSIShoppingEngine.Classes
                 item.ItemID = Convert.ToInt32(reader["product_id"]);
                 item.ItemCount += RetrieveItemFrequency(item.ItemID, shopList);
                 itemList.Add(item);
+            }
+        }
+
+
+        public static List<string> RetrieveShopsOfDate(string Date)
+        {
+            string sqlQuery = "SELECT shop_id FROM receipts WHERE receipt_date = '" + Date + "'";
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            List<string> shops = new List<string>();
+            while(reader.Read())
+            {
+                string shopName = RetrieveShopName(Convert.ToInt32(reader["shop_id"]));
+                shops.Add(shopName);
+            }
+            return shops;
+        }
+
+        public static List<int> RetrieveReceiptsOfDate(string Date)
+        {
+            string sqlQuery = "SELECT receipt_id FROM receipts WHERE receipt_date = '" + Date + "'";
+            SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            List<int> receipts = new List<int>();
+            while(reader.Read())
+            {
+                int id = Convert.ToInt32(reader["receipt_id"]);
+                receipts.Add(id);
+            }
+            return receipts;
+        }
+
+        public static void RetrieveShoppingMonths(List<Forms.UserForm.Day> month)
+        {
+            string GetDatesQuery = "SELECT DISTINCT receipt_date FROM receipts";
+            SQLiteCommand command = new SQLiteCommand(GetDatesQuery, DbHelper.myConnection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while(reader.Read())
+            {
+                Forms.UserForm.Day day = new Forms.UserForm.Day();
+                day.Date = Convert.ToString(reader["receipt_date"]);      //Kazkodel gaudo nullus.
+                day.Shops = RetrieveShopsOfDate(day.Date);
+                day.ReceiptID = RetrieveReceiptsOfDate(day.Date);
+                day.OverallPurchaseCount = day.ReceiptID.Count();
+                month.Add(day);
             }
         }
         
