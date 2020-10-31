@@ -46,6 +46,7 @@ namespace PSIShoppingEngine.Forms
             this.MoneySpentPanel = new System.Windows.Forms.Panel();
             this.ShoppingPerMonthChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.MonthChartListView = new System.Windows.Forms.ListView();
+            this.MonthSelect = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.FrequentShopPieChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FrequentlyBoughItemsPieChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ShoppingPerMonthChart)).BeginInit();
@@ -57,13 +58,13 @@ namespace PSIShoppingEngine.Forms
             this.FrequentShopPieChart.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.FrequentShopPieChart.Legends.Add(legend1);
-            this.FrequentShopPieChart.Location = new System.Drawing.Point(24, 21);
+            this.FrequentShopPieChart.Location = new System.Drawing.Point(12, 12);
             this.FrequentShopPieChart.Name = "FrequentShopPieChart";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.FrequentShopPieChart.Series.Add(series1);
-            this.FrequentShopPieChart.Size = new System.Drawing.Size(347, 202);
+            this.FrequentShopPieChart.Size = new System.Drawing.Size(359, 211);
             this.FrequentShopPieChart.TabIndex = 0;
             this.FrequentShopPieChart.Text = "chart1";
             // 
@@ -78,7 +79,7 @@ namespace PSIShoppingEngine.Forms
             this.FrequentlyBoughItemsPieChart.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
             this.FrequentlyBoughItemsPieChart.Legends.Add(legend2);
-            this.FrequentlyBoughItemsPieChart.Location = new System.Drawing.Point(543, 12);
+            this.FrequentlyBoughItemsPieChart.Location = new System.Drawing.Point(685, 12);
             this.FrequentlyBoughItemsPieChart.Name = "FrequentlyBoughItemsPieChart";
             series2.ChartArea = "ChartArea1";
             series2.Legend = "Legend1";
@@ -91,9 +92,9 @@ namespace PSIShoppingEngine.Forms
             // MoneySpentPanel
             // 
             this.MoneySpentPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MoneySpentPanel.Location = new System.Drawing.Point(24, 316);
+            this.MoneySpentPanel.Location = new System.Drawing.Point(388, 12);
             this.MoneySpentPanel.Name = "MoneySpentPanel";
-            this.MoneySpentPanel.Size = new System.Drawing.Size(291, 220);
+            this.MoneySpentPanel.Size = new System.Drawing.Size(291, 211);
             this.MoneySpentPanel.TabIndex = 2;
             // 
             // ShoppingPerMonthChart
@@ -103,7 +104,7 @@ namespace PSIShoppingEngine.Forms
             legend3.Enabled = false;
             legend3.Name = "Legend1";
             this.ShoppingPerMonthChart.Legends.Add(legend3);
-            this.ShoppingPerMonthChart.Location = new System.Drawing.Point(442, 263);
+            this.ShoppingPerMonthChart.Location = new System.Drawing.Point(269, 273);
             this.ShoppingPerMonthChart.Name = "ShoppingPerMonthChart";
             this.ShoppingPerMonthChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Excel;
             series3.ChartArea = "ChartArea1";
@@ -113,27 +114,35 @@ namespace PSIShoppingEngine.Forms
             series3.Name = "Series1";
             series3.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
             this.ShoppingPerMonthChart.Series.Add(series3);
-            this.ShoppingPerMonthChart.Size = new System.Drawing.Size(480, 273);
+            this.ShoppingPerMonthChart.Size = new System.Drawing.Size(606, 327);
             this.ShoppingPerMonthChart.TabIndex = 3;
             this.ShoppingPerMonthChart.Text = "chart1";
             this.ShoppingPerMonthChart.CursorPositionChanged += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.CursorEventArgs>(this.ShoppingPerMonthChart_CursorPositionChanged);
-            this.ShoppingPerMonthChart.Click += new System.EventHandler(this.ShoppingPerMonthChart_Click);
             // 
             // MonthChartListView
             // 
             this.MonthChartListView.HideSelection = false;
-            this.MonthChartListView.Location = new System.Drawing.Point(928, 263);
+            this.MonthChartListView.Location = new System.Drawing.Point(881, 273);
             this.MonthChartListView.Name = "MonthChartListView";
-            this.MonthChartListView.Size = new System.Drawing.Size(89, 147);
+            this.MonthChartListView.Size = new System.Drawing.Size(89, 86);
             this.MonthChartListView.TabIndex = 4;
             this.MonthChartListView.UseCompatibleStateImageBehavior = false;
-            this.MonthChartListView.SelectedIndexChanged += new System.EventHandler(this.MonthChartListView_SelectedIndexChanged);
+            // 
+            // MonthSelect
+            // 
+            this.MonthSelect.FormattingEnabled = true;
+            this.MonthSelect.Location = new System.Drawing.Point(881, 365);
+            this.MonthSelect.Name = "MonthSelect";
+            this.MonthSelect.Size = new System.Drawing.Size(90, 21);
+            this.MonthSelect.TabIndex = 5;
+            this.MonthSelect.SelectedIndexChanged += new System.EventHandler(this.MonthSelect_SelectedIndexChanged);
             // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1029, 564);
+            this.ClientSize = new System.Drawing.Size(1076, 612);
+            this.Controls.Add(this.MonthSelect);
             this.Controls.Add(this.MonthChartListView);
             this.Controls.Add(this.ShoppingPerMonthChart);
             this.Controls.Add(this.MoneySpentPanel);
@@ -157,5 +166,6 @@ namespace PSIShoppingEngine.Forms
         private System.Windows.Forms.Panel MoneySpentPanel;
         private System.Windows.Forms.DataVisualization.Charting.Chart ShoppingPerMonthChart;
         private System.Windows.Forms.ListView MonthChartListView;
+        private System.Windows.Forms.ComboBox MonthSelect;
     }
 }

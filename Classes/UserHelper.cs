@@ -5,6 +5,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using MySqlX.XDevAPI.Common;
 
 namespace PSIShoppingEngine.Classes
@@ -110,21 +111,25 @@ namespace PSIShoppingEngine.Classes
             return receipts;
         }
 
-        public static void RetrieveShoppingMonths(List<Forms.UserForm.Day> month)
+        public static List<Forms.UserForm.Day> RetrieveShoppingDays()
         {
+            var days = new List<Forms.UserForm.Day>();
             string GetDatesQuery = "SELECT DISTINCT receipt_date FROM receipts";
             SQLiteCommand command = new SQLiteCommand(GetDatesQuery, DbHelper.myConnection);
             SQLiteDataReader reader = command.ExecuteReader();
             while(reader.Read())
             {
                 Forms.UserForm.Day day = new Forms.UserForm.Day();
-                day.Date = Convert.ToString(reader["receipt_date"]);      //Kazkodel gaudo nullus.
-                day.Shops = RetrieveShopsOfDate(day.Date);
-                day.ReceiptID = RetrieveReceiptsOfDate(day.Date);
+                string date = Convert.ToString(reader["receipt_date"]);
+
+                day.Date = DateTime.ParseExact(date,"dd/MM/yyyy",null);
+                day.Shops = RetrieveShopsOfDate(date);
+                day.ReceiptID = RetrieveReceiptsOfDate(date);
                 day.OverallPurchaseCount = day.ReceiptID.Count();
-                month.Add(day);
+                days.Add(day);
             }
+            return days;
         }
-        
+
     }
 }
