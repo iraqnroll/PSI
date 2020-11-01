@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -52,22 +54,24 @@ namespace PSIShoppingEngine.Forms
 
         private void PrepareMoneySpentPanel()
         {
+            var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
             ListBox moneyview = new ListBox { Name = "moneySpent", Parent = MoneySpentPanel };
             double totalSum = 0;
             foreach (var shop in shops)
             {
                 if (shop.MoneySpent > 0)
                 {
-                    moneyview.Items.Add(shop.ShopName + " : " + shop.MoneySpent.ToString());
+                    moneyview.Items.Add(shop.ShopName + " : " + shop.MoneySpent.ToString("C", culture));
                     totalSum += shop.MoneySpent;
                 }
             }
-            moneyview.Items.Add("TOTAL : " + totalSum.ToString());
-            MoneySpentPanel.Size = moneyview.Size;
+            moneyview.Size = MoneySpentPanel.Size;
+            moneyview.Items.Add("TOTAL : " + totalSum.ToString("C", culture));
         }
 
         private void UserForm_Load(object sender, EventArgs e)
         {
+            
             DbHelper.OpenConnection();
             //Retrieve shops:
             UserHelper.RetrieveShopsInfo(shops);
@@ -82,6 +86,7 @@ namespace PSIShoppingEngine.Forms
             FrequentShopPieChart.Series[0].ChartType = SeriesChartType.Pie;
             FrequentShopPieChart.Series[0].Points.DataBindXY(shopNames, shopFrequencies);
             FrequentShopPieChart.Legends[0].Enabled = true;
+            FrequentShopPieChart.Series[0].IsValueShownAsLabel = true;
 
             //Populate the item pie-chart:
             string[] itemNames = (from item in items orderby item.ItemCount descending where item.ItemCount > 0 select item.ItemName).Take(TakeItems).ToArray();
@@ -90,6 +95,7 @@ namespace PSIShoppingEngine.Forms
             FrequentlyBoughItemsPieChart.Series[0].ChartType = SeriesChartType.Pie;
             FrequentlyBoughItemsPieChart.Series[0].Points.DataBindXY(itemNames, itemFrequencies);
             FrequentlyBoughItemsPieChart.Legends[0].Enabled = true;
+            FrequentlyBoughItemsPieChart.Series[0].IsValueShownAsLabel = true;
 
             PrepareMoneySpentPanel();
 
