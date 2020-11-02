@@ -32,42 +32,69 @@ namespace PSIShoppingEngine.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DataTable table = new DataTable();
-            table.Columns.Add("Name");
-            table.Columns.Add("IKI");
-            table.Columns.Add("MAXIMA");
-            table.Columns.Add("LIDL");
-            table.Columns.Add("NORFA");
-            table.Columns.Add("RIMI");
-
-            foreach (Item item in cart)
+            if (cart.Any())
             {
-                DataRow a = table.NewRow();
-                a["Name"] = item.ItemName;
-                a["IKI"] = DbHelper.SingleValueSelection("SELECT price, MAX (date) FROM iki JOIN products USING (product_id) WHERE product_name = '" + item.ItemName + "'", "price");
-                a["MAXIMA"] = DbHelper.SingleValueSelection("SELECT price, MAX (date) FROM maxima JOIN products USING (product_id) WHERE product_name = '" + item.ItemName + "'", "price");
-                a["LIDL"] = DbHelper.SingleValueSelection("SELECT price, MAX (date) FROM lidl JOIN products USING (product_id) WHERE product_name = '" + item.ItemName + "'", "price");
-                a["NORFA"] = DbHelper.SingleValueSelection("SELECT price, MAX (date) FROM norfa JOIN products USING (product_id) WHERE product_name = '" + item.ItemName + "'", "price");
-                a["RIMI"] = DbHelper.SingleValueSelection("SELECT price, MAX (date) FROM rimi JOIN products USING (product_id) WHERE product_name = '" + item.ItemName + "'", "price");
-                table.Rows.Add(a);
-            }
+                DataTable table = new DataTable();
+                table.Columns.Add("Name");
+                table.Columns.Add("IKI", typeof(double));
+                table.Columns.Add("MAXIMA", typeof(double));
+                table.Columns.Add("LIDL", typeof(double));
+                table.Columns.Add("NORFA", typeof(double));
+                table.Columns.Add("RIMI", typeof(double));
+                table.Columns.Add("BEST STORE");
+
+
+                foreach (Item item in cart)
+                {
+                    DataRow a = table.NewRow();
+                    a["Name"] = item.ItemName;
+                    a["IKI"] = lowestPrice(item.ItemName, "iki");
+                    a["MAXIMA"] = lowestPrice(item.ItemName, "maxima");
+                    a["LIDL"] = lowestPrice(item.ItemName, "lidl");
+                    a["NORFA"] = lowestPrice(item.ItemName, "norfa");
+                    a["RIMI"] = lowestPrice(item.ItemName, "rimi");
+                    string query = @"SELECT productname, MIN(price) FROM
+                    (SELECT 'IKI' AS productname, price, MAX (date) FROM iki JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    UNION     
+                    SELECT 'NORFA' AS productname, price, MAX (date) FROM norfa JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    UNION
+                    SELECT 'MAXIMA' AS productname, price, MAX (date) FROM maxima JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    UNION
+                    SELECT 'LIDL' AS productname, price, MAX (date) FROM lidl JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    UNION
+                    SELECT 'RIMI' AS productname, price, MAX (date) FROM rimi JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"') WHERE price NOTNULL";
+                    a["BEST STORE"] = DbHelper.SingleValueSelection(query,"productname");
+                    table.Rows.Add(a);
+                }
+                DataRow sum = table.NewRow();
+                sum["Name"] = "Total: ";
+                sum["IKI"] = table.Compute("SUM(IKI)", "");
+                sum["MAXIMA"] = table.Compute("SUM(MAXIMA)", "");
+                sum["LIDL"] = table.Compute("SUM(LIDL)", "");
+                sum["NORFA"] = table.Compute("SUM(NORFA)", "");
+                sum["RIMI"] = table.Compute("SUM(RIMI)", "");
+                string best = table.AsEnumerable().Max(row => row["BEST STORE"]).ToString();
+                sum["BEST STORE"] = "";
+                table.Rows.Add(sum);
                 dataGrid.DataSource = table;
-                dataGrid.Columns[0].HeaderText = "Name";
-                dataGrid.Columns[1].HeaderText = "IKI";
-                dataGrid.Columns[2].HeaderText = "MAXIMA";
-                dataGrid.Columns[3].HeaderText = "LIDL";
-                dataGrid.Columns[4].HeaderText = "NORFA";
-                dataGrid.Columns[5].HeaderText = "RIMI";
-            dataGrid.AutoResizeColumns();
-         
-            
+                dataGrid.AutoResizeColumns();
+                dataGrid.Show();
+                bestStoreLabel.Text = "Cheapest place to shop: " + best; 
 
-
-
-            dataGrid.Show();
-            
-
+            }
+            else
+                MessageBox.Show("Please create a shopping cart");
+           
 
         }
+        private double lowestPrice (string itemname, string storename)
+        {
+            String temp = DbHelper.SingleValueSelection("SELECT price, MAX (date) FROM '" + storename + "' JOIN products USING (product_id) WHERE product_name = '" + itemname + "'", "price");
+            if (temp == "")
+                return 0;
+            else
+                return Double.Parse(temp.Replace(".", ","));
+        }
+
     }
 }

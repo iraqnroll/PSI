@@ -86,7 +86,7 @@ namespace PSIShoppingEngine.Forms
 
                     string productId = DbHelper.SingleValueSelection("SELECT product_id FROM products WHERE product_name = \""+ (string)row.Cells["ItemName"].Value +"\"", "product_id");
 
-                    DbHelper.InsertIntoDB("INSERT INTO "+ shopNameComboBox.Text + " (product_id, date, price, receipt_id) VALUES('" + productId + "','" + DateTime.Today.ToString("dd/MM/yyyy") + "','"+ (string)row.Cells["ItemPrice"].Value +"','"+receiptId+"')");
+                    DbHelper.InsertIntoDB("INSERT INTO "+ shopNameComboBox.Text + " (product_id, date, price, receipt_id) VALUES('" + productId + "','" + DateTime.Today.ToString(@"dd\/MM\/yyyy") + "','"+ (string)row.Cells["ItemPrice"].Value +"','"+receiptId+"')");
                 }
             }
             

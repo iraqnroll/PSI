@@ -32,6 +32,7 @@ namespace PSIShoppingEngine.Forms
             this.AddShoppingCart = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGrid = new System.Windows.Forms.DataGridView();
+            this.bestStoreLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,11 +68,21 @@ namespace PSIShoppingEngine.Forms
             this.dataGrid.Size = new System.Drawing.Size(508, 429);
             this.dataGrid.TabIndex = 3;
             // 
+            // bestStoreLabel
+            // 
+            this.bestStoreLabel.AutoSize = true;
+            this.bestStoreLabel.Font = new System.Drawing.Font("AXIS Extra Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.bestStoreLabel.Location = new System.Drawing.Point(57, 173);
+            this.bestStoreLabel.Name = "bestStoreLabel";
+            this.bestStoreLabel.Size = new System.Drawing.Size(0, 19);
+            this.bestStoreLabel.TabIndex = 4;
+            // 
             // ShoppingCartInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1078, 653);
+            this.Controls.Add(this.bestStoreLabel);
             this.Controls.Add(this.dataGrid);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.AddShoppingCart);
@@ -79,6 +90,7 @@ namespace PSIShoppingEngine.Forms
             this.Text = "ShoppingCartInfoForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -87,5 +99,6 @@ namespace PSIShoppingEngine.Forms
         private System.Windows.Forms.Button AddShoppingCart;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGrid;
+        private System.Windows.Forms.Label bestStoreLabel;
     }
 }

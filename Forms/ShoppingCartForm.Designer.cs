@@ -32,7 +32,6 @@
             this.ReceiptDataGrid = new System.Windows.Forms.DataGridView();
             this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSaveReceipt = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.itemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ReceiptDataGrid)).BeginInit();
@@ -72,15 +71,6 @@
             this.btnSaveReceipt.UseVisualStyleBackColor = true;
             this.btnSaveReceipt.Click += new System.EventHandler(this.btnSaveReceipt_Click_1);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(453, 337);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Shop name :";
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(12, 331);
@@ -101,7 +91,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(650, 450);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSaveReceipt);
             this.Controls.Add(this.ReceiptDataGrid);
             this.Name = "ShoppingCartForm";
@@ -111,7 +100,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.ReceiptDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -120,7 +108,6 @@
         private System.Windows.Forms.DataGridView ReceiptDataGrid;
         private System.Windows.Forms.Button btnSaveReceipt;
         private System.Windows.Forms.BindingSource itemBindingSource;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
     }

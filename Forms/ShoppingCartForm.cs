@@ -78,9 +78,5 @@ namespace PSIShoppingEngine.Forms
             Close();
         }
 
-        private void ReceiptDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }
