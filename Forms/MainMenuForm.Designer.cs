@@ -158,6 +158,7 @@ namespace PSIShoppingEngine.Forms
             this.Controls.Add(this.panel1);
             this.Name = "MainMenuForm";
             this.Text = "MainMenuForm";
+            this.Load += new System.EventHandler(this.MainMenuForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
