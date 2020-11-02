@@ -80,7 +80,9 @@ namespace PSIShoppingEngine.Forms
         {
             Color color = Color.FromArgb(1, 57, 178);
             activateButton(sender, color);
-            openChildForm(new Form1(), color);
+            Form UserForm = new UserForm();
+            UserForm.Dock = DockStyle.Fill;
+            openChildForm(UserForm, color);
         }
 
         private void PriceChanges_Click(object sender, EventArgs e)
@@ -95,6 +97,11 @@ namespace PSIShoppingEngine.Forms
             Color color = Color.FromArgb(50, 39, 122);
             activateButton(sender, color);
             openChildForm(new Form1(), color);
+        }
+
+        private void panelChild_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
