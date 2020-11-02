@@ -71,10 +71,10 @@ namespace PSIShoppingEngine.Forms
             // bestStoreLabel
             // 
             this.bestStoreLabel.AutoSize = true;
-            this.bestStoreLabel.Font = new System.Drawing.Font("AXIS Extra Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.bestStoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
             this.bestStoreLabel.Location = new System.Drawing.Point(57, 173);
             this.bestStoreLabel.Name = "bestStoreLabel";
-            this.bestStoreLabel.Size = new System.Drawing.Size(0, 19);
+            this.bestStoreLabel.Size = new System.Drawing.Size(0, 15);
             this.bestStoreLabel.TabIndex = 4;
             // 
             // ShoppingCartInfoForm

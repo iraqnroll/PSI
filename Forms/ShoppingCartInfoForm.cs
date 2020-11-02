@@ -68,11 +68,11 @@ namespace PSIShoppingEngine.Forms
                 }
                 DataRow sum = table.NewRow();
                 sum["Name"] = "Total: ";
-                sum["IKI"] = table.Compute("SUM(IKI)", "");
-                sum["MAXIMA"] = table.Compute("SUM(MAXIMA)", "");
-                sum["LIDL"] = table.Compute("SUM(LIDL)", "");
-                sum["NORFA"] = table.Compute("SUM(NORFA)", "");
-                sum["RIMI"] = table.Compute("SUM(RIMI)", "");
+                sum["IKI"] = Math.Round((double)table.Compute("SUM(IKI)", ""), 2);
+                sum["MAXIMA"] = Math.Round((double)table.Compute("SUM(MAXIMA)", ""), 2);
+                sum["LIDL"] = Math.Round((double)table.Compute("SUM(LIDL)", ""), 2);
+                sum["NORFA"] = Math.Round((double)table.Compute("SUM(NORFA)", ""), 2);
+                sum["RIMI"] = Math.Round((double)table.Compute("SUM(RIMI)", ""), 2);
                 string best = table.AsEnumerable().Max(row => row["BEST STORE"]).ToString();
                 sum["BEST STORE"] = "";
                 table.Rows.Add(sum);

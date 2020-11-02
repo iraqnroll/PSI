@@ -72,7 +72,7 @@ namespace PSIShoppingEngine.Forms
         {
             Color color = Color.FromArgb(0, 69, 216);
             activateButton(sender, color);
-            openChildForm(new Form1(), color);
+            openChildForm(new ShoppingCartInfoForm(), color);
 
         }
 

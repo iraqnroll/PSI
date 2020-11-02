@@ -30,8 +30,6 @@ namespace PSIShoppingEngine.Forms
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.ProfileButton = new System.Windows.Forms.Button();
-            this.PriceChanges = new System.Windows.Forms.Button();
             this.UserButton = new System.Windows.Forms.Button();
             this.ShoppingCartButton = new System.Windows.Forms.Button();
             this.NewReceiptButton = new System.Windows.Forms.Button();
@@ -41,8 +39,6 @@ namespace PSIShoppingEngine.Forms
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.ProfileButton);
-            this.panel1.Controls.Add(this.PriceChanges);
             this.panel1.Controls.Add(this.UserButton);
             this.panel1.Controls.Add(this.ShoppingCartButton);
             this.panel1.Controls.Add(this.NewReceiptButton);
@@ -51,41 +47,6 @@ namespace PSIShoppingEngine.Forms
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1186, 46);
             this.panel1.TabIndex = 0;
-            // 
-            // ProfileButton
-            // 
-            this.ProfileButton.BackColor = System.Drawing.Color.White;
-            this.ProfileButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ProfileButton.FlatAppearance.BorderSize = 0;
-            this.ProfileButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(39)))), ((int)(((byte)(122)))));
-            this.ProfileButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(39)))), ((int)(((byte)(122)))));
-            this.ProfileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ProfileButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ProfileButton.Location = new System.Drawing.Point(900, 0);
-            this.ProfileButton.Name = "ProfileButton";
-            this.ProfileButton.Size = new System.Drawing.Size(286, 46);
-            this.ProfileButton.TabIndex = 6;
-            this.ProfileButton.Text = "PROFILE";
-            this.ProfileButton.UseVisualStyleBackColor = false;
-            this.ProfileButton.Click += new System.EventHandler(this.ProfileButton_Click);
-            // 
-            // PriceChanges
-            // 
-            this.PriceChanges.AutoSize = true;
-            this.PriceChanges.BackColor = System.Drawing.Color.White;
-            this.PriceChanges.Dock = System.Windows.Forms.DockStyle.Left;
-            this.PriceChanges.FlatAppearance.BorderSize = 0;
-            this.PriceChanges.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(39)))), ((int)(((byte)(122)))));
-            this.PriceChanges.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(39)))), ((int)(((byte)(122)))));
-            this.PriceChanges.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PriceChanges.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PriceChanges.Location = new System.Drawing.Point(675, 0);
-            this.PriceChanges.Name = "PriceChanges";
-            this.PriceChanges.Size = new System.Drawing.Size(225, 46);
-            this.PriceChanges.TabIndex = 5;
-            this.PriceChanges.Text = "PRICE CHANGES";
-            this.PriceChanges.UseVisualStyleBackColor = false;
-            this.PriceChanges.Click += new System.EventHandler(this.PriceChanges_Click);
             // 
             // UserButton
             // 
@@ -135,7 +96,7 @@ namespace PSIShoppingEngine.Forms
             this.NewReceiptButton.Name = "NewReceiptButton";
             this.NewReceiptButton.Size = new System.Drawing.Size(225, 46);
             this.NewReceiptButton.TabIndex = 0;
-            this.NewReceiptButton.Text = "NEW RECEiPT";
+            this.NewReceiptButton.Text = "NEW RECEIPT";
             this.NewReceiptButton.UseVisualStyleBackColor = false;
             this.NewReceiptButton.Click += new System.EventHandler(this.NewReceiptButton_Click);
             // 
@@ -172,7 +133,5 @@ namespace PSIShoppingEngine.Forms
         private System.Windows.Forms.Panel panelChild;
         private System.Windows.Forms.Button UserButton;
         private System.Windows.Forms.Button ShoppingCartButton;
-        private System.Windows.Forms.Button ProfileButton;
-        private System.Windows.Forms.Button PriceChanges;
     }
 }

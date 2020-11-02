@@ -52,7 +52,6 @@
             this.ReceiptDataGrid.Name = "ReceiptDataGrid";
             this.ReceiptDataGrid.Size = new System.Drawing.Size(626, 294);
             this.ReceiptDataGrid.TabIndex = 0;
-            this.ReceiptDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ReceiptDataGrid_CellContentClick);
             this.ReceiptDataGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.ReceiptDataGrid_CurrentCellDirtyStateChanged);
             // 
             // ItemName
