@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySqlX.XDevAPI.Common;
+using MySql.Data.MySqlClient;
 
 namespace PSIShoppingEngine.Classes
 {
     public static class DbHelper  
     {
-        public static SQLiteConnection myConnection = new SQLiteConnection("Data Source=TestDB.db");
+        public static MySqlConnection myConnection = new MySqlConnection("Data Source=eu-cdbr-west-03.cleardb.net;port=3306;username=b55b69df8855db;password=5b4f6d2d;convert zero datetime=True");
 
         public static bool ValidateDB()
         {
@@ -46,8 +47,8 @@ namespace PSIShoppingEngine.Classes
         public static void InsertIntoDB(string sqlQuery)
         {
             OpenConnection();
-           
-            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
+
+            MySqlCommand command = new MySqlCommand(sqlQuery, myConnection);
            
             command.ExecuteNonQuery();
             CloseConnection();
@@ -57,8 +58,8 @@ namespace PSIShoppingEngine.Classes
         {
             OpenConnection();
 
-            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
-            using (SQLiteDataReader sqldatareader = command.ExecuteReader())
+            MySqlCommand command = new MySqlCommand(sqlQuery, myConnection);
+            using (MySqlDataReader sqldatareader = command.ExecuteReader())
             {
                 DataTable myDataTable = new DataTable();
                 myDataTable.Load(sqldatareader);
@@ -72,9 +73,9 @@ namespace PSIShoppingEngine.Classes
             List<String> shopNames = new List<String>();
             OpenConnection();
 
-            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
+            MySqlCommand command = new MySqlCommand(sqlQuery, myConnection);
 
-            using (SQLiteDataReader sqldatareader = command.ExecuteReader())
+            using (MySqlDataReader sqldatareader = command.ExecuteReader())
             {
 
                 while (sqldatareader.Read())
@@ -91,8 +92,8 @@ namespace PSIShoppingEngine.Classes
         {
             string result;
             OpenConnection();
-            SQLiteCommand command = new SQLiteCommand(sqlQuery, myConnection);
-            using (SQLiteDataReader sqldatareader = command.ExecuteReader())
+            MySqlCommand command = new MySqlCommand(sqlQuery, myConnection);
+            using (MySqlDataReader sqldatareader = command.ExecuteReader())
             {
                sqldatareader.Read();
                 result = sqldatareader[name].ToString();

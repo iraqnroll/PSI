@@ -25,7 +25,7 @@ namespace PSIShoppingEngine
             InitializeComponent();
         }
 
-        private string selectReceipts = @"	SELECT r.receipt_id, shop_name, date, ROUND( SUM(price),2)
+        private string selectReceipts = @"USE heroku_1144b6fe5f570ba;	SELECT r.receipt_id, shop_name, date, ROUND( SUM(price),2)
                                             FROM receipts r
                                             JOIN shops USING(shop_id)
                                             JOIN norfa USING(receipt_id)
@@ -57,7 +57,8 @@ namespace PSIShoppingEngine
                                             FROM receipts r
                                             JOIN shops USING(shop_id)
                                             JOIN maxima USING(receipt_id)
-                                            GROUP BY r.receipt_id";
+                                            GROUP BY r.receipt_id
+                                            ORDER BY receipt_id";
 
 
         private void Form1_Load(object sender, EventArgs e)
@@ -153,8 +154,8 @@ namespace PSIShoppingEngine
             string SelectedReceiptID = receiptListGridView.CurrentRow.Cells[0].Value.ToString();
             string SelectedShopName = receiptListGridView.CurrentRow.Cells[1].Value.ToString();
             
-            string sqlQuery = @"SELECT product_name, price, type_name
-                            FROM "+ SelectedShopName+
+            string sqlQuery = @" USE heroku_1144b6fe5f570ba; SELECT product_name, price, type_name
+                            FROM " + SelectedShopName+
                             @" JOIN products USING(product_id)
                             JOIN types USING(type_id)
                             WHERE receipt_id = " + SelectedReceiptID;

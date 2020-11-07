@@ -11,6 +11,7 @@ using PSIShoppingEngine.Classes;
 using PSIShoppingEngine.Forms;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
+using MySql.Data.MySqlClient;
 
 namespace PSIShoppingEngine.Forms
 {
@@ -91,11 +92,11 @@ namespace PSIShoppingEngine.Forms
 
                     if (userPassword == confirmUserPassword)
                     {
-                        string sqlQuery = "SELECT * FROM users WHERE username = @userName OR email = @email";
-                        SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
-                        command.Parameters.Add(new SQLiteParameter("@username", userName));
-                        command.Parameters.Add(new SQLiteParameter("@email", userEmail));
-                        SQLiteDataReader dr = command.ExecuteReader();
+                        string sqlQuery = "USE heroku_1144b6fe5f570ba; SELECT * FROM users WHERE username = @userName OR email = @email";
+                        MySqlCommand command = new MySqlCommand(sqlQuery, DbHelper.myConnection);
+                        command.Parameters.Add(new MySqlParameter("@username", userName));
+                        command.Parameters.Add(new MySqlParameter("@email", userEmail));
+                        MySqlDataReader dr = command.ExecuteReader();
 
                         if (dr.HasRows)
                         {
@@ -106,8 +107,8 @@ namespace PSIShoppingEngine.Forms
                         else
                         {
                             dr.Close();
-                            string sqlQuery1 = "INSERT INTO users(username,password,email) VALUES(@username,@password,@email)";
-                            SQLiteCommand command1 = new SQLiteCommand(sqlQuery1, DbHelper.myConnection);
+                            string sqlQuery1 = "USE heroku_1144b6fe5f570ba; INSERT INTO users(username,password,email) VALUES(@username,@password,@email)";
+                            MySqlCommand command1 = new MySqlCommand(sqlQuery1, DbHelper.myConnection);
                             command1.Parameters.AddWithValue("username", userName);
                             command1.Parameters.AddWithValue("password", userPassword);
                             command1.Parameters.AddWithValue("email", userEmail);
