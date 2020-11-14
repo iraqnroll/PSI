@@ -30,7 +30,7 @@ namespace PSIShoppingEngine.Forms
         {
             DataGridViewComboBoxColumn TypeCol = new DataGridViewComboBoxColumn();
             TypeCol.Name = "Item Type";
-            TypeCol.DataSource = DbHelper.SingleColumSelection("SELECT type_name FROM types", "type_name");  
+            TypeCol.DataSource = DbHelper.SingleColumSelection("USE heroku_1144b6fe5f570ba; SELECT type_name FROM types", "type_name");  
             ReceiptDataGrid.Columns.Add(TypeCol);
 
             
@@ -62,7 +62,7 @@ namespace PSIShoppingEngine.Forms
                 DataGridViewComboBoxCell itemNameBoxColumn = ReceiptDataGrid.Rows[cell.RowIndex].Cells[cell.ColumnIndex - 1] as DataGridViewComboBoxCell;
                 ReceiptDataGrid.Rows[cell.RowIndex].Cells[0].Value = "";
 
-              itemNameBoxColumn.DataSource = DbHelper.SingleColumSelection("SELECT product_name FROM products JOIN types USING(type_id) WHERE type_name = \"" + cell.EditedFormattedValue + "\"" , "product_name");
+              itemNameBoxColumn.DataSource = DbHelper.SingleColumSelection("USE heroku_1144b6fe5f570ba; SELECT product_name FROM products JOIN types USING(type_id) WHERE type_name = \"" + cell.EditedFormattedValue + "\"" , "product_name");
 
             }
 

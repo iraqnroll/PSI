@@ -17,6 +17,19 @@ namespace PSIShoppingEngine.Forms
 {
     public partial class UserForm : Form
     {
+        public struct ShopShort 
+        {
+            public string ShopName { get; set; }
+            public int shopID { get; set; }
+
+        }
+
+        public struct ItemShort 
+        {
+            public string ItemName { get; set; }
+            public int ItemID { get; set; }
+
+        }
         public struct Shop
         {
             public string ShopName { get; set; }

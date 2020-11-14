@@ -26,7 +26,7 @@ namespace PSIShoppingEngine.Forms
 
         private void NewReceipt_Load(object sender, EventArgs e)
         {
-            shopNameComboBox.DataSource = DbHelper.SingleColumSelection("SELECT shop_name FROM shops", "shop_name");
+            shopNameComboBox.DataSource = DbHelper.SingleColumSelection("USE heroku_1144b6fe5f570ba; SELECT shop_name FROM shops", "shop_name");
 
             if (OCR)
             {
@@ -43,7 +43,7 @@ namespace PSIShoppingEngine.Forms
                 DataGridViewComboBoxColumn TypeCol = new DataGridViewComboBoxColumn();
                 TypeCol.Name = "Item Type";
                 
-                TypeCol.DataSource = DbHelper.SingleColumSelection("SELECT type_name FROM types", "type_name");
+                TypeCol.DataSource = DbHelper.SingleColumSelection("USE heroku_1144b6fe5f570ba; SELECT type_name FROM types", "type_name");
                
                 ReceiptDataGrid.Columns.Add(TypeCol);
 
@@ -57,7 +57,7 @@ namespace PSIShoppingEngine.Forms
 
                 DataGridViewComboBoxColumn TypeCol = new DataGridViewComboBoxColumn();
                 TypeCol.Name = "Item Type";
-                TypeCol.DataSource = DbHelper.SingleColumSelection("SELECT type_name FROM types", "type_name");
+                TypeCol.DataSource = DbHelper.SingleColumSelection("USE heroku_1144b6fe5f570ba; SELECT type_name FROM types", "type_name");
                
                 ReceiptDataGrid.Columns.Add(TypeCol);
 
@@ -68,10 +68,10 @@ namespace PSIShoppingEngine.Forms
         {
 
 
-            string shopId = DbHelper.SingleValueSelection("SELECT shop_id FROM shops WHERE shop_name = \"" + shopNameComboBox.Text + "\"", "shop_id");
-            DbHelper.InsertIntoDB("INSERT INTO receipts(shop_id, receipt_date) VALUES('" + shopId + "','"+ DateTime.Today.ToString("dd/MM/yyyy")+"')");
+            string shopId = DbHelper.SingleValueSelection("USE heroku_1144b6fe5f570ba; SELECT shop_id FROM shops WHERE shop_name = \"" + shopNameComboBox.Text + "\"", "shop_id");
+            DbHelper.InsertIntoDB("USE heroku_1144b6fe5f570ba; INSERT INTO receipts(shop_id, receipt_date) VALUES('" + shopId + "','"+ DateTime.Today.ToString("yyyy-MM-dd") +"')");
 
-            string receiptId = DbHelper.SingleValueSelection("SELECT receipt_id FROM receipts ORDER BY  receipt_id DESC LIMIT 1", "receipt_id");
+            string receiptId = DbHelper.SingleValueSelection("USE heroku_1144b6fe5f570ba; SELECT receipt_id FROM receipts ORDER BY  receipt_id DESC LIMIT 1", "receipt_id");
 
 
             
@@ -84,9 +84,9 @@ namespace PSIShoppingEngine.Forms
                 if (row.Cells["ItemPrice"].Value != null)
                 {
 
-                    string productId = DbHelper.SingleValueSelection("SELECT product_id FROM products WHERE product_name = \""+ (string)row.Cells["ItemName"].Value +"\"", "product_id");
+                    string productId = DbHelper.SingleValueSelection("USE heroku_1144b6fe5f570ba; SELECT product_id FROM products WHERE product_name = \"" + (string)row.Cells["ItemName"].Value +"\"", "product_id");
 
-                    DbHelper.InsertIntoDB("INSERT INTO "+ shopNameComboBox.Text + " (product_id, date, price, receipt_id) VALUES('" + productId + "','" + DateTime.Today.ToString(@"dd\/MM\/yyyy") + "','"+ (string)row.Cells["ItemPrice"].Value +"','"+receiptId+"')");
+                    DbHelper.InsertIntoDB("USE heroku_1144b6fe5f570ba; INSERT INTO " + shopNameComboBox.Text + " (product_id, date, price, receipt_id) VALUES('" + productId + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "','"+ (string)row.Cells["ItemPrice"].Value +"','"+receiptId+"')");
                 }
             }
             
@@ -118,7 +118,7 @@ namespace PSIShoppingEngine.Forms
                 DataGridViewComboBoxCell itemNameBoxColumn = ReceiptDataGrid.Rows[cell.RowIndex].Cells[cell.ColumnIndex - 1] as DataGridViewComboBoxCell;
                 ReceiptDataGrid.Rows[cell.RowIndex].Cells[1].Value = "";
 
-              itemNameBoxColumn.DataSource = DbHelper.SingleColumSelection("SELECT product_name FROM products JOIN types USING(type_id) WHERE type_name = \"" + cell.EditedFormattedValue + "\"" , "product_name");
+              itemNameBoxColumn.DataSource = DbHelper.SingleColumSelection("USE heroku_1144b6fe5f570ba; SELECT product_name FROM products JOIN types USING(type_id) WHERE type_name = \"" + cell.EditedFormattedValue + "\"" , "product_name");
 
             }
 

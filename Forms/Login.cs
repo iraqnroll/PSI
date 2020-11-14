@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using PSIShoppingEngine.Classes;
 using PSIShoppingEngine.Forms;
 using System.Data.SQLite;
+using MySql.Data.MySqlClient;
 
 namespace PSIShoppingEngine.Forms
 {
@@ -72,11 +73,11 @@ namespace PSIShoppingEngine.Forms
 
         private void Sign_In_Button_Click(object sender, EventArgs e)     //  login logic
         {
-            string sqlQuery = "SELECT * FROM users WHERE username = @userName AND password = @password";
-            SQLiteCommand command = new SQLiteCommand(sqlQuery, DbHelper.myConnection);
-            command.Parameters.Add(new SQLiteParameter("@username", userName));
-            command.Parameters.Add(new SQLiteParameter("@password", userPassword));
-            SQLiteDataReader dr = command.ExecuteReader();
+            string sqlQuery = "USE heroku_1144b6fe5f570ba; SELECT * FROM users WHERE username = @userName AND password = @password";
+            MySqlCommand command = new MySqlCommand(sqlQuery, DbHelper.myConnection);
+            command.Parameters.Add(new MySqlParameter("@username", userName));
+            command.Parameters.Add(new MySqlParameter("@password", userPassword));
+            MySqlDataReader dr = command.ExecuteReader();
 
             if (dr.HasRows)
             {

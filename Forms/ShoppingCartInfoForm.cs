@@ -46,6 +46,7 @@ namespace PSIShoppingEngine.Forms
 
                 foreach (Item item in cart)
                 {
+
                     DataRow a = table.NewRow();
                     a["Name"] = item.ItemName;
                     a["IKI"] = lowestPrice(item.ItemName, "iki");
@@ -53,17 +54,29 @@ namespace PSIShoppingEngine.Forms
                     a["LIDL"] = lowestPrice(item.ItemName, "lidl");
                     a["NORFA"] = lowestPrice(item.ItemName, "norfa");
                     a["RIMI"] = lowestPrice(item.ItemName, "rimi");
-                    string query = @"SELECT productname, MIN(price) FROM
-                    (SELECT 'IKI' AS productname, price, MAX (date) FROM iki JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+
+                    string query = @"USE heroku_1144b6fe5f570ba; SELECT price, productname FROM
+                    ( SELECT 'IKI' AS productname, price, MAX(date) FROM iki JOIN products USING(product_id) WHERE product_name = '"+ item.ItemName + @"'
                     UNION     
-                    SELECT 'NORFA' AS productname, price, MAX (date) FROM norfa JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    SELECT 'NORFA' AS productname, price, MAX(date) FROM norfa JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
                     UNION
-                    SELECT 'MAXIMA' AS productname, price, MAX (date) FROM maxima JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    SELECT 'MAXIMA' AS productname, price, MAX(date) FROM maxima JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
                     UNION
-                    SELECT 'LIDL' AS productname, price, MAX (date) FROM lidl JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    SELECT 'LIDL' AS productname, price, MAX(date) FROM lidl JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
                     UNION
-                    SELECT 'RIMI' AS productname, price, MAX (date) FROM rimi JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"') WHERE price NOTNULL";
+                    SELECT 'RIMI' AS productname, price, MAX(date) FROM rimi JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"') AS test
+                    WHERE price = ( SELECT MIN(price) FROM
+                    ( SELECT 'IKI' AS productname, price, MAX(date) FROM iki JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    UNION     
+                    SELECT 'NORFA' AS productname, price, MAX(date) FROM norfa JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    UNION
+                    SELECT 'MAXIMA' AS productname, price, MAX(date) FROM maxima JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    UNION
+                    SELECT 'LIDL' AS productname, price, MAX(date) FROM lidl JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"'
+                    UNION
+                    SELECT 'RIMI' AS productname, price, MAX(date) FROM rimi JOIN products USING(product_id) WHERE product_name = '" + item.ItemName + @"') AS T)";
                     a["BEST STORE"] = DbHelper.SingleValueSelection(query,"productname");
+
                     table.Rows.Add(a);
                 }
                 DataRow sum = table.NewRow();
@@ -89,11 +102,11 @@ namespace PSIShoppingEngine.Forms
         }
         private double lowestPrice (string itemname, string storename)
         {
-            String temp = DbHelper.SingleValueSelection("SELECT price, MAX (date) FROM '" + storename + "' JOIN products USING (product_id) WHERE product_name = '" + itemname + "'", "price");
+            String temp = DbHelper.SingleValueSelection("USE heroku_1144b6fe5f570ba; SELECT price, MAX(date) FROM " + storename + " JOIN products USING (product_id) WHERE product_name = '" + itemname + "'", "price");
             if (temp == "")
                 return 0;
             else
-                return Double.Parse(temp.Replace(".", ","));
+                return Double.Parse(temp);
         }
 
     }
