@@ -20,60 +20,60 @@ namespace PSIShoppingEngine.Controllers
         }
 
         [HttpGet("All")]
-        public  IActionResult GetAllItems()
+        public async Task<IActionResult> GetAllItems()
         {
-            return Ok(_itemService.GetAllItems());
+            return Ok(await _itemService.GetAllItems());
         }
 
         [HttpPost]
-        public IActionResult AddItem(Item newItem)
+        public async Task<IActionResult> AddItem(Item newItem)
         {
-            return Ok(_itemService.AddItem(newItem));
+            return Ok(await _itemService.AddItem(newItem));
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetItemById(int id)
+        public async Task<IActionResult> GetItemById(int id)
         {
-            var response = _itemService.GetItemById(id);
+            var serviceResponse = await _itemService.GetItemById(id);
             
-            if(response == null) 
+            if(serviceResponse.Success == false) 
             {
-                return NotFound();
+                return NotFound(serviceResponse);
             }
             else
             {
-                return Ok(response);
+                return Ok(serviceResponse);
             }
             
         }
 
         [HttpPut]
-        public IActionResult UpdateItem(Item newItem)
+        public async Task<IActionResult> UpdateItem(Item newItem)
         {
-            var response = _itemService.UpdateItem(newItem);
+            var serviceResponse = await _itemService.UpdateItem(newItem);
 
-            if (response == null)
+            if (serviceResponse == null)
             {
-                return NotFound();
+                return NotFound(serviceResponse);
             }
             else
             {
-                return Ok(response);
+                return Ok(serviceResponse);
             }
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteItem(int id)
+        public async Task<IActionResult> DeleteItem(int id)
         {
-            var response = _itemService.DeleteItem(id);
+            var serviceResponse = await _itemService.DeleteItem(id);
 
-            if (response == null)
+            if (serviceResponse == null)
             {
-                return NotFound();
+                return NotFound(serviceResponse);
             }
             else
             {
-                return Ok(response);
+                return Ok(serviceResponse);
             }
         }
 

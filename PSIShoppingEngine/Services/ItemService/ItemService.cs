@@ -1,4 +1,6 @@
-﻿using PSIShoppingEngine.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PSIShoppingEngine.Data;
+using PSIShoppingEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,61 +10,96 @@ namespace PSIShoppingEngine.Services.ItemService
 {
     public class ItemService : IItemService
     {
-        private static readonly List<Item> items = new List<Item> {
-            new Item{Id = 1, Name = "Paukstiena", Type = Models.Type.Mesos_gaminiai},
-            new Item{Id = 2, Name = "Jautiena", Type = Models.Type.Mesos_gaminiai},
-            new Item{Id = 3, Name = "Desreles", Type = Models.Type.Mesos_gaminiai}
-        };
+       
 
-        public List<Item> AddItem(Item newItem)
+        private readonly DataContext _context;
+
+        public ItemService(DataContext context)
         {
-            newItem.Id = items.Select(x => x.Id).Max() + 1;
-            items.Add(newItem);
-
-            return items;
+            _context = context;
         }
 
-        public List<Item> DeleteItem(int id)
+        public async Task<ServiceResponse<List<Item>>> AddItem(Item newItem)
         {
-            var item = items.FirstOrDefault(x => x.Id == id);
+            ServiceResponse<List<Item>> serviceResponse = new ServiceResponse<List<Item>>();
 
-            if (item == null)
+            await _context.Items.AddAsync(new Item {Name = newItem.Name, Type = newItem.Type });
+            await _context.SaveChangesAsync();
+            List<Item> items = await _context.Items.ToListAsync();
+            serviceResponse.Data = items;
+
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<Item>>> DeleteItem(int id)
+        {
+            ServiceResponse<List<Item>> serviceResponse = new ServiceResponse<List<Item>>();
+
+            var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == id);
+            if(item == null)
             {
-                return null;
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Item not found";
+                
             }
             else
             {
-                items.Remove(item);
+                _context.Items.Remove(item);
+                await _context.SaveChangesAsync();
+                serviceResponse.Data = await _context.Items.ToListAsync();
             }
 
-            return items;
-
+            return serviceResponse;
         }
 
-        public List<Item> GetAllItems()
+        public async Task<ServiceResponse<List<Item>>> GetAllItems()
         {
-            return items;
-        }
+            ServiceResponse<List<Item>> serviceResponse = new ServiceResponse<List<Item>>();
+            List<Item> items = await _context.Items.ToListAsync();
+            serviceResponse.Data = items;
 
-        public Item GetItemById(int id)
-        {
-            return items.FirstOrDefault(x => x.Id == id);
-        }
+            return serviceResponse;
 
-        public Item UpdateItem(Item newItem)
+        }
+        public async Task<ServiceResponse<Item>> GetItemById(int id)
         {
-            var item = items.FirstOrDefault(x => x.Id == newItem.Id);
+            ServiceResponse<Item> serviceResponse = new ServiceResponse<Item>();
+
+            var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == id);
             if(item == null)
             {
-                return item;
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Item not found";
+                return serviceResponse;
+            }
+
+            serviceResponse.Data = item;
+            return serviceResponse;
+
+        }
+
+        public async Task<ServiceResponse<Item>> UpdateItem(Item newItem)
+        {
+            ServiceResponse<Item> serviceResponse = new ServiceResponse<Item>();
+            var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == newItem.Id);
+
+            if(item == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Item not found";
+
             }
             else
             {
                 item.Name = newItem.Name;
                 item.Type = newItem.Type;
+                 _context.Items.Update(item);
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Data = item;
             }
 
-            return item;
+            return serviceResponse;
         }
     }
 }

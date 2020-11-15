@@ -8,11 +8,11 @@ namespace PSIShoppingEngine.Services.ItemService
 {
     public interface IItemService
     {
-        List<Item> GetAllItems();
-        Item GetItemById(int id);
-        List<Item> AddItem(Item newItem);
-        List<Item> DeleteItem(int id);
-        Item UpdateItem(Item newItem);
+        Task<ServiceResponse<List<Item>>> GetAllItems();
+        Task<ServiceResponse<Item>> GetItemById(int id);
+        Task<ServiceResponse<List<Item>>> AddItem(Item newItem);
+        Task<ServiceResponse<List<Item>>> DeleteItem(int id);
+        Task<ServiceResponse<Item>> UpdateItem(Item newItem);
 
     }
 }
