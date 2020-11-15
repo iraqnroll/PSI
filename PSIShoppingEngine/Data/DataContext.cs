@@ -12,5 +12,7 @@ namespace PSIShoppingEngine.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<Item> Items { get; set; }
+        public DbSet<User> Users { get; set; }
+
     }
 }
