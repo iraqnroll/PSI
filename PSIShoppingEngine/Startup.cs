@@ -34,6 +34,7 @@ namespace PSIShoppingEngine
             });
             services.AddControllers();
             services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
