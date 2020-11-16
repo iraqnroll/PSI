@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PSIShoppingEngine.Data;
 
 namespace PSIShoppingEngine.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201116154421_ItemPrice")]
+    partial class ItemPrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,38 +48,11 @@ namespace PSIShoppingEngine.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReceiptId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
 
-                    b.HasIndex("ReceiptId");
-
                     b.ToTable("ItemPrices");
-                });
-
-            modelBuilder.Entity("PSIShoppingEngine.Models.Receipt", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Shop")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Receipts");
                 });
 
             modelBuilder.Entity("PSIShoppingEngine.Models.User", b =>
@@ -105,21 +80,6 @@ namespace PSIShoppingEngine.Migrations
                     b.HasOne("PSIShoppingEngine.Models.Item", "Item")
                         .WithMany("ItemPrices")
                         .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PSIShoppingEngine.Models.Receipt", "Receipt")
-                        .WithMany("ItemPrices")
-                        .HasForeignKey("ReceiptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PSIShoppingEngine.Models.Receipt", b =>
-                {
-                    b.HasOne("PSIShoppingEngine.Models.User", "User")
-                        .WithMany("Receipts")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
