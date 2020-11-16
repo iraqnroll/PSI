@@ -1,4 +1,5 @@
-﻿using PSIShoppingEngine.Models;
+﻿using PSIShoppingEngine.DTOs;
+using PSIShoppingEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,11 @@ namespace PSIShoppingEngine.Services.ItemService
 {
     public interface IItemService
     {
-        Task<ServiceResponse<List<Item>>> GetAllItems();
-        Task<ServiceResponse<Item>> GetItemById(int id);
-        Task<ServiceResponse<List<Item>>> AddItem(Item newItem);
-        Task<ServiceResponse<List<Item>>> DeleteItem(int id);
-        Task<ServiceResponse<Item>> UpdateItem(Item newItem);
+        Task<ServiceResponse<List<GetItemDto>>> GetAllItems();
+        Task<ServiceResponse<GetItemDto>> GetItemById(int id);
+        Task<ServiceResponse<List<GetItemDto>>> AddItem(AddItemDto newItem);
+        Task<ServiceResponse<List<GetItemDto>>> DeleteItem(int id);
+        Task<ServiceResponse<GetItemDto>> UpdateItem(AddItemDto newItem);
 
     }
 }

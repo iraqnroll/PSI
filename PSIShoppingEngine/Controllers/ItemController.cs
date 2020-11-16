@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PSIShoppingEngine.DTOs;
 using PSIShoppingEngine.Models;
 using PSIShoppingEngine.Services.ItemService;
 using System;
@@ -28,7 +29,7 @@ namespace PSIShoppingEngine.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddItem(Item newItem)
+        public async Task<IActionResult> AddItem(AddItemDto newItem)
         {
             return Ok(await _itemService.AddItem(newItem));
         }
@@ -50,7 +51,7 @@ namespace PSIShoppingEngine.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateItem(Item newItem)
+        public async Task<IActionResult> UpdateItem(AddItemDto newItem)
         {
             var serviceResponse = await _itemService.UpdateItem(newItem);
 
