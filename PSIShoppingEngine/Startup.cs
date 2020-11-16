@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PSIShoppingEngine.Data;
+using PSIShoppingEngine.Services.ItemPriceService;
 using PSIShoppingEngine.Services.ItemService;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,7 @@ namespace PSIShoppingEngine
                     ValidateAudience = false,
                 };
             });
+            services.AddScoped<IItemPriceService, ItemPriceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

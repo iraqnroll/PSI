@@ -15,7 +15,8 @@ namespace PSIShoppingEngine
         {
             CreateMap<Item, GetItemDto>();
             CreateMap<AddItemDto, Item>();
-
+            CreateMap<ItemPrice, GetItemPriceDto>();
+            CreateMap<AddItemPriceDto, ItemPrice>();
         }   
     }
 }

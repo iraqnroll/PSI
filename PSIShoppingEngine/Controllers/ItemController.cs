@@ -55,7 +55,7 @@ namespace PSIShoppingEngine.Controllers
         {
             var serviceResponse = await _itemService.UpdateItem(newItem);
 
-            if (serviceResponse == null)
+            if (serviceResponse.Success == false)
             {
                 return NotFound(serviceResponse);
             }
@@ -70,7 +70,7 @@ namespace PSIShoppingEngine.Controllers
         {
             var serviceResponse = await _itemService.DeleteItem(id);
 
-            if (serviceResponse == null)
+            if (serviceResponse.Success == false)
             {
                 return NotFound(serviceResponse);
             }

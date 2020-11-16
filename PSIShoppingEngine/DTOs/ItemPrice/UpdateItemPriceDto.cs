@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PSIShoppingEngine.DTOs
+namespace PSIShoppingEngine.DTOs.ItemPrice
 {
-    public class GetItemPriceDto
+    public class UpdateItemPriceDto
     {
         public int Id { get; set; }
-        public GetItemDto Item { get; set; }
+        public int ItemId { get; set; }
         public double Price { get; set; }
         public int ReceiptId { get; set; }
-
     }
 }
