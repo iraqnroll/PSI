@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PSIShoppingEngine.Data;
+using PSIShoppingEngine.DTOs;
 using PSIShoppingEngine.Models;
 using System;
 using System.Collections.Generic;
@@ -13,27 +15,29 @@ namespace PSIShoppingEngine.Services.ItemService
        
 
         private readonly DataContext _context;
-
-        public ItemService(DataContext context)
+        private readonly IMapper _mapper;
+        public ItemService(IMapper mapper, DataContext context)
         {
+            _mapper = mapper;
             _context = context;
+            
         }
 
-        public async Task<ServiceResponse<List<Item>>> AddItem(Item newItem)
+        public async Task<ServiceResponse<List<GetItemDto>>> AddItem(AddItemDto newItem)
         {
-            ServiceResponse<List<Item>> serviceResponse = new ServiceResponse<List<Item>>();
+            ServiceResponse<List<GetItemDto>> serviceResponse = new ServiceResponse<List<GetItemDto>>();
 
-            await _context.Items.AddAsync(new Item {Name = newItem.Name, Type = newItem.Type });
+            await _context.Items.AddAsync(_mapper.Map<Item>(newItem));
             await _context.SaveChangesAsync();
-            List<Item> items = await _context.Items.ToListAsync();
+            List<GetItemDto> items = await (_context.Items.Select(c => _mapper.Map<GetItemDto>(c))).ToListAsync();
             serviceResponse.Data = items;
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Item>>> DeleteItem(int id)
+        public async Task<ServiceResponse<List<GetItemDto>>> DeleteItem(int id)
         {
-            ServiceResponse<List<Item>> serviceResponse = new ServiceResponse<List<Item>>();
+            ServiceResponse<List<GetItemDto>> serviceResponse = new ServiceResponse<List<GetItemDto>>();
 
             var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == id);
             if(item == null)
@@ -46,24 +50,24 @@ namespace PSIShoppingEngine.Services.ItemService
             {
                 _context.Items.Remove(item);
                 await _context.SaveChangesAsync();
-                serviceResponse.Data = await _context.Items.ToListAsync();
+                serviceResponse.Data = await (_context.Items.Select(c => _mapper.Map<GetItemDto>(c))).ToListAsync();
             }
 
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Item>>> GetAllItems()
+        public async Task<ServiceResponse<List<GetItemDto>>> GetAllItems()
         {
-            ServiceResponse<List<Item>> serviceResponse = new ServiceResponse<List<Item>>();
+            ServiceResponse<List<GetItemDto>> serviceResponse = new ServiceResponse<List<GetItemDto>>();
             List<Item> items = await _context.Items.ToListAsync();
-            serviceResponse.Data = items;
+            serviceResponse.Data =await (_context.Items.Select(c => _mapper.Map<GetItemDto>(c))).ToListAsync();
 
             return serviceResponse;
 
         }
-        public async Task<ServiceResponse<Item>> GetItemById(int id)
+        public async Task<ServiceResponse<GetItemDto>> GetItemById(int id)
         {
-            ServiceResponse<Item> serviceResponse = new ServiceResponse<Item>();
+            ServiceResponse<GetItemDto> serviceResponse = new ServiceResponse<GetItemDto>();
 
             var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == id);
             if(item == null)
@@ -73,15 +77,15 @@ namespace PSIShoppingEngine.Services.ItemService
                 return serviceResponse;
             }
 
-            serviceResponse.Data = item;
+            serviceResponse.Data = _mapper.Map<GetItemDto>(item);
             return serviceResponse;
 
         }
 
-        public async Task<ServiceResponse<Item>> UpdateItem(Item newItem)
+        public async Task<ServiceResponse<GetItemDto>> UpdateItem(AddItemDto newItem)
         {
-            ServiceResponse<Item> serviceResponse = new ServiceResponse<Item>();
-            var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == newItem.Id);
+            ServiceResponse<GetItemDto> serviceResponse = new ServiceResponse<GetItemDto>();
+            var item = await _context.Items.FirstOrDefaultAsync(x => x.Id == _mapper.Map<Item>(newItem).Id);
 
             if(item == null)
             {
@@ -96,7 +100,7 @@ namespace PSIShoppingEngine.Services.ItemService
                  _context.Items.Update(item);
                 await _context.SaveChangesAsync();
 
-                serviceResponse.Data = item;
+                serviceResponse.Data = _mapper.Map<GetItemDto>(item);
             }
 
             return serviceResponse;
