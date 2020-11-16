@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PSIShoppingEngine.Models;
 using PSIShoppingEngine.Services.ItemService;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace PSIShoppingEngine.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ItemController : ControllerBase
