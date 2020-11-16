@@ -13,6 +13,7 @@ namespace PSIShoppingEngine.Data
 
         public DbSet<Item> Items { get; set; }
         public DbSet<User> Users { get; set; }
-
+        public DbSet<ItemPrice> ItemPrices { get; set; }
+        public DbSet<Receipt> Receipts { get; set; }
     }
 }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PSIShoppingEngine.Data;
 
 namespace PSIShoppingEngine.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201116155641_Receipts")]
+    partial class Receipts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,12 +72,7 @@ namespace PSIShoppingEngine.Migrations
                     b.Property<int>("Shop")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Receipts");
                 });
@@ -111,15 +108,6 @@ namespace PSIShoppingEngine.Migrations
                     b.HasOne("PSIShoppingEngine.Models.Receipt", "Receipt")
                         .WithMany("ItemPrices")
                         .HasForeignKey("ReceiptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PSIShoppingEngine.Models.Receipt", b =>
-                {
-                    b.HasOne("PSIShoppingEngine.Models.User", "User")
-                        .WithMany("Receipts")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
