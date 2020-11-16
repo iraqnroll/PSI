@@ -60,7 +60,7 @@ namespace PSIShoppingEngine.Services.ItemService
         {
             ServiceResponse<List<GetItemDto>> serviceResponse = new ServiceResponse<List<GetItemDto>>();
             List<Item> items = await _context.Items.ToListAsync();
-            serviceResponse.Data =await (_context.Items.Select(c => _mapper.Map<GetItemDto>(c))).ToListAsync();
+            serviceResponse.Data = await (_context.Items.Select(c => _mapper.Map<GetItemDto>(c))).ToListAsync();
 
             return serviceResponse;
 
