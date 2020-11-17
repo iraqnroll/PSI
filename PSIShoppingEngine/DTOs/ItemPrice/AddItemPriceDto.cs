@@ -9,7 +9,7 @@ namespace PSIShoppingEngine.DTOs
     public class AddItemPriceDto
     {
         public int ItemId { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }
         public int ReceiptId { get; set; }
 
     }

@@ -11,7 +11,7 @@ namespace PSIShoppingEngine.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Type Types { get; set; }
+        public Type Type { get; set; }
 
     }
 }
