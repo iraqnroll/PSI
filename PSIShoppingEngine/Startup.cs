@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using PSIShoppingEngine.Data;
 using PSIShoppingEngine.Services.ItemPriceService;
 using PSIShoppingEngine.Services.ItemService;
+using PSIShoppingEngine.Services.ReceiptService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,7 @@ namespace PSIShoppingEngine
                 };
             });
             services.AddScoped<IItemPriceService, ItemPriceService>();
+            services.AddScoped<IReceiptService, ReceiptService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
