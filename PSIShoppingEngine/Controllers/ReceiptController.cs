@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PSIShoppingEngine.DTOs.Reciept;
+using PSIShoppingEngine.Models;
 using PSIShoppingEngine.Services.ReceiptService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PSIShoppingEngine.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ReceiptController : ControllerBase
@@ -60,29 +63,29 @@ namespace PSIShoppingEngine.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> AddReceipt(int id)
         {
-            var serviceResponse = await _receiptService.DeleteReceipt(id);
+            ServiceResponse<List<GetReceiptDto>> response = await _receiptService.DeleteReceipt(id);
 
-            if (serviceResponse.Success == false)
+            if (response.Data == null)
             {
-                return NotFound(serviceResponse);
+                return NotFound(response);
             }
             else
             {
-                return Ok(serviceResponse);
+                return Ok(response);
             }
         }
         [HttpPut]
         public async Task<IActionResult> UpdateReceipt(UpdateReceiptDto newReceipt)
         {
-            var serviceResponse = await _receiptService.UpdateReceipt(newReceipt);
+             ServiceResponse<GetReceiptDto> response = await _receiptService.UpdateReceipt(newReceipt);
 
-            if (serviceResponse.Success == false)
+            if (response.Data == null)
             {
-                return NotFound(serviceResponse);
+                return NotFound(response);
             }
             else
             {
-                return Ok(serviceResponse);
+                return Ok(response);
             }
         }
     }
