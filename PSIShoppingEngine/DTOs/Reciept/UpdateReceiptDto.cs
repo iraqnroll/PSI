@@ -10,6 +10,5 @@ namespace PSIShoppingEngine.DTOs.Reciept
     {
         public int Id { get; set; }
         public Shop Shop { get; set; }
-       // public int UserId { get; set; }
     }
 }
