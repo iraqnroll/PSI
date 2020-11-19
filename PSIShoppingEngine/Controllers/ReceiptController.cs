@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PSIShoppingEngine.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User,Admin")]
     [ApiController]
     [Route("[controller]")]
     public class ReceiptController : ControllerBase

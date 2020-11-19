@@ -26,12 +26,14 @@ namespace PSIShoppingEngine.Services.ReceiptService
         }
 
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        private string GetUserRole() => _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
         async public Task<ServiceResponse<List<GetReceiptDto>>> AddReceipt(AddReceiptDto newReceipt)
         {
             ServiceResponse<List<GetReceiptDto>> serviceResponse = new ServiceResponse<List<GetReceiptDto>>();
             
             var receipt = _mapper.Map<Receipt>(newReceipt);
+            receipt.UserId = GetUserId();
             await _context.Receipts.AddAsync(receipt);
             await _context.SaveChangesAsync();
             serviceResponse.Data = (_context.Receipts.Where(c => c.User.Id == GetUserId()).Select(c => _mapper.Map<GetReceiptDto>(c))).ToList();
@@ -72,25 +74,12 @@ namespace PSIShoppingEngine.Services.ReceiptService
         async public Task<ServiceResponse<List<GetReceiptDto>>> GetAllReceipts()
         {
             ServiceResponse<List<GetReceiptDto>> serviceResponse = new ServiceResponse<List<GetReceiptDto>>();
-            try
-            {
-                var receipts = await _context.Receipts.Include(x => x.ItemPrices).ThenInclude(xs => xs.Item).Where(c => c.User.Id == GetUserId()).ToListAsync();
-                if (receipts != null)
-                {
-                    serviceResponse.Data = receipts.Select(x => _mapper.Map<GetReceiptDto>(x)).ToList();
-                }
-                else
-                {
-                    serviceResponse.Success = false;
-                    serviceResponse.Message = "Receipts not found.";
-                }
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
-            }
-            return serviceResponse;
+            var receipts = 
+                GetUserRole().Equals("Admin") ?
+                await _context.Receipts.Include(x => x.ItemPrices).ThenInclude(xs => xs.Item).ToListAsync() :
+                await _context.Receipts.Include(x => x.ItemPrices).ThenInclude(xs => xs.Item).Where(c => c.User.Id == GetUserId()).ToListAsync();
+            serviceResponse.Data = receipts.Select(x => _mapper.Map<GetReceiptDto>(x)).ToList();
+            return serviceResponse; 
         }
        
         async public Task<ServiceResponse<GetReceiptDto>> GetReceiptById(int id)
