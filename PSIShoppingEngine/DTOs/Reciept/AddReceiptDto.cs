@@ -9,6 +9,5 @@ namespace PSIShoppingEngine.DTOs.Reciept
     public class AddReceiptDto
     {
         public Shop Shop { get; set; }
-        public int UserId { get; set; }
     }
 }

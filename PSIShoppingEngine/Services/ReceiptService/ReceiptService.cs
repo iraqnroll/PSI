@@ -32,6 +32,7 @@ namespace PSIShoppingEngine.Services.ReceiptService
             ServiceResponse<List<GetReceiptDto>> serviceResponse = new ServiceResponse<List<GetReceiptDto>>();
             
             var receipt = _mapper.Map<Receipt>(newReceipt);
+            receipt.UserId = GetUserId();
             await _context.Receipts.AddAsync(receipt);
             await _context.SaveChangesAsync();
             serviceResponse.Data = (_context.Receipts.Where(c => c.User.Id == GetUserId()).Select(c => _mapper.Map<GetReceiptDto>(c))).ToList();
