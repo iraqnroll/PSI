@@ -49,7 +49,8 @@ namespace PSIShoppingEngine.Services.ReceiptService
                 var receipt = await _context.Receipts.FirstOrDefaultAsync(x => x.Id == id && x.User.Id == GetUserId());
                 if (receipt != null)
                 {
-                    _context.Receipts.Remove(receipt);
+                    receipt.UserId = 1;
+                    _context.Receipts.Update(receipt);
                     await _context.SaveChangesAsync();
 
                     serviceResponse.Data = (_context.Receipts.Where(c => c.User.Id ==  GetUserId())
