@@ -2,6 +2,7 @@
 using PSIShoppingEngine.Data;
 using PSIShoppingEngine.DTOs;
 using PSIShoppingEngine.DTOs.Reciept;
+using PSIShoppingEngine.DTOs.User;
 using PSIShoppingEngine.Models;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace PSIShoppingEngine
             CreateMap<AddItemPriceDto, ItemPrice>();
             CreateMap<Receipt, GetReceiptDto>();
             CreateMap<AddReceiptDto, Receipt>();
+            CreateMap<GetUserDto, User>();
+            CreateMap<User, GetUserDto>();
         }   
     }
 }

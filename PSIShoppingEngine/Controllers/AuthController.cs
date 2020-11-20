@@ -44,6 +44,35 @@ namespace PSIShoppingEngine.Controllers
             }
             return Ok(response);
         }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser()
+        {
+            var serviceResponse = await _authRepo.DeleteUser();
+
+            if (serviceResponse.Success == false)
+            {
+                return NotFound(serviceResponse);
+            }
+            else
+            {
+                return Ok(serviceResponse);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(UserLoginDto newUser)
+        {
+            var serviceResponse = await _authRepo.UpdateUser(newUser);
+
+            if (serviceResponse.Success == false)
+            {
+                return NotFound(serviceResponse);
+            }
+            else
+            {
+                return Ok(serviceResponse);
+            }
+        }
 
     }
 }
