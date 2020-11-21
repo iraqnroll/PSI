@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
+using System.Text.RegularExpressions;
 
 namespace PSIShoppingEngine.Data
 {
@@ -52,9 +53,18 @@ namespace PSIShoppingEngine.Data
             return response;
         }
 
-        public async Task<ServiceResponse<int>> Register(User user, string password)
+        public async Task<ServiceResponse<int>> Register(User user, string password, string email)
         {
             ServiceResponse<int> response = new ServiceResponse<int>();
+
+            bool isEmail = Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+
+            if(!isEmail)
+            {
+                response.Success = false;
+                response.Message = "Invalid email.";
+                return response;
+            }
 
             if (await UserExists(user.Username))
             {
@@ -67,6 +77,7 @@ namespace PSIShoppingEngine.Data
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            user.Email = email;
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -149,12 +160,28 @@ namespace PSIShoppingEngine.Data
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetUserDto>> UpdateUser(UserLoginDto newUser)
+        public async Task<ServiceResponse<GetUserDto>> UpdateUser(UserRegisterDto newUser)
         {
             ServiceResponse<GetUserDto> serviceResponse = new ServiceResponse<GetUserDto>();
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == GetUserId());
 
-            if(user.Username == newUser.Username)
+            bool isEmail = Regex.IsMatch(newUser.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+
+            if (!isEmail)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Invalid email.";
+                return serviceResponse;
+            }
+
+            if (user.Email == newUser.Email)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Same email entered.";
+                return serviceResponse;
+            }
+
+            if (user.Username == newUser.Username)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = "Same username entered.";
@@ -168,7 +195,14 @@ namespace PSIShoppingEngine.Data
                 return serviceResponse;
             }
 
-            if(VerifyPasswordHash(newUser.Password, user.PasswordHash, user.PasswordSalt))
+            if (await _context.Users.AnyAsync(x => x.Email == newUser.Email))
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "A user with such email already exists.";
+                return serviceResponse;
+            }
+
+            if (VerifyPasswordHash(newUser.Password, user.PasswordHash, user.PasswordSalt))
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = "Same password entered.";
@@ -176,6 +210,7 @@ namespace PSIShoppingEngine.Data
             }
           
             user.Username = newUser.Username;
+            user.Email = newUser.Email;
             CreatePasswordHash(newUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             user.PasswordHash = passwordHash;

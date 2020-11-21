@@ -9,9 +9,9 @@ namespace PSIShoppingEngine.Data
 {
     public interface IAuthRepository
     {
-        Task<ServiceResponse<int>> Register(User user, string password);
+        Task<ServiceResponse<int>> Register(User user, string password, string email);
         Task<ServiceResponse<string>> Login(string username, string password);
-        Task<ServiceResponse<GetUserDto>> UpdateUser(UserLoginDto newUser);
+        Task<ServiceResponse<GetUserDto>> UpdateUser(UserRegisterDto newUser);
         Task<ServiceResponse<List<GetUserDto>>> DeleteUser();
         Task<bool> UserExists(string username);
     }

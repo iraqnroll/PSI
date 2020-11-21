@@ -23,7 +23,7 @@ namespace PSIShoppingEngine.Controllers
         public async Task<IActionResult> Register(UserRegisterDto request)
         {
             ServiceResponse<int> response = await _authRepo.Register(
-                new User { Username = request.Username }, request.Password
+                new User { Username = request.Username}, request.Password, request.Email
             );
             if (!response.Success)
             {
@@ -60,7 +60,7 @@ namespace PSIShoppingEngine.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UserLoginDto newUser)
+        public async Task<IActionResult> UpdateUser(UserRegisterDto newUser)
         {
             var serviceResponse = await _authRepo.UpdateUser(newUser);
 
