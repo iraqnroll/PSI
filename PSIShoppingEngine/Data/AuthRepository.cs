@@ -153,23 +153,37 @@ namespace PSIShoppingEngine.Data
         {
             ServiceResponse<GetUserDto> serviceResponse = new ServiceResponse<GetUserDto>();
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == GetUserId());
-            if(user.Username != newUser.Username && !VerifyPasswordHash(newUser.Password, user.PasswordHash, user.PasswordSalt))
-            {
-                user.Username = newUser.Username;
-                CreatePasswordHash(newUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-                user.PasswordHash = passwordHash;
-                user.PasswordSalt = passwordSalt;
-
-                _context.Users.Update(user);
-                await _context.SaveChangesAsync();
-                serviceResponse.Data = _mapper.Map<GetUserDto>(user);
-            }
-            else
+            if(user.Username == newUser.Username)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Same username or password entered. Try again.";
+                serviceResponse.Message = "Same username entered.";
+                return serviceResponse;
             }
+             
+            if(await _context.Users.AnyAsync(x => x.Username == newUser.Username))
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "A user with such username already exists.";
+                return serviceResponse;
+            }
+
+            if(VerifyPasswordHash(newUser.Password, user.PasswordHash, user.PasswordSalt))
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Same password entered.";
+                return serviceResponse;
+            }
+          
+            user.Username = newUser.Username;
+            CreatePasswordHash(newUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            serviceResponse.Data = _mapper.Map<GetUserDto>(user);
             return serviceResponse;
         }
     }
