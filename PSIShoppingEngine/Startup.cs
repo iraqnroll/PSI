@@ -15,6 +15,7 @@ using PSIShoppingEngine.Data;
 using PSIShoppingEngine.Services.ItemPriceService;
 using PSIShoppingEngine.Services.ItemService;
 using PSIShoppingEngine.Services.ReceiptService;
+using PSIShoppingEngine.Services.ShoppingCartService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,7 @@ namespace PSIShoppingEngine
             });
             services.AddScoped<IItemPriceService, ItemPriceService>();
             services.AddScoped<IReceiptService, ReceiptService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
