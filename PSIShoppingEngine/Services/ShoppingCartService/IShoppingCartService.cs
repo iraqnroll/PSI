@@ -13,7 +13,7 @@ namespace PSIShoppingEngine.Services.ShoppingCartService
     {
         Task<ServiceResponse<List<GetItemDto>>> GetItemList(SendShoppingCartDto cart);
         Task<ServiceResponse<List<GetCartPricesDto>>> BestStore(SendShoppingCartDto cart);
-
         Task<ServiceResponse<List<GetCartPricesDto>>> BestStoreCustom(Shop[] filter, SendShoppingCartDto cart);
+        Task<ServiceResponse<List<GetCartPricesDto>>> BestDeal();
     }
 }
