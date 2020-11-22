@@ -23,7 +23,7 @@ namespace PSIShoppingEngine.Controllers
         public async Task<IActionResult> Register(UserRegisterDto request)
         {
             ServiceResponse<int> response = await _authRepo.Register(
-                new User { Username = request.Username }, request.Password
+                new User { Username = request.Username}, request.Password, request.Email
             );
             if (!response.Success)
             {
@@ -43,6 +43,35 @@ namespace PSIShoppingEngine.Controllers
                 return BadRequest(response);
             }
             return Ok(response);
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser()
+        {
+            var serviceResponse = await _authRepo.DeleteUser();
+
+            if (serviceResponse.Success == false)
+            {
+                return NotFound(serviceResponse);
+            }
+            else
+            {
+                return Ok(serviceResponse);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(UserRegisterDto newUser)
+        {
+            var serviceResponse = await _authRepo.UpdateUser(newUser);
+
+            if (serviceResponse.Success == false)
+            {
+                return NotFound(serviceResponse);
+            }
+            else
+            {
+                return Ok(serviceResponse);
+            }
         }
 
     }

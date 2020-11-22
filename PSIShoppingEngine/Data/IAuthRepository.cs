@@ -1,4 +1,5 @@
-﻿using PSIShoppingEngine.Models;
+﻿using PSIShoppingEngine.DTOs.User;
+using PSIShoppingEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,10 @@ namespace PSIShoppingEngine.Data
 {
     public interface IAuthRepository
     {
-        Task<ServiceResponse<int>> Register(User user, string password);
+        Task<ServiceResponse<int>> Register(User user, string password, string email);
         Task<ServiceResponse<string>> Login(string username, string password);
+        Task<ServiceResponse<GetUserDto>> UpdateUser(UserRegisterDto newUser);
+        Task<ServiceResponse<List<GetUserDto>>> DeleteUser();
         Task<bool> UserExists(string username);
     }
 }

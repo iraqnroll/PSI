@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PSIShoppingEngine.DTOs;
 using PSIShoppingEngine.DTOs.ItemPrice;
 using PSIShoppingEngine.Services.ItemPriceService;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PSIShoppingEngine.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles = "User,Admin")]
     [ApiController]
     [Route("[controller]")]
     public class ItemPriceController : ControllerBase

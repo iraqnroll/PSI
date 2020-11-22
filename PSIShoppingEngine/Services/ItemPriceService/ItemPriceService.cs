@@ -8,6 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+
 
 namespace PSIShoppingEngine.Services.ItemPriceService
 {
@@ -15,17 +18,21 @@ namespace PSIShoppingEngine.Services.ItemPriceService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public ItemPriceService(IMapper mapper, DataContext context)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public ItemPriceService(IMapper mapper, DataContext context, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
 
         }
+
+        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        private string GetUserRole() => _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
+
         public async Task<ServiceResponse<List<GetItemPriceDto>>> AddItemPrice(AddItemPriceDto newItemPrice)
         {
             ServiceResponse<List<GetItemPriceDto>> serviceResponse = new ServiceResponse<List<GetItemPriceDto>>();
-
-            
 
             var item =  await _context.Items.FirstOrDefaultAsync(x => x.Id == newItemPrice.ItemId);
             var receipt = await _context.Receipts.FirstOrDefaultAsync(x => x.Id == newItemPrice.ReceiptId);
@@ -45,6 +52,7 @@ namespace PSIShoppingEngine.Services.ItemPriceService
             }
             
             var itemprice = _mapper.Map<ItemPrice>(newItemPrice);
+            itemprice.Receipt.UserId = GetUserId();
 
             await _context.ItemPrices.AddAsync(itemprice);
             await _context.SaveChangesAsync();
@@ -55,7 +63,7 @@ namespace PSIShoppingEngine.Services.ItemPriceService
         public async Task<ServiceResponse<List<GetItemPriceDto>>> DeleteItemPrice(int id)
         {
             ServiceResponse<List<GetItemPriceDto>> serviceResponse = new ServiceResponse<List<GetItemPriceDto>>();
-            var itemPrice = await _context.ItemPrices.FirstOrDefaultAsync(x => x.Id == id);
+            var itemPrice = await _context.ItemPrices.FirstOrDefaultAsync(x => x.Id == id && x.Receipt.UserId == GetUserId());
             if(itemPrice == null)
             {
                 serviceResponse.Success = false;
@@ -72,7 +80,10 @@ namespace PSIShoppingEngine.Services.ItemPriceService
         public async Task<ServiceResponse<List<GetItemPriceDto>>> GetAllItemPrices()
         {
             ServiceResponse<List<GetItemPriceDto>> serviceResponse = new ServiceResponse<List<GetItemPriceDto>>();
-            List<ItemPrice> itemPrices = await _context.ItemPrices.Include(x => x.Item).ToListAsync();
+            List<ItemPrice> itemPrices =
+                GetUserRole().Equals("Admin") ?
+                await _context.ItemPrices.Include(x => x.Item).ToListAsync() :
+                await _context.ItemPrices.Include(x => x.Item).Where(c => c.Receipt.UserId == GetUserId()).ToListAsync();
             serviceResponse.Data = (itemPrices.Select(x => _mapper.Map<GetItemPriceDto>(x))).ToList();
 
             return serviceResponse;
@@ -82,7 +93,7 @@ namespace PSIShoppingEngine.Services.ItemPriceService
         public async Task<ServiceResponse<GetItemPriceDto>> GetItemPriceById(int id)
         {
             ServiceResponse<GetItemPriceDto> serviceResponse = new ServiceResponse<GetItemPriceDto>();
-            var itemPrice = await _context.ItemPrices.Include(x => x.Item).FirstOrDefaultAsync(x => x.Id == id);
+            var itemPrice = await _context.ItemPrices.Include(x => x.Item).FirstOrDefaultAsync(x => x.Id == id && x.Receipt.UserId == GetUserId());
 
             if(itemPrice != null)
             {
@@ -101,7 +112,7 @@ namespace PSIShoppingEngine.Services.ItemPriceService
         {
             ServiceResponse<GetItemPriceDto> serviceResponse = new ServiceResponse<GetItemPriceDto>();
 
-            var itemprice = await _context.ItemPrices.FirstOrDefaultAsync(x => x.Id == newItemPrice.Id);
+            var itemprice = await _context.ItemPrices.FirstOrDefaultAsync(x => x.Id == newItemPrice.Id && x.Receipt.UserId == GetUserId());
 
             if (itemprice == null)
             {
