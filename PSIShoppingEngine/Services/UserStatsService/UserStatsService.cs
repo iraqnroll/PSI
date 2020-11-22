@@ -46,8 +46,17 @@ namespace PSIShoppingEngine.Services.UserStatsService
         async public Task<ServiceResponse<List<GetFreqShopsDto>>> GetFrequentShops()
         {
             ServiceResponse<List<GetFreqShopsDto>> serviceResponse = new ServiceResponse<List<GetFreqShopsDto>>();
-            var Shops = await _context.Receipts.Where(b => b.User.Id == GetUserId()).Select(b => b.Shop).ToListAsync();
-            var DtoShops = Shops.GroupBy(x => x).Select(g => new GetFreqShopsDto {FrequentShop = g.Key, ShopFrequency = g.Count()}).ToList();
+            var ReceiptIDs = await _context.Receipts.Where(b => b.User.Id == GetUserId()).Select(b => b.Id).ToListAsync();
+            var GroupedItemPrices = await _context.ItemPrices.Where(x => ReceiptIDs.Contains((int)x.ReceiptId)).GroupBy(x => x.ReceiptId).Select(g => new {ReceiptId = (int)g.Key, MoneySpent = g.Sum(x => x.Price)}).ToListAsync();
+
+            var Shops = await _context.Receipts.Where(x => ReceiptIDs.Contains((int)x.Id)).Select(g => new {Shop = g.Shop, ReceiptId = g.Id }).ToListAsync();
+            var GroupedShops = Shops.Where(x => Shops.Any(c => c.ReceiptId == x.ReceiptId)).Select(g => new {Shop = g.Shop, ReceiptId = g.ReceiptId, ShopFrequency = Shops.Where(x => g.Shop == x.Shop).Count()});
+
+            var DtoShops = GroupedItemPrices.Join(GroupedShops,
+            price => price.ReceiptId,
+            shop => shop.ReceiptId,
+            (price, shop) => 
+                new GetFreqShopsDto {FrequentShop = shop.Shop, MoneySpent = price.MoneySpent, ShopFrequency = shop.ShopFrequency}).ToList();
 
             serviceResponse.Data = DtoShops;
             return serviceResponse;

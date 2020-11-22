@@ -6,5 +6,6 @@ namespace PSIShoppingEngine.DTOs.UserStats
     {
         public Shop FrequentShop {get; set;}
         public int ShopFrequency {get; set;}
+        public double MoneySpent {get; set;}
     }
 }
