@@ -61,5 +61,14 @@ namespace PSIShoppingEngine.Services.UserStatsService
             serviceResponse.Data = DtoShops;
             return serviceResponse;
         }
+        async public Task<ServiceResponse<List<GetShoppingDatesDto>>> GetShoppingDates()
+        {
+            ServiceResponse<List<GetShoppingDatesDto>> serviceResponse = new ServiceResponse<List<GetShoppingDatesDto>>();
+            var Dates = await _context.Receipts.Where(b => b.User.Id == GetUserId()).Select(g => new {Date = g.Date, ItemPrices = g.ItemPrices, Shop = g.Shop}).ToListAsync();
+            var DtoDates = Dates.GroupBy(x => x.Date).Select(g => new GetShoppingDatesDto { Date = g.Key, AmountBought = g.Sum(x => x.ItemPrices.Count()), ShopsVisited = g.Select(x => x.Shop).ToList()}).ToList();
+            serviceResponse.Data = DtoDates;
+
+            return serviceResponse;
+        }
     }
 }

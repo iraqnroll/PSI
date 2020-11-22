@@ -9,5 +9,6 @@ namespace PSIShoppingEngine.Services.UserStatsService
     {
          Task<ServiceResponse<List<GetFreqItemsDto>>> GetFrequentItems();
          Task<ServiceResponse<List<GetFreqShopsDto>>> GetFrequentShops();
+         Task<ServiceResponse<List<GetShoppingDatesDto>>> GetShoppingDates();
     }
 }

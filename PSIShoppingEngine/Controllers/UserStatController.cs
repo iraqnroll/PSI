@@ -33,5 +33,10 @@ namespace PSIShoppingEngine.Controllers
         {
             return Ok(await _statsService.GetFrequentItems());
         }
+        [HttpGet("Dates")]
+        public async Task<IActionResult> GetShoppingDates()
+        {
+            return Ok(await _statsService.GetShoppingDates());
+        }
     }
 }
