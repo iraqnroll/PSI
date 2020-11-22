@@ -37,9 +37,9 @@ namespace PSIShoppingEngine.Services.UserStatsService
             ServiceResponse<List<GetFreqItemsDto>> serviceResponse = new ServiceResponse<List<GetFreqItemsDto>>();
             
             var ReceiptIDs = await _context.Receipts.Where(b => b.User.Id == GetUserId()).Select(b => b.Id).ToListAsync();
-            var Items = await _context.ItemPrices.Where(b => ReceiptIDs.Contains((int)b.ReceiptId)).Select(b => b.Item).ToListAsync();
+            var Items = await _context.ItemPrices.Where(b => ReceiptIDs.Contains((int)b.ReceiptId)).Select(x => new {x.Item, x.Price}).ToListAsync();
 
-            var DtoItems = Items.GroupBy(x => x).Select(g => new GetFreqItemsDto { FrequentItem = g.Key, ItemFrequency = g.Count()}).ToList();
+            var DtoItems = Items.GroupBy(x => x.Item).Select(g => new GetFreqItemsDto { FrequentItem = _mapper.Map<GetItemDto>(g.Key), ItemFrequency = g.Count(), MoneySpent = g.Sum(x => x.Price)}).ToList();
             serviceResponse.Data = DtoItems;
             return serviceResponse;
         }

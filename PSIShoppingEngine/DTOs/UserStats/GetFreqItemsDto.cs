@@ -4,7 +4,8 @@ namespace PSIShoppingEngine.DTOs.UserStats
 {
     public class GetFreqItemsDto
     {
-        public Item FrequentItem {get; set;}
+        public GetItemDto FrequentItem {get; set;}
         public int ItemFrequency {get; set;}
+        public double MoneySpent {get; set;}
     }
 }
