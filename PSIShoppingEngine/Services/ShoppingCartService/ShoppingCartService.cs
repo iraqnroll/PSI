@@ -27,30 +27,30 @@ namespace PSIShoppingEngine.Services.ShoppingCartService
             ServiceResponse<List<GetItemDto>> serviceResponse = new ServiceResponse<List<GetItemDto>>();
 
             List<GetItemDto> items = new List<GetItemDto>();
-            foreach(var itemId in cart.Cart)
+            foreach (var itemId in cart.Cart)
             {
                 var item = await _context.Items.FirstOrDefaultAsync(a => a.Id == itemId);
                 items.Add(_mapper.Map<GetItemDto>(item));
             }
-            
+
             serviceResponse.Data = items;
             return serviceResponse;
         }
         public async Task<ServiceResponse<List<GetCartPricesDto>>> BestStore(SendShoppingCartDto cart)
         {
-            ServiceResponse < List <GetCartPricesDto >>serviceResponse = new ServiceResponse<List<GetCartPricesDto>>();
+            ServiceResponse<List<GetCartPricesDto>> serviceResponse = new ServiceResponse<List<GetCartPricesDto>>();
             List<GetCartPricesDto> a = new List<GetCartPricesDto>();
             foreach (var itemID in cart.Cart)
             {
                 var info = await (from price in _context.ItemPrices
-                            join rec in _context.Receipts on price.ReceiptId equals rec.Id
-                            select new GetCartPricesDto
-                            {
-                                Id = price.ItemId,
-                                Price = price.Price,
-                                Date = rec.Date,
-                                Shop = rec.Shop
-                            }).OrderByDescending(x => x.Date).FirstOrDefaultAsync( x => x.Id == itemID);
+                                  join rec in _context.Receipts on price.ReceiptId equals rec.Id
+                                  select new GetCartPricesDto
+                                  {
+                                      Id = price.ItemId,
+                                      Price = price.Price,
+                                      Date = rec.Date,
+                                      Shop = rec.Shop
+                                  }).OrderByDescending(x => x.Date).FirstOrDefaultAsync(x => x.Id == itemID);
                 if (info != null)
                 {
                     a.Add(info);
@@ -72,14 +72,14 @@ namespace PSIShoppingEngine.Services.ShoppingCartService
             foreach (var itemID in cart.Cart)
             {
                 var list = (from price in _context.ItemPrices
-                                   join rec in _context.Receipts on price.ReceiptId equals rec.Id
-                                   select new GetCartPricesDto
-                                   {
-                                       Id = price.ItemId,
-                                       Price = price.Price,
-                                       Date = rec.Date,
-                                       Shop = rec.Shop
-                                   });
+                            join rec in _context.Receipts on price.ReceiptId equals rec.Id
+                            select new GetCartPricesDto
+                            {
+                                Id = price.ItemId,
+                                Price = price.Price,
+                                Date = rec.Date,
+                                Shop = rec.Shop
+                            });
                 List<GetCartPricesDto> prices = new List<GetCartPricesDto>();
                 foreach (var shop in filter)
                 {
@@ -98,6 +98,58 @@ namespace PSIShoppingEngine.Services.ShoppingCartService
             serviceResponse.Data = a;
             return serviceResponse;
         }
+        public async Task<ServiceResponse<List<GetCartPricesDto>>> BestDeal()
+        {
+            /*
+                    SELECT Pnew.ref
+            , Pnew.storeid
+            , Pnew.mgr
+            , Pnew.price as `NewPrice
+            , Pold.price as `OldPrice
+        FROM prices Pnew
+        INNER JOIN prices Pold
+            ON Pnew.ref = Pold.ref
+                AND DATE(Pnew.datetime) = CURDATE()
+                AND DATE(Pold.datetime) = SUBDATE(CURDATE(), 1)
+        WHERE Pnew.price<> Pold.price;*/
+            ServiceResponse<List<GetCartPricesDto>> serviceResponse = new ServiceResponse<List<GetCartPricesDto>>();
+            {
+                var a = DateTime.UtcNow.Date;
+                var item = await (from price in _context.ItemPrices
+                                  join rec in _context.Receipts on price.ReceiptId equals rec.Id
+                                  select new GetCartPricesDto
+                                  {
+                                      Id = price.ItemId,
+                                      Price = price.Price,
+                                      Date = rec.Date.Date,
+                                      Shop = rec.Shop
+                                  }).ToListAsync();
+                //  var itemNow = item.Where(x => x.Date == a).Distinct().ToList();
+                /*  var itemYes = item.Where(x => x.Date < a).OrderByDescending(x => x.Date).Distinct().ToList();
+                  var prices = (from price in itemNow
+                                join rec in itemYes on new { shop = price.Shop, itemId = price.Id } equals new { shop = rec.Shop, itemId = rec.Id }
+                                select new GetCartPricesDto
+                                {
+                                        Id = price.Id,
+                                        Price = price.Price - rec.Price,
+                                        Date = rec.Date,
+                                        Shop = rec.Shop
+                                }).GroupBy(x => x.Id).Select(y => y.FirstOrDefault()).ToList();*/
+                var itemYes = item.OrderByDescending(x => x.Date).Distinct().GroupBy(x => new { x.Id, x.Shop }).Where(x => x.Skip(1).Any()).Select(x => new GetCartPricesDto
+                {
+                    Id = x.First().Id,
+                    Shop = x.First().Shop,
+                    Date = x.Skip(1).First().Date,
+                    Price = Math.Round((x.Skip(1).First().Price - x.First().Price),2)
+                }).ToList();
+                
 
+                serviceResponse.Data = itemYes;
+                return serviceResponse;
+
+
+            }
+
+        }
     }
 }

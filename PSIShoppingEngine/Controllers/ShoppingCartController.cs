@@ -25,10 +25,7 @@ namespace PSIShoppingEngine.Controllers
             return Ok(await _ShoppingCartService.GetItemList(cart));
         }
         [HttpGet("best")]
-        public async Task<IActionResult> BestStoreCustom(SendShoppingCartDto cart)
-        {
-            return Ok(await _ShoppingCartService.BestStore(cart));
-        }   public async Task<IActionResult> BestStore(SendShoppingCartDto cart)
+        public async Task<IActionResult> BestStore(SendShoppingCartDto cart)
         {
             return Ok(await _ShoppingCartService.BestStore(cart));
         }
@@ -37,5 +34,11 @@ namespace PSIShoppingEngine.Controllers
         {
             return Ok(await _ShoppingCartService.BestStoreCustom(shop,cart));
         }
+        [HttpGet("deals")]
+        public async Task<IActionResult> BestDeals()
+        {
+            return Ok(await _ShoppingCartService.BestDeal());
+        }
+
     }
 }
