@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using PSIShoppingEngine.Data;
 using PSIShoppingEngine.Services.ItemPriceService;
 using PSIShoppingEngine.Services.ItemService;
+using PSIShoppingEngine.Services.LoggerService;
 using PSIShoppingEngine.Services.ReceiptService;
 using PSIShoppingEngine.Services.ShoppingCartService;
 using PSIShoppingEngine.Services.UserStatsService;
@@ -63,6 +64,7 @@ namespace PSIShoppingEngine
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<IUserStatsService, UserStatsService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<ILogService, LogService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
