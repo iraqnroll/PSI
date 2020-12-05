@@ -13,6 +13,7 @@ namespace PSIShoppingEngine.Data
         Task<ServiceResponse<string>> Login(string username, string password);
         Task<ServiceResponse<GetUserDto>> UpdateUser(UserRegisterDto newUser);
         Task<ServiceResponse<List<GetUserDto>>> DeleteUser();
-        Task<bool> UserExists(string username);
+        Task<bool> UsernameExists(string username);
+        Task<bool> EmailExists(string email);
     }
 }

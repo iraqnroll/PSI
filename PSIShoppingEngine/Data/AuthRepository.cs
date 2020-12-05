@@ -66,10 +66,17 @@ namespace PSIShoppingEngine.Data
                 return response;
             }
 
-            if (await UserExists(user.Username))
+            if (await EmailExists(user.Email))
             {
                 response.Success = false;
-                response.Message = "User already exists.";
+                response.Message = "A user with such email is already registered.";
+                return response;
+            }
+
+            if (await UsernameExists(user.Username))
+            {
+                response.Success = false;
+                response.Message = "A user with such username is already registered.";
                 return response;
             }
 
@@ -85,7 +92,7 @@ namespace PSIShoppingEngine.Data
             return response;
         }
 
-        public async Task<bool> UserExists(string username)
+        public async Task<bool> UsernameExists(string username)
         {
             if (await _context.Users.AnyAsync(x => x.Username.ToLower() == username.ToLower()))
             {
@@ -93,6 +100,16 @@ namespace PSIShoppingEngine.Data
             }
             return false;
         }
+
+        public async Task<bool> EmailExists(string email)
+        {
+            if (await _context.Users.AnyAsync(x => x.Email.ToLower() == email.ToLower()))
+            {
+                return true;
+            }
+            return false;
+        }
+
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
