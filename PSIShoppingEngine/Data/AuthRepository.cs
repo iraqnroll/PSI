@@ -66,10 +66,17 @@ namespace PSIShoppingEngine.Data
                 return response;
             }
 
+            if (await EmailExists(user.Email))
+            {
+                response.Success = false;
+                response.Message = "A user with such email already exists.";
+                return response;
+            }
+
             if (await UserExists(user.Username))
             {
                 response.Success = false;
-                response.Message = "User already exists.";
+                response.Message = "A user with such username already exists.";
                 return response;
             }
 
@@ -88,6 +95,15 @@ namespace PSIShoppingEngine.Data
         public async Task<bool> UserExists(string username)
         {
             if (await _context.Users.AnyAsync(x => x.Username.ToLower() == username.ToLower()))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> EmailExists(string email)
+        {
+            if (await _context.Users.AnyAsync(x => x.Email.ToLower() == email.ToLower()))
             {
                 return true;
             }
