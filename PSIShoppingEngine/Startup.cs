@@ -18,6 +18,7 @@ using PSIShoppingEngine.Services.LoggerService;
 using PSIShoppingEngine.Services.ReceiptService;
 using PSIShoppingEngine.Services.ShoppingCartService;
 using PSIShoppingEngine.Services.UserStatsService;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,12 @@ namespace PSIShoppingEngine
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("log-.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            services.AddSingleton(x => Log.Logger);
+
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
@@ -74,6 +80,7 @@ namespace PSIShoppingEngine
             {
                 app.UseDeveloperExceptionPage();
             }
+            //Add Healthcheck
 
             app.UseHttpsRedirection();
 
@@ -82,6 +89,7 @@ namespace PSIShoppingEngine
             app.UseAuthentication();
 
             app.UseAuthorization();
+            app.UseMiddleware<Middlewares.LoggerMiddleware.LoggerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
