@@ -87,9 +87,9 @@ namespace PSIShoppingEngine
             app.UseRouting();
 
             app.UseAuthentication();
-
-            app.UseAuthorization();
             app.UseMiddleware<Middlewares.LoggerMiddleware.LoggerMiddleware>();
+            app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {

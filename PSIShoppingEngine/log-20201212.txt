@@ -1,0 +1,2 @@
+2020-12-12 16:10:38.012 +02:00 [INF] Guest user performed action Login in controller Auth
+2020-12-12 16:10:48.923 +02:00 [INF] Lukas [id : 41] performed action GetFrequentShops in controller UserStat
