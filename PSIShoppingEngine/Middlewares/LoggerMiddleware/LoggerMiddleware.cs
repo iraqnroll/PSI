@@ -30,25 +30,18 @@ namespace PSIShoppingEngine.Middlewares.LoggerMiddleware
                 {
                     var user = context.User.Identity.Name;
                     var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var controllerName = controllerActionDescriptor.ControllerName;
+                    var actionName = controllerActionDescriptor.ActionName;
                     if(userId == null)
                     {
-                        var controllerName = controllerActionDescriptor.ControllerName;
-                        var actionName = controllerActionDescriptor.ActionName;
                         _logger.Information($"Guest user performed " + $"action {actionName} in controller {controllerName}");
                     }
                     else
                     {
-                        var controllerName = controllerActionDescriptor.ControllerName;
-                        var actionName = controllerActionDescriptor.ActionName;
                         _logger.Information($"{user} [id : {userId}] performed " + $"action {actionName} in controller {controllerName}");
                     }
                 }
             }
-            /*var controllerActionDescriptor = context.GetEndpoint().Metadata.GetMetadata<ControllerActionDescriptor>();
-            var user = context.User;
-            var controllerName = controllerActionDescriptor.ControllerName;
-            var actionName = controllerActionDescriptor.ActionName;*/
-
             await _next(context);
 
             
