@@ -52,7 +52,6 @@ namespace PSIShoppingEngine.Services.ItemPriceService
             }
             
             var itemprice = _mapper.Map<ItemPrice>(newItemPrice);
-            itemprice.Receipt.UserId = GetUserId();
 
             await _context.ItemPrices.AddAsync(itemprice);
             await _context.SaveChangesAsync();

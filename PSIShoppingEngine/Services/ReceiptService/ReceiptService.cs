@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using PSIShoppingEngine.Data;
 using PSIShoppingEngine.DTOs.Reciept;
 using PSIShoppingEngine.Models;
-using PSIShoppingEngine.Services.LoggerService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +17,13 @@ namespace PSIShoppingEngine.Services.ReceiptService
 
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogService _log;
         private readonly IMapper _mapper;
-        public ReceiptService(IMapper mapper, DataContext context, IHttpContextAccessor httpContextAccessor, ILogService log)
+        public ReceiptService(IMapper mapper, DataContext context, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _context = context;
             _httpContextAccessor = httpContextAccessor;
-            _log = log;
-            _log.OnLogEvent += ConsoleLogger.Log;
+
         }
 
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -41,7 +38,6 @@ namespace PSIShoppingEngine.Services.ReceiptService
             await _context.Receipts.AddAsync(receipt);
             await _context.SaveChangesAsync();
             serviceResponse.Data = (_context.Receipts.Where(c => c.User.Id == GetUserId()).Select(c => _mapper.Map<GetReceiptDto>(c))).ToList();
-            _log.startLogging($"User: {GetUserId()} added Receipt: {receipt.Id}");
             return serviceResponse;
         }
 
@@ -54,7 +50,6 @@ namespace PSIShoppingEngine.Services.ReceiptService
                 var receipt = await _context.Receipts.FirstOrDefaultAsync(x => x.Id == id && x.User.Id == GetUserId());
                 if (receipt != null)
                 {
-                    _log.startLogging($"User: {GetUserId()} deleted Receipt: {receipt.Id}");
                     receipt.UserId = 1;
                     _context.Receipts.Update(receipt);
                     await _context.SaveChangesAsync();
@@ -120,7 +115,6 @@ namespace PSIShoppingEngine.Services.ReceiptService
                 var receipt = await _context.Receipts.Include(x => x.ItemPrices).ThenInclude(xs => xs.Item).FirstOrDefaultAsync(x => x.Id == newReceipt.Id && x.User.Id == GetUserId());
                 if (receipt != null)
                 {
-                    _log.startLogging($"User: {GetUserId()} updated Receipt: {receipt.Id}");
                     receipt.Shop = newReceipt.Shop;
                     _context.Receipts.Update(receipt);
                     await _context.SaveChangesAsync();
