@@ -1,0 +1,4 @@
+2020-12-11 15:40:18.823 +02:00 [INF] User System.Security.Claims.ClaimsPrincipal performedaction Login in controller Auth
+2020-12-11 15:44:46.566 +02:00 [INF] Request [Microsoft.AspNetCore.Http.DefaultHttpRequest] performedaction Login in controller Auth
+2020-12-11 15:45:42.725 +02:00 [INF] Request [Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpRequestStream] performedaction Login in controller Auth
+2020-12-11 15:46:27.990 +02:00 [INF] Request [] performed action Login in controller Auth
