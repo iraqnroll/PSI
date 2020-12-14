@@ -4,7 +4,6 @@ import ReceiptTable from "./receiptTable";
 import ListGroup from "./common/listGroup";
 import _ from "lodash";
 import Pagination from "./common/pagination";
-import { withRouter } from "react-router-dom";
 
 class Receipts extends Component {
   state = {
@@ -30,7 +29,7 @@ class Receipts extends Component {
   }
 
   handleShopSelect = (shop) => {
-    this.setState({ selectedShop: shop });
+    this.setState({ selectedShop: shop, activePage: 1 });
   };
 
   handleSort = (sortColumn) => {
@@ -79,6 +78,7 @@ class Receipts extends Component {
   render() {
     const { sortColumn, pageSize, activePage } = this.state;
     const { totalCount, data: receipts } = this.getPagedData();
+
     return (
       <div>
         <h1 className="m-2">Receipts</h1>

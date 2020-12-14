@@ -6,6 +6,7 @@ class ItemPriceTable extends Component {
     { path: "type", label: "Type" },
     { path: "price", label: "Price" },
   ];
+
   render() {
     const { itemPrices, onSort, sortColumn } = this.props;
 
