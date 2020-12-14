@@ -66,7 +66,7 @@ namespace PSIShoppingEngine.Data
                 return response;
             }
 
-            if (await EmailExists(user.Email))
+            if (await EmailExists(email))
             {
                 response.Success = false;
                 response.Message = "A user with such email already exists.";

@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/common/protectedRoute";
 import NotFound from "./components/notFound";
 import Home from "./components/Home";
 import ReceiptDetails from "./components/receiptDetails";
+import RegisterForm from "./components/registerForm";
 
 class App extends Component {
   state = {};
@@ -26,6 +27,7 @@ class App extends Component {
       <div className="container">
         <NavBar user={user} />
         <Switch>
+          <Route path="/register" component={RegisterForm} />
           <Route path="/login" component={LoginForm} />
           <ProtectedRoute path="/receipts/:id" component={ReceiptDetails} />
           <ProtectedRoute path="/receipts" component={Receipts} />
