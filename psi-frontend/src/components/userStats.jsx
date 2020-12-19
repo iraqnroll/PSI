@@ -183,7 +183,7 @@ class UserStats extends Component {
               className="mb-4"
               style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
             >
-              Top 5 Total cost (Eur)
+              Top 5 Total cost (Euro)
             </h2>
             <div className="mb-4 ml-4">
               <Doughnut
