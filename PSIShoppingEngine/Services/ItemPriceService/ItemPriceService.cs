@@ -107,6 +107,34 @@ namespace PSIShoppingEngine.Services.ItemPriceService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<GetPriceOfItemDto>> GetAllPricesOfItem(int id)
+        {
+            ServiceResponse<GetPriceOfItemDto> serviceResponse = new ServiceResponse<GetPriceOfItemDto>();
+            var itemObj = new GetPriceOfItemDto();
+            itemObj.Item = await _context.Items.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (itemObj.Item != null)
+            {
+                var itemPrices = await _context.ItemPrices.Where(x => x.ItemId == id).Select(y => new { receipt = y.ReceiptId, price = y.Price}).ToListAsync();
+                itemObj.Prices = new List<ItemPrices>();
+                foreach (var price in itemPrices)
+                {
+                    var prc = new ItemPrices();
+                    prc.Date = await _context.Receipts.Where(x => x.Id == price.receipt).Select(x => x.Date.Date).FirstOrDefaultAsync();
+                    prc.Price = price.price;
+                    prc.shop = await _context.Receipts.Where(x => x.Id == price.receipt).Select(x => x.Shop).FirstOrDefaultAsync();
+                    itemObj.Prices.Add(prc);
+                }
+                serviceResponse.Data = itemObj;
+            }
+            else
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Could not find the item.";
+            }
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<GetItemPriceDto>> UpdateItemPrice(UpdateItemPriceDto newItemPrice)
         {
             ServiceResponse<GetItemPriceDto> serviceResponse = new ServiceResponse<GetItemPriceDto>();
