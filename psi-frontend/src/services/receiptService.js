@@ -1,4 +1,3 @@
-import authService from "./authService";
 import http from "./httpService";
 import auth from "./authService";
 
@@ -10,13 +9,27 @@ export async function getReceipts() {
     id: receipt.id,
     shop: mapShop(receipt.shop),
     date: formatDate(new Date(receipt.date)),
-    sum: totalSum(receipt.itemPrices),
+    sum:
+      Math.round((totalSum(receipt.itemPrices) + Number.EPSILON) * 100) / 100,
+    count: receipt.itemPrices.length,
   }));
   return mapped;
 }
 
-export function deleteReceipt(id) {
-  return http.delete(apiEndpoint + "/" + id, auth.config);
+export async function deleteReceipt(id) {
+  return await http.delete(apiEndpoint + "/" + id, auth.config);
+}
+
+export async function createReceipt(shopId) {
+  return await http.post(apiEndpoint, { shop: shopId }, auth.config);
+}
+
+export async function updateReceipt(shop, receiptId) {
+  return await http.put(
+    apiEndpoint,
+    { id: receiptId, shop: shop },
+    auth.config
+  );
 }
 
 export async function getReceipt(id) {
@@ -28,6 +41,11 @@ export async function getReceipt(id) {
     price: itemPrice.price,
   }));
   return mapped;
+}
+
+export async function getReceiptRaw(id) {
+  const receipt = await http.get(apiEndpoint + "/" + id, auth.config);
+  return receipt.data.data;
 }
 
 function mapShop(id) {
@@ -48,6 +66,8 @@ function mapShop(id) {
     case 5:
       name = "Maxima";
       break;
+    default:
+      name = "Not Found";
   }
   return name;
 }
@@ -82,6 +102,8 @@ function mapType(id) {
     case 9:
       type = "Uzkandziai";
       break;
+    default:
+      type = "Not Found";
   }
   return type;
 }

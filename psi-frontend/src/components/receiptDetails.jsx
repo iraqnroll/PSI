@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReceiptTable from "./receiptTable";
 import { getReceipt } from "./../services/receiptService";
 import ItemPriceTable from "./itemPriceTable";
 import _ from "lodash";
@@ -16,20 +15,25 @@ class ReceiptDetails extends Component {
   };
 
   async componentDidMount() {
-    const itemPrices = await getReceipt(this.props.match.params.id);
-    const types = [
-      { id: 0, name: "All types" },
-      { id: 1, name: "Mesos gaminiai" },
-      { id: 2, name: "Juros gerybes" },
-      { id: 3, name: "Kepiniai" },
-      { id: 4, name: "Darzoves" },
-      { id: 5, name: "Vaisiai" },
-      { id: 6, name: "Pieno produktai" },
-      { id: 7, name: "Gerimai" },
-      { id: 8, name: "Saldumynai" },
-      { id: 9, name: "Uzkandziai" },
-    ];
-    this.setState({ itemPrices, types });
+    try {
+      const itemPrices = await getReceipt(this.props.match.params.id);
+      const types = [
+        { id: 0, name: "All types" },
+        { id: 1, name: "Mesos gaminiai" },
+        { id: 2, name: "Juros gerybes" },
+        { id: 3, name: "Kepiniai" },
+        { id: 4, name: "Darzoves" },
+        { id: 5, name: "Vaisiai" },
+        { id: 6, name: "Pieno produktai" },
+        { id: 7, name: "Gerimai" },
+        { id: 8, name: "Saldumynai" },
+        { id: 9, name: "Uzkandziai" },
+      ];
+      this.setState({ itemPrices, types });
+    } catch (ex) {
+      //if (ex.response && ex.response.status === 404)
+      this.props.history.replace("/not-found");
+    }
   }
 
   handleSort = (sortColumn) => {

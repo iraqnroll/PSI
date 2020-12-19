@@ -8,6 +8,7 @@ class LoginForm extends Form {
   state = {
     data: { username: "", password: "" },
     errors: {},
+    test: true,
   };
 
   schema = {

@@ -7,6 +7,7 @@ class Form extends Component {
   state = {
     data: {},
     errors: {},
+    test: true,
   };
 
   validate = () => {
@@ -46,6 +47,13 @@ class Form extends Component {
     data[input.name] = input.value;
 
     this.setState({ data, errors });
+    if (
+      input.name === "type" ||
+      input.name === "price" ||
+      input.name === "name"
+    ) {
+      this.updateData(input.name, input.value);
+    }
   };
 
   renderButton(label) {
@@ -56,26 +64,27 @@ class Form extends Component {
     );
   }
 
-  renderSelect(name, label, options) {
-    const { data, errors } = this.state;
-
+  renderSelect(name, label, options, type) {
+    const { data, errors, test } = this.state;
     return (
       <Select
+        test={test}
         name={name}
         value={data[name]}
         label={label}
         options={options}
-        onChange={this.handleChange}
+        onChange={type ? this.handleTypeChange : this.handleChange}
         error={errors[name]}
       />
     );
   }
 
   renderInput(name, label, type = "text") {
-    const { data, errors } = this.state;
+    const { data, errors, test } = this.state;
 
     return (
       <Input
+        test={test}
         type={type}
         name={name}
         value={data[name]}
