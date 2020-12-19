@@ -14,6 +14,5 @@ namespace PSIShoppingEngine.Services.ItemService
         Task<ServiceResponse<List<GetItemDto>>> AddItem(AddItemDto newItem);
         Task<ServiceResponse<List<GetItemDto>>> DeleteItem(int id);
         Task<ServiceResponse<GetItemDto>> UpdateItem(AddItemDto newItem);
-
     }
 }
