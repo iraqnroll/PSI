@@ -73,10 +73,7 @@ class ReceiptForm extends Component {
       await updateReceipt(parseInt(this.state.data.shop), this.state.data.id);
     await this.state.deleted.forEach(async (x) => await deleteItemPrice(x));
     const data = { ...this.state.data };
-    const respnse = await data.itemPrices.forEach(
-      async (x) => await this.saving(x)
-    );
-    console.log(respnse);
+    await data.itemPrices.forEach(async (x) => await this.saving(x));
     window.location = "/receipts";
   };
 

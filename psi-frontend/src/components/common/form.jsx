@@ -47,6 +47,7 @@ class Form extends Component {
     data[input.name] = input.value;
 
     this.setState({ data, errors });
+
     if (
       input.name === "type" ||
       input.name === "price" ||
