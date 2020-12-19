@@ -11,6 +11,7 @@ import NotFound from "./components/notFound";
 import Home from "./components/Home";
 import ReceiptDetails from "./components/receiptDetails";
 import RegisterForm from "./components/registerForm";
+import UserDetails from "./components/userDetails";
 
 class App extends Component {
   state = {};
@@ -28,6 +29,7 @@ class App extends Component {
         <NavBar user={user} />
         <Switch>
           <Route path="/register" component={RegisterForm} />
+          <Route path="/change" component={UserDetails} />
           <Route path="/login" component={LoginForm} />
           <ProtectedRoute path="/receipts/:id" component={ReceiptDetails} />
           <ProtectedRoute path="/receipts" component={Receipts} />
