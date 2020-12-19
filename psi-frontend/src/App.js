@@ -11,6 +11,7 @@ import NotFound from "./components/notFound";
 import Home from "./components/Home";
 import ReceiptDetails from "./components/receiptDetails";
 import ReceiptForm from "./components/receiptForm";
+import UserStats from "./components/userStats";
 
 class App extends Component {
   state = {};
@@ -31,6 +32,7 @@ class App extends Component {
           <ProtectedRoute path="/receipts/edit/:id" component={ReceiptForm} />
           <ProtectedRoute path="/receipts/:id" component={ReceiptDetails} />
           <ProtectedRoute path="/receipts" component={Receipts} />
+          <ProtectedRoute path="/user-statistics" component={UserStats} />
           <Route path="/logout" component={Logout} />
           <Route exact path="/" component={Home} />
           <Route path="/not-found" component={NotFound} />

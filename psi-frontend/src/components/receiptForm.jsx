@@ -77,7 +77,7 @@ class ReceiptForm extends Component {
       async (x) => await this.saving(x)
     );
     console.log(respnse);
-    window.location = "/receipts";
+    //window.location = "/receipts";
   };
 
   async saving(x) {

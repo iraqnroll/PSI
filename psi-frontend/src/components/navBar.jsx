@@ -19,6 +19,9 @@ const NavBar = ({ user }) => {
               <NavLink className="nav-item nav-link" to="/receipts">
                 Receipts
               </NavLink>
+              <NavLink className="nav-item nav-link" to="/user-statistics">
+                My Statistics
+              </NavLink>
               <NavLink className="nav-item nav-link" to="/logout">
                 Logout
               </NavLink>
