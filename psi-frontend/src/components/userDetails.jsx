@@ -30,7 +30,7 @@ class UserDetails extends Form {
             alert("Account details successfully changed.");
             window.location = "/";
         } catch (ex) {
-            alert("Same name or password.");
+            alert("Update unsuccessful. Same details have been entered or an invalid email has been provided.");
         }
     };
 

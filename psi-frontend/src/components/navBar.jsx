@@ -28,7 +28,7 @@ const NavBar = ({ user }) => {
                               Logout
                           </NavLink>
                           <NavLink className="nav-item nav-link" to="/change">
-                              Change
+                              Edit Account
                           </NavLink>
                       </React.Fragment>
                   )}
