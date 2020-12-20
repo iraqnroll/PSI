@@ -30,7 +30,7 @@ class RegisterForm extends Form {
                 this.setState({ errors });
             }*/
 
-      alert("An account with such credentials has already been registered.");
+      alert("Registration unsuccessful. An account with such credentials has already been registered or an invalid email has been entered.");
     }
   };
 
