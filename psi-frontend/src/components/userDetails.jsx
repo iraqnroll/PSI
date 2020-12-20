@@ -6,7 +6,8 @@ import user from "../services/userService";
 class UserDetails extends Form {
     state = {
         data: { username: "", password: "", name: ""},
-        errors: {}
+        errors: {},
+        test: true,
     };
 
     schema = {
