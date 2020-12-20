@@ -51,7 +51,7 @@ class Form extends Component {
     if (
       input.name === "type" ||
       input.name === "price" ||
-      input.name === "product"
+      input.name === "name"
     ) {
       this.updateData(input.name, input.value);
     }
