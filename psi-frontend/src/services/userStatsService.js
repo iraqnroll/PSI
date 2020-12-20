@@ -12,7 +12,8 @@ export async function getShopFrequency() {
 
 export async function getItemsFrequency() {
   let items = await http.get(apiEndpoint + "/items", auth.config);
-  return items.data.data.slice(0, 5);
+  let data = _.orderBy(items.data.data, "itemFrequency", "desc");
+  return data.slice(0, 5);
 }
 
 export async function getDates() {
