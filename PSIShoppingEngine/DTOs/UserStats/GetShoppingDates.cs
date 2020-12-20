@@ -5,10 +5,14 @@ using System;
 
 namespace PSIShoppingEngine.DTOs.UserStats
 {
+    public struct visitedShops
+    {
+        public Shop shop { get; set; }
+        public int Amount { get; set; }
+    }
     public class GetShoppingDatesDto
     {
         public DateTime Date {get; set;}
-        public int AmountBought {get; set;}
-        public List<Shop> ShopsVisited {get; set;}
+        public List<visitedShops> ShopsVisited {get; set;}
     }
 }

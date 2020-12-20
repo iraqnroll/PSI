@@ -15,5 +15,6 @@ namespace PSIShoppingEngine.Services.ItemPriceService
         Task<ServiceResponse<List<GetItemPriceDto>>> AddItemPrice(AddItemPriceDto newItemPrice);
         Task<ServiceResponse<List<GetItemPriceDto>>> DeleteItemPrice(int id);
         Task<ServiceResponse<GetItemPriceDto>> UpdateItemPrice(UpdateItemPriceDto newItemPrice);
+        Task<ServiceResponse<GetPriceOfItemDto>> GetAllPricesOfItem(int id);
     }
 }

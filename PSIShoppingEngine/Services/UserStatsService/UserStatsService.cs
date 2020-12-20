@@ -8,6 +8,7 @@ using PSIShoppingEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using MoreLinq;
@@ -46,28 +47,54 @@ namespace PSIShoppingEngine.Services.UserStatsService
         async public Task<ServiceResponse<List<GetFreqShopsDto>>> GetFrequentShops()
         {
             ServiceResponse<List<GetFreqShopsDto>> serviceResponse = new ServiceResponse<List<GetFreqShopsDto>>();
-            var ReceiptIDs = await _context.Receipts.Where(b => b.User.Id == GetUserId()).Select(b => b.Id).ToListAsync();
-            var GroupedItemPrices = await _context.ItemPrices.Where(x => ReceiptIDs.Contains((int)x.ReceiptId)).GroupBy(x => x.ReceiptId).Select(g => new {ReceiptId = (int)g.Key, MoneySpent = g.Sum(x => x.Price)}).ToListAsync();
+            var userReceipts = await _context.Receipts.Where(b => b.User.Id == GetUserId()).ToListAsync();
+            var GroupedReceipts = userReceipts.GroupBy(x => x.Shop);
+            var freqShopsDto = new List<GetFreqShopsDto>();
 
-            var Shops = await _context.Receipts.Where(x => ReceiptIDs.Contains((int)x.Id)).Select(g => new {Shop = g.Shop, ReceiptId = g.Id }).ToListAsync();
-            var GroupedShops = Shops.Where(x => Shops.Any(c => c.ReceiptId == x.ReceiptId)).Select(g => new {Shop = g.Shop, ReceiptId = g.ReceiptId, ShopFrequency = Shops.Where(x => g.Shop == x.Shop).Count()});
+            foreach(IGrouping<Shop, Receipt> grp in GroupedReceipts)
+            {
+                var freqShop = new GetFreqShopsDto();
+                freqShop.FrequentShop = grp.Key;
+                freqShop.ShopFrequency = grp.Count();
+                foreach(Receipt rec in grp)
+                {
+                    var ItemPrices = await _context.ItemPrices.Where(b => b.ReceiptId == rec.Id).ToListAsync();
+                    if (ItemPrices != null)
+                    {
+                        freqShop.MoneySpent += ItemPrices.Sum(x => x.Price);
+                    }
+                    else freqShop.MoneySpent += 0;
+                }
+                freqShopsDto.Add(freqShop);
+            }
 
-            var DtoShops = GroupedItemPrices.Join(GroupedShops,
-            price => price.ReceiptId,
-            shop => shop.ReceiptId,
-            (price, shop) => 
-                new GetFreqShopsDto {FrequentShop = shop.Shop, MoneySpent = price.MoneySpent, ShopFrequency = shop.ShopFrequency}).ToList();
-
-            serviceResponse.Data = DtoShops;
+            serviceResponse.Data = freqShopsDto;
             return serviceResponse;
         }
         async public Task<ServiceResponse<List<GetShoppingDatesDto>>> GetShoppingDates()
         {
             ServiceResponse<List<GetShoppingDatesDto>> serviceResponse = new ServiceResponse<List<GetShoppingDatesDto>>();
-            var Dates = await _context.Receipts.Where(b => b.User.Id == GetUserId()).Select(g => new {Date = g.Date, ItemPrices = g.ItemPrices, Shop = g.Shop}).ToListAsync();
-            var DtoDates = Dates.GroupBy(x => x.Date).Select(g => new GetShoppingDatesDto { Date = g.Key, AmountBought = g.Sum(x => x.ItemPrices.Count()), ShopsVisited = g.Select(x => x.Shop).ToList()}).ToList();
-            serviceResponse.Data = DtoDates;
+            var userReceipts = await _context.Receipts.Where(b => b.User.Id == GetUserId()).ToListAsync();
+            var groupedReceipts = userReceipts.GroupBy(x => x.Date.Date);
+            var shoppingDatesDto = new List<GetShoppingDatesDto>();
 
+            foreach(IGrouping<DateTime, Receipt> grp in groupedReceipts)
+            {
+                var shopDate = new GetShoppingDatesDto();
+                shopDate.Date = grp.Key;
+                shopDate.ShopsVisited = new List<visitedShops>();
+
+                var receiptsInDate = userReceipts.Where(x => x.Date.Date == grp.Key).GroupBy(x => x.Shop);
+                foreach(IGrouping<Shop, Receipt> recgrp in receiptsInDate)
+                {
+                    var visitedShop = new visitedShops();
+                    visitedShop.shop = recgrp.Key;
+                    visitedShop.Amount = recgrp.Count();
+                    shopDate.ShopsVisited.Add(visitedShop);
+                }
+                shoppingDatesDto.Add(shopDate);
+            }
+            serviceResponse.Data = shoppingDatesDto;
             return serviceResponse;
         }
     }

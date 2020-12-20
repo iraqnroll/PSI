@@ -1,10 +1,14 @@
 import React, { Component } from "react";
-import { getReceipts, deleteReceipt } from "./../services/receiptService";
+import {
+  getReceipts,
+  deleteReceipt,
+  createReceipt,
+} from "./../services/receiptService";
 import ReceiptTable from "./receiptTable";
 import ListGroup from "./common/listGroup";
 import _ from "lodash";
 import Pagination from "./common/pagination";
-import { withRouter } from "react-router-dom";
+import Select from "./common/select";
 
 class Receipts extends Component {
   state = {
@@ -14,6 +18,7 @@ class Receipts extends Component {
     selectedShop: null,
     pageSize: 10,
     activePage: 1,
+    receiptShop: 0,
   };
 
   async componentDidMount() {
@@ -30,7 +35,7 @@ class Receipts extends Component {
   }
 
   handleShopSelect = (shop) => {
-    this.setState({ selectedShop: shop });
+    this.setState({ selectedShop: shop, activePage: 1 });
   };
 
   handleSort = (sortColumn) => {
@@ -50,10 +55,21 @@ class Receipts extends Component {
     props.history.push("/");
   }
 
+  handleShopChange = ({ currentTarget: input }) => {
+    this.setState({ receiptShop: input.value });
+  };
+
   paginate(items, pageNumber, pageSize) {
     const startIndex = (pageNumber - 1) * pageSize;
     return _(items).slice(startIndex).take(pageSize).value();
   }
+
+  handleNewReceipt = async () => {
+    const response = await createReceipt(parseInt(this.state.receiptShop));
+    let receipt = response.data.data[response.data.data.length - 1];
+    this.props.history.push("/receipts/edit/" + receipt.id);
+    console.log(receipt);
+  };
 
   getPagedData() {
     const {
@@ -79,6 +95,8 @@ class Receipts extends Component {
   render() {
     const { sortColumn, pageSize, activePage } = this.state;
     const { totalCount, data: receipts } = this.getPagedData();
+    let newShops = [...this.state.shops];
+    newShops.shift();
     return (
       <div>
         <h1 className="m-2">Receipts</h1>
@@ -88,6 +106,32 @@ class Receipts extends Component {
               items={this.state.shops}
               selectedItem={this.state.selectedShop}
               onItemSelect={this.handleShopSelect}
+            />
+            {this.state.receiptShop > 0 ? (
+              <button
+                style={{ display: "block", width: "100%" }}
+                className="btn btn-success btn-lg mt-5"
+                onClick={this.handleNewReceipt}
+              >
+                Create new receipt
+              </button>
+            ) : (
+              <button
+                style={{ display: "block", width: "100%" }}
+                className="btn btn-success btn-lg mt-5"
+                disabled
+              >
+                Create new receipt
+              </button>
+            )}
+
+            <Select
+              test={false}
+              name="shops"
+              value={this.state.receiptShop}
+              label="Shops"
+              options={newShops}
+              onChange={this.handleShopChange}
             />
           </div>
           <div className="col">

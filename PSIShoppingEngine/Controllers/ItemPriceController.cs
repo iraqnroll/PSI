@@ -43,6 +43,15 @@ namespace PSIShoppingEngine.Controllers
             }
 
         }
+
+        [HttpGet("Prices/{id}")]
+        public async Task<IActionResult> GetAllPricesOfItem(int id)
+        {
+            var serviceResponse = await _itemPriceService.GetAllPricesOfItem(id);
+
+            if (serviceResponse.Success) return Ok(serviceResponse);
+            else return NotFound(serviceResponse);
+        }
         [HttpPost]
         public async Task<IActionResult> AddItemPrice(AddItemPriceDto newItemPrice)
         {
