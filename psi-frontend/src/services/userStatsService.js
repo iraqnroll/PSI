@@ -1,6 +1,6 @@
 import http from "./httpService";
 import auth from "./authService";
-import _ from "lodash";
+import _, { filter } from "lodash";
 
 const apiEndpoint = "https://localhost:5001/userstat";
 
@@ -19,15 +19,46 @@ export async function getItemsFrequency() {
 export async function getDates() {
   const datesRaw = await http.get(apiEndpoint + "/dates", auth.config);
   const filtered = _.orderBy(datesRaw.data.data, "date", "asc");
-  let dates = { Iki: [], Norfa: [], Lidl: [], Rimi: [], Maxima: [] };
-  for (var i = 0; i < filtered.length; i++) {
-    for (var j = 0; j < filtered[i].shopsVisited.length; j++) {
-      dates[
-        mapShop({ frequentShop: filtered[i].shopsVisited[j].shop }).name
-      ].push({
-        t: convertDate(filtered[i].date),
-        y: filtered[i].shopsVisited[j].amount,
+
+  let from = new Date(filtered[0].date);
+  let to = new Date(filtered[filtered.length - 1].date);
+  let mixed = [];
+  let obj;
+  let test;
+
+  for (var d = from; d <= to; d.setDate(d.getDate() + 1)) {
+    obj = filtered.find(
+      (x) => new Date(x.date).getTime() === new Date(d).getTime()
+    );
+
+    if (obj) {
+      for (var k = 1; k < 6; k++) {
+        if (!obj.shopsVisited.find((x) => x.shop === k))
+          obj.shopsVisited.push({ shop: k, amount: 0 });
+      }
+      mixed.push(obj);
+    } else {
+      mixed.push({
+        date: new Date(d),
+        shopsVisited: [
+          { shop: 1, amount: 0 },
+          { shop: 2, amount: 0 },
+          { shop: 3, amount: 0 },
+          { shop: 4, amount: 0 },
+          { shop: 5, amount: 0 },
+        ],
       });
+    }
+  }
+  let dates = { Iki: [], Norfa: [], Lidl: [], Rimi: [], Maxima: [] };
+  for (var i = 0; i < mixed.length; i++) {
+    for (var j = 0; j < mixed[i].shopsVisited.length; j++) {
+      dates[mapShop({ frequentShop: mixed[i].shopsVisited[j].shop }).name].push(
+        {
+          t: convertDate(mixed[i].date),
+          y: mixed[i].shopsVisited[j].amount,
+        }
+      );
     }
   }
   const data = {
