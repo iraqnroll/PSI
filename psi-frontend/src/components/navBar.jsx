@@ -31,12 +31,16 @@ const NavBar = ({ user }) => {
                 Price History
               </NavLink>
               <NavLink className="nav-item nav-link" to="/logout">
-                Logout
+                              Logout
               </NavLink>
+                <NavLink className="nav-item nav-link" to="/change">
+                    Edit Account
+                </NavLink>
             </React.Fragment>
           )}
         </div>
       </div>
+       
     </nav>
   );
 };

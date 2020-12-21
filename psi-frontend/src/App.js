@@ -14,6 +14,7 @@ import RegisterForm from "./components/registerForm";
 import ReceiptForm from "./components/receiptForm";
 import UserStats from "./components/userStats";
 import PriceHistory from "./components/priceHistory";
+import UserDetails from "./components/userDetails";
 
 class App extends Component {
   state = {};
@@ -31,6 +32,7 @@ class App extends Component {
         <NavBar user={user} />
         <Switch>
           <Route path="/register" component={RegisterForm} />
+          <Route path="/change" component={UserDetails} />
           <Route path="/login" component={LoginForm} />
           <ProtectedRoute path="/receipts/edit/:id" component={ReceiptForm} />
           <ProtectedRoute path="/receipts/:id" component={ReceiptDetails} />
