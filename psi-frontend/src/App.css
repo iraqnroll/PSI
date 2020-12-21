@@ -141,6 +141,13 @@
   animation-name: slidein;
   animation-timing-function: ease-in;
 }
+.User_content {
+  display: inline;
+  margin-left: 25px;
+  animation-duration: 0.5s;
+  animation-name: slidein;
+  animation-timing-function: ease-in;
+}
 @keyframes slidein {
   from {
     opacity: 0%;

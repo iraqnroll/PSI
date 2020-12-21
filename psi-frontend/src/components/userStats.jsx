@@ -108,7 +108,8 @@ class UserStats extends Component {
   render() {
     return (
 
-         <div className="Box_content" style={{display: "inline"}}>
+    
+         <div className="Box_content" style  ={{margin: "50px"}}>
       <div>
              <h1
           style={{
