@@ -14,8 +14,7 @@ export function getJoke() {
 		"x-rapidapi-host": "joke3.p.rapidapi.com"
 	}
 })
-.then(response => response.json());
-    console.log(joke);
+.  then(response => response.json());
   return joke;
 
 }

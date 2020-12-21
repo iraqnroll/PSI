@@ -72,7 +72,6 @@ class ShoppingCartPage extends Component {
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
     const receipts = this.paginate(sorted, activePage, pageSize);
-     console.log({ totalCount: filtered.length, data: receipts });
     return { totalCount: filtered.length, data: receipts };
   }
 
@@ -89,14 +88,11 @@ class ShoppingCartPage extends Component {
     const shopCart = Datacart.itemPrices.map((x) => (
       x.item.id
     ));
-    console.log(shopCart);
-    console.log(document.getElementById("table"));
     const stores = this.getSelectedShops();
     const filter = stores.filter((store) => store.selected == true);
     const selected = filter.map((cart) => (cart.shop));
-    console.log(selected);
     const cart = await getShoppingCartC(selected, shopCart);
-    console.log(cart);
+
     this.setState({ receipts: cart });
     
   }
@@ -115,20 +111,20 @@ class ShoppingCartPage extends Component {
         >
               Find Deals
         </button>     
-        <div class="form-check form-check-inline" style={{float: 'right', padding:  0}} >
-            <input class="form-check-input" type="checkbox" id="CheckIki" value="option1"/>
-            <label class="form-check-label" for="CheckIki">Iki   </label>
+        <div class="form-check form-check-inline" style={{float: 'right'}} >
+          <input class="form-check-input" type="checkbox" id="CheckIki" value="option1" />
+            <label class="form-check-label" for="CheckIki" style={{marginRight : "10px"}}>Iki   </label>
       
             <input class="form-check-input" type="checkbox" id="CheckNorfa" value="option1"/>
-            <label class="form-check-label" for="CheckNorfa">Norfa </label>
+            <label class="form-check-label" for="CheckNorfa" style={{marginRight : "10px"}}>Norfa </label>
      
             <input class="form-check-input" type="checkbox" id="CheckRimi" value="option1"/>
-            <label class="form-check-label" for="CheckRimi">Rimi   </label>
+            <label class="form-check-label" for="CheckRimi" style={{marginRight : "10px"}}>Rimi   </label>
         
             <input class="form-check-input" type="checkbox" id="CheckLidl" value="option1"/>
-            <label class="form-check-label" for="CheckLidl">Lidl   </label>
+            <label class="form-check-label" for="CheckLidl" style={{marginRight : "10px"}}>Lidl   </label>
             <input class="form-check-input" type="checkbox" id="CheckMaxima" value="option1"/>
-            <label class="form-check-label" for="CheckMaxima">Maxima   </label>
+            <label class="form-check-label" for="CheckMaxima" style={{marginRight : "10px"}}>Maxima   </label>
         </div>
         <div className="col">
        

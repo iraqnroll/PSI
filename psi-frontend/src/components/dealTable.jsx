@@ -14,7 +14,7 @@ class DealTable extends Component {
       path: "date",label: "Date",
     },
     {
-      path: "price",label: "Change"
+      path: "price",label: "Change (Euro)"
     },
     {
       label: "", key: "arrow", content: (price) => (

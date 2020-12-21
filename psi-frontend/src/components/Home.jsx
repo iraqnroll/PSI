@@ -9,7 +9,11 @@ class Home extends Component {
   state = {jokes : ""};
   render() {
     const { jokes } = this.state;
-    return <h1 style = {{marginLeft : "25px",marginTop : "200px",  textalign: "justify"}}>{ jokes}</h1>;
+    return (<div style={{ marginLeft: "25px", marginTop: "200px", textalign: "justify" }}>
+      <h1>Joke Of The Day: </h1>
+      
+      <h1 >{jokes}</h1>
+      </div>);
   }
 }
 

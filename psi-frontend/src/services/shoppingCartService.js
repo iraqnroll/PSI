@@ -8,7 +8,7 @@ const shopCart = {Cart: [121, 131, 141]};
 export async function getDeals() {
   
   const names = await http.get(apiEndpointa + "all", auth.config);
-  console.log(names.data.data);
+
    
   const cart = await http.get(apiEndpoint + "/deals", auth.config);
   const mapped = cart.data.data.map( ((cart ) => ({
@@ -18,15 +18,14 @@ export async function getDeals() {
     date: formatDate(new Date(cart.date)),
     price: cart.price
   })));
-  console.log(mapped);
+
   return mapped;
 }
 export async function getShoppingCart(shopCart) {
   const names = await http.get(apiEndpointa + "all", auth.config);
   const cart = await http.post(apiEndpoint + "/best", { Cart: shopCart});
   const mapped = cart.data.data.map(((cart) => makeItem(cart, names)));
-  console.log("hey");
-  console.log(cart);
+
   return mapped;
 }
 export async function getShoppingCartC(selected,shopCart) {
@@ -40,7 +39,7 @@ export async function getShoppingCartC(selected,shopCart) {
     const names = await http.get(apiEndpointa + "all", auth.config);
     const cart = await http.post(apiEndpoint + "/bestC?" + str, { Cart: shopCart});
     const mapped = cart.data.data.map(((cart) => makeItem(cart, names)));
-    console.log(mapped);
+
     return mapped;
   } else
     return getShoppingCart(shopCart);

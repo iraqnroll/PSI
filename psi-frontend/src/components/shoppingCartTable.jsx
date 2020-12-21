@@ -11,7 +11,7 @@ class ShoppingCartTable extends Component {
     },
     { path: "shop", label: "Shop" },
     {
-      path: "price",label: "Price"}
+      path: "price",label: "Price (Euro)"}
   ];
   
  

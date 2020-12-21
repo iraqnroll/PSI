@@ -69,7 +69,6 @@ class Deals extends Component {
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
     const receipts = this.paginate(sorted, activePage, pageSize);
-     console.log({ totalCount: filtered.length, data: receipts });
     return { totalCount: filtered.length, data: receipts };
   }
   
