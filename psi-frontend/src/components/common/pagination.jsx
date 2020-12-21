@@ -7,13 +7,14 @@ const Pagination = ({ pageSize, itemsCount, activePage, onPageChange }) => {
   const pages = _.range(1, pagesCount + 1);
   return (
     <nav>
-      <ul className="pagination" style={{ cursor: "pointer" }}>
+      <ul className="pagination  group-mine" style={{color: "rgb(255, 223, 26)"}}>
         {pages.map((page) => (
           <li
-            className={activePage === page ? "page-item active" : "page-item"}
+            className={activePage === page ? "mySelected" : "page-item  group-mine"}
             key={page}
+            style={{color: "rgb(255, 25, 26)"}}
           >
-            <div className="page-link" onClick={() => onPageChange(page)}>
+            <div  className="page-link group-mine" onClick={() => onPageChange(page)}>
               {page}
             </div>
           </li>

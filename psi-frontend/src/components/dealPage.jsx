@@ -1,28 +1,23 @@
 import React, { Component } from "react";
-import {
-  getReceipts,
-  deleteReceipt,
-  createReceipt,
-} from "./../services/receiptService";
-import ReceiptTable from "./receiptTable";
+import { getDeals } from "../services/shoppingCartService";
 import ListGroup from "./common/listGroup";
+import DealTable from "./dealTable";
 import _ from "lodash";
 import Pagination from "./common/pagination";
-import Select from "./common/select";
+import { withRouter } from "react-router-dom";
 
-class Receipts extends Component {
+class Deals extends Component {
   state = {
     receipts: [],
-    sortColumn: { path: "date", order: "asc" },
+    sortColumn: { path: "Shop", order: "asc" },
     shops: [],
     selectedShop: null,
     pageSize: 10,
     activePage: 1,
-    receiptShop: 0,
   };
 
   async componentDidMount() {
-    const receipts = await getReceipts();
+    const receipts = await getDeals();
     const shops = [
       { id: 0, name: "All Shops" },
       { id: 1, name: "Iki" },
@@ -35,7 +30,7 @@ class Receipts extends Component {
   }
 
   handleShopSelect = (shop) => {
-    this.setState({ selectedShop: shop, activePage: 1 });
+    this.setState({ selectedShop: shop });
   };
 
   handleSort = (sortColumn) => {
@@ -45,31 +40,16 @@ class Receipts extends Component {
   handlePageChange = (page) => {
     this.setState({ activePage: page });
   };
-  handleDelete = (receipt) => {
-    const receipts = this.state.receipts.filter((x) => x.id !== receipt.id);
-    this.setState({ receipts });
-    deleteReceipt(receipt.id);
-  };
 
   handleInfo(props) {
     props.history.push("/");
   }
-
-  handleShopChange = ({ currentTarget: input }) => {
-    this.setState({ receiptShop: input.value });
-  };
+  
 
   paginate(items, pageNumber, pageSize) {
     const startIndex = (pageNumber - 1) * pageSize;
     return _(items).slice(startIndex).take(pageSize).value();
   }
-
-  handleNewReceipt = async () => {
-    const response = await createReceipt(parseInt(this.state.receiptShop));
-    let receipt = response.data.data[response.data.data.length - 1];
-    this.props.history.push("/receipts/edit/" + receipt.id);
-    console.log(receipt);
-  };
 
   getPagedData() {
     const {
@@ -85,62 +65,36 @@ class Receipts extends Component {
       filtered = allReceipts.filter(
         (receipt) => receipt.shop === selectedShop.name
       );
+    
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
     const receipts = this.paginate(sorted, activePage, pageSize);
-
     return { totalCount: filtered.length, data: receipts };
   }
+  
 
   render() {
+    
     const { sortColumn, pageSize, activePage } = this.state;
     const { totalCount, data: receipts } = this.getPagedData();
-    let newShops = [...this.state.shops];
-    newShops.shift();
     return (
-      <div className="Box_content">
-        <h1 className="m-2">Receipts</h1>
+      <div className="Box">
+        <p className="Box_content">
+        <h1 className="m-2">Best Deals</h1>
         <div className="row">
-          <div className="col-3">
+          <div className="col-3 ">
             <ListGroup
               items={this.state.shops}
               selectedItem={this.state.selectedShop}
               onItemSelect={this.handleShopSelect}
             />
-            {this.state.receiptShop > 0 ? (
-              <button
-                style={{ display: "block", width: "100%" }}
-                className="btn btn-success btn-lg mt-5"
-                onClick={this.handleNewReceipt}
-              >
-                Create new receipt
-              </button>
-            ) : (
-              <button
-                style={{ display: "block", width: "100%" }}
-                className="btn btn-success btn-lg mt-5"
-                disabled
-              >
-                Create new receipt
-              </button>
-            )}
-
-            <Select
-              test={false}
-              name="shops"
-              value={this.state.receiptShop}
-              label="Shops"
-              options={newShops}
-              onChange={this.handleShopChange}
-            />
           </div>
           <div className="col">
-            <ReceiptTable
-              onDelete={this.handleDelete}
+            <DealTable
+              getTrProps={this.getTRPropsType}  
               receipts={receipts}
               onSort={this.handleSort}
               sortColumn={sortColumn}
-              onInfo={() => this.handleInfo(this.props)}
             />
             <Pagination
               itemsCount={totalCount}
@@ -149,10 +103,11 @@ class Receipts extends Component {
               activePage={activePage}
             />
           </div>
-        </div>
+          </div>
+          </p>
       </div>
     );
   }
 }
 
-export default Receipts;
+export default Deals;

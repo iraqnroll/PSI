@@ -107,8 +107,11 @@ class UserStats extends Component {
 
   render() {
     return (
+
+    
+         <div className="Box_content" style  ={{margin: "50px"}}>
       <div>
-        <h1
+             <h1
           style={{
             textAlign: "center",
             fontSize: 40,
@@ -183,7 +186,7 @@ class UserStats extends Component {
               className="mb-4"
               style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
             >
-              Top 5 Total cost (Euro)
+              Top 5 Total cost (Eur)
             </h2>
             <div className="mb-4 ml-4">
               <Doughnut
@@ -232,7 +235,8 @@ class UserStats extends Component {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+        </div>
     );
   }
 }

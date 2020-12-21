@@ -37,15 +37,18 @@ class UserDetails extends Form {
 
     render() {
         return (
-            <div>
-                <h1>Change details</h1>
-                <form onSubmit={this.handleSubmit}>
+            <div className="Box_content" >
+               
+                <div className="container" style = {{float : "left"}}>
+                     <h1>Change details</h1>
+                <form onSubmit={this.handleSubmit} >
                     {this.renderInput("username", "Username")}
                     {this.renderInput("password", "Password", "password")}
                     {this.renderInput("name", "Name")}
                     {this.renderButton("Change")}
                 </form>
-            </div>
+                </div>
+                </div>
         );
     }
 }

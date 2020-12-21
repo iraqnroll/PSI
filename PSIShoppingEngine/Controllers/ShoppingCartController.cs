@@ -24,12 +24,12 @@ namespace PSIShoppingEngine.Controllers
         {
             return Ok(await _ShoppingCartService.GetItemList(cart));
         }
-        [HttpGet("best")]
+        [HttpPost("best")]
         public async Task<IActionResult> BestStore(SendShoppingCartDto cart)
         {
             return Ok(await _ShoppingCartService.BestStore(cart));
         }
-        [HttpGet("bestC")]
+        [HttpPost("bestC")]
         public async Task<IActionResult> BestStore([FromQuery(Name = "shops")]Shop[] shop, [FromBody]SendShoppingCartDto cart)
         {
             return Ok(await _ShoppingCartService.BestStoreCustom(shop,cart));

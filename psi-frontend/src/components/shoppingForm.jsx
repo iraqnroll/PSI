@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ItemPriceForm from "./itemPriceForm";
+import ShoppingCartForm from "./shoppingCartForm";
 import { getItems } from "../services/itemService";
 import { getReceiptRaw, updateReceipt } from "../services/receiptService";
 import Select from "./common/select";
@@ -8,8 +8,9 @@ import {
   addItemPrice,
   deleteItemPrice,
 } from "../services/itemPriceService";
+import ShoppingCartPage from "./shoppingCartPage";
 
-class ReceiptForm extends Component {
+class ShoppingForm extends Component {
   state = {
     types: [],
     items: [],
@@ -21,7 +22,6 @@ class ReceiptForm extends Component {
   };
 
   async componentDidMount() {
-    const itemPrices = await getReceiptRaw(this.props.match.params.id);
     try {
       const types = [
         { id: 1, name: "Mesos gaminiai" },
@@ -43,7 +43,8 @@ class ReceiptForm extends Component {
       ];
 
       const items = await getItems();
-      this.setState({ types, items, data: itemPrices, shops });
+      this.setState({ types, items, shops });
+      console.log(items);
       this.validate();
     } catch (ex) {
       this.props.history.replace("/not-found");
@@ -51,15 +52,7 @@ class ReceiptForm extends Component {
   }
 
   validate() {
-    let validate = true;
-    this.state.data.shop > 0
-      ? this.state.data.itemPrices.forEach((e) =>
-          e.price <= 0 || !e.item.id || !e.item.type
-            ? (validate = false)
-            : (validate = validate)
-        )
-      : (validate = false);
-    this.setState({ validate });
+    this.setState({validate:  true });
   }
 
   updateData = (id, name, value) => {
@@ -69,12 +62,8 @@ class ReceiptForm extends Component {
     this.validate();
   };
   handleSave = async () => {
-    if (this.state.modified)
-      await updateReceipt(parseInt(this.state.data.shop), this.state.data.id);
-    await this.state.deleted.forEach(async (x) => await deleteItemPrice(x));
     const data = { ...this.state.data };
-    await data.itemPrices.forEach(async (x) => await this.saving(x));
-    window.location = "/receipts";
+    console.log(data);
   };
 
   async saving(x) {
@@ -141,42 +130,17 @@ class ReceiptForm extends Component {
 
   render() {
     const { items, types, data } = this.state;
+    
 
     return (
-      
-        
-        <div class ="Box_content" >
-          <h1>Receipt Nr.{this.props.match.params.id}</h1>
-
-          <h2>Shop: </h2>
-          <Select
-            test={false}
-            name="shops"
-            value={this.state.data.shop}
-            label="Shops"
-            options={this.state.shops}
-            onChange={this.handleShopChange}
-          />
-
-          <div>
-            {this.state.validate ? (
-              <button
-                className="btn btn-primary btn-lg"
-                onClick={this.handleSave}
-              >
-                Save
-              </button>
-            ) : (
-              <button className="btn btn-lg btn-primary" disabled>
-                Save
-              </button>
-            )}
-            </div>
-           
-       
+      <div className="Box">
+         <p className="Box_content">
+        <div className="d-flex justify-content-between m-3">
+          <h1>Shopping Cart{this.props.match.params.id}</h1>
+        </div>
 
         {data.itemPrices.map((itemPrice) => (
-          <ItemPriceForm
+          <ShoppingCartForm
             id={itemPrice.id}
             items={items}
             types={types}
@@ -188,21 +152,18 @@ class ReceiptForm extends Component {
             onDelete={() => this.handleDelete(itemPrice.id)}
           />
         ))}
-        {this.state.validate ? (
+        { (
           <button className="btn btn-secondary btn-lg" onClick={this.handleAdd}>
-            +
+            Add item
           </button>
-        ) : (
-          <button className="btn btn-lg btn-secondary" disabled>
-            +
-          </button>
-            )}
+        )}
+        <ShoppingCartPage
+          cart={data}
+          />
+          </p>
       </div>
-
-
-      
     );
   }
 }
 
-export default ReceiptForm;
+export default ShoppingForm;
