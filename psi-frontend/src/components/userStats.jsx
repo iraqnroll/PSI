@@ -107,136 +107,140 @@ class UserStats extends Component {
 
   render() {
     return (
-
-    
-         <div className="Box_content" style  ={{margin: "50px"}}>
-      <div>
-             <h1
-          style={{
-            textAlign: "center",
-            fontSize: 40,
-            color: "#616161",
-            padding: 10,
-          }}
-        >
-          My Statistics
-        </h1>
-        <div className="row mt-4">
-          <div className="col shadow p-3 mb-3 mr-5 bg-white rounded">
-            <h2
-              className="mb-4"
-              style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
-            >
-              Most frequently visited shops
-            </h2>
-            <div className="mb-4">
-              <Doughnut
-                data={this.state.shopFrequency}
-                options={{
-                  legend: {
-                    position: "right",
-                  },
-                }}
-              />
+      <div className="Box_content" style={{ margin: "50px" }}>
+        <div>
+          <h1
+            style={{
+              textAlign: "center",
+              fontSize: 40,
+              color: "#616161",
+              padding: 10,
+            }}
+          >
+            My Statistics
+          </h1>
+          <div className="row mt-4">
+            <div className="col shadow p-3 mb-3 mr-5 bg-white rounded">
+              <h2
+                className="mb-4"
+                style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
+              >
+                Most frequently visited shops
+              </h2>
+              <div className="d-flex justify-content-center">
+                <Doughnut
+                  width={500}
+                  height={500}
+                  data={this.state.shopFrequency}
+                  options={{
+                    responsive: false,
+                    legend: {
+                      position: "bottom",
+                    },
+                  }}
+                />
+              </div>
+            </div>
+            <div className="col shadow p-3 mb-3  bg-white rounded">
+              <h2
+                className="mb-4"
+                style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
+              >
+                Money spent (Euro)
+              </h2>
+              <div className="d-flex justify-content-center">
+                <Doughnut
+                  width={500}
+                  height={500}
+                  data={this.state.moneySpent}
+                  options={{
+                    responsive: false,
+                    legend: {
+                      position: "bottom",
+                    },
+                  }}
+                />
+              </div>
             </div>
           </div>
-          <div className="col shadow p-3 mb-3  bg-white rounded">
-            <h2
-              className="mb-4"
-              style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
-            >
-              Money spent (Euro)
-            </h2>
-            <div className="mb-4">
-              <Doughnut
-                data={this.state.moneySpent}
-                options={{
-                  legend: {
-                    position: "right",
-                  },
-                }}
-              />
+          <div className="row mt-4">
+            <div className="col shadow p-3 mb-3 mr-5 bg-white rounded">
+              <h2
+                className="mb-4"
+                style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
+              >
+                Top 5 Most frequently bought items
+              </h2>
+              <div className="d-flex justify-content-center">
+                <Doughnut
+                  width={500}
+                  height={500}
+                  data={this.state.itemFrequency}
+                  options={{
+                    responsive: false,
+                    legend: {
+                      position: "bottom",
+                    },
+                  }}
+                />
+              </div>
+            </div>
+            <div className="col shadow p-3 mb-3 bg-white rounded">
+              <h2
+                className="mb-4"
+                style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
+              >
+                Top 5 Total cost (Eur)
+              </h2>
+              <div className="d-flex justify-content-center">
+                <Doughnut
+                  width={500}
+                  height={500}
+                  data={this.state.iMoneySpent}
+                  options={{
+                    responsive: false,
+                    legend: {
+                      position: "bottom",
+                    },
+                  }}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="row mt-4">
-          <div className="col shadow p-3 mb-3 mr-5 bg-white rounded">
-            <h2
-              className="mb-4"
-              style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
-            >
-              Top 5 Most frequently bought items
-            </h2>
-            <div className="mb-4 ml-4">
-              <Doughnut
-                width={350}
-                height={350}
-                data={this.state.itemFrequency}
-                options={{
-                  responsive: false,
-                  legend: {
-                    position: "bottom",
-                  },
-                }}
-              />
-            </div>
-          </div>
-          <div className="col shadow p-3 mb-3 bg-white rounded">
-            <h2
-              className="mb-4"
-              style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
-            >
-              Top 5 Total cost (Eur)
-            </h2>
-            <div className="mb-4 ml-4">
-              <Doughnut
-                width={350}
-                height={350}
-                data={this.state.iMoneySpent}
-                options={{
-                  responsive: false,
-                  legend: {
-                    position: "bottom",
-                  },
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row mt-4">
-          <div className="col shadow p-3 mb-5 bg-white rounded">
-            <h2
-              className="mb-4"
-              style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
-            >
-              Shopping frequecy per month
-            </h2>
-            <div className="mb-4 ml-4">
-              <Line
-                data={this.state.monthFrequency}
-                options={{
-                  scales: {
-                    xAxes: [
-                      {
-                        type: "time",
-                      },
-                    ],
-                    yAxes: [
-                      {
-                        ticks: {
-                          beginAtZero: true,
-                          stepSize: 1,
+          <div className="row mt-4">
+            <div className="col shadow p-3 mb-5 bg-white rounded">
+              <h2
+                className="mb-4"
+                style={{ textAlign: "center", fontSize: 20, color: "#616161" }}
+              >
+                Shopping frequecy per month
+              </h2>
+              <div className="mb-4 ml-4">
+                <Line
+                  data={this.state.monthFrequency}
+                  options={{
+                    scales: {
+                      xAxes: [
+                        {
+                          type: "time",
                         },
-                      },
-                    ],
-                  },
-                }}
-              />
+                      ],
+                      yAxes: [
+                        {
+                          ticks: {
+                            beginAtZero: true,
+                            stepSize: 1,
+                          },
+                        },
+                      ],
+                    },
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
-        </div>
-        </div>
+      </div>
     );
   }
 }

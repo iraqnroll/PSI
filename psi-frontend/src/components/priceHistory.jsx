@@ -48,7 +48,7 @@ class PriceHistory extends Component {
       (item) => item.type === parseInt(this.state.selectedType)
     );
     return (
-      <div className="Box_content">
+      <div className="Box_content pr-5 pb-4">
         <h1
           className="mt-3"
           style={{
