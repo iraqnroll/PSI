@@ -109,8 +109,9 @@ class ShoppingCartPage extends Component {
     return (
       <div>
         <button 
-            className="btn btn-danger" 
-            onClick={() => this.buttonClick(cart)}
+            className="btn btn-secondary btn-lg"
+          onClick={() => this.buttonClick(cart)}
+          style ={{borderColor : "rgb(255, 182, 26)",color : "rgb(36, 29, 21)" ,backgroundColor: "rgb(255, 223, 26)", marginTop :"5px",marginBottom :"5px"}}
         >
               Find Deals
         </button>     

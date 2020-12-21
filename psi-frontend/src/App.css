@@ -49,7 +49,16 @@
     brightness(104%) contrast(97%);
 }
 .navbar-custom {
+  display: flex;
+  height: 40px;
   background-color: rgb(255, 223, 26);
+  color: rgb(0, 0, 0);
+}
+.navbar-custom.active {
+  background-color: rgb(255, 182, 26);
+  color: rgb(0, 0, 0);
+}
+.navbar-custom:hover {
   color: rgb(0, 0, 0);
 }
 
@@ -135,7 +144,7 @@
 @keyframes slidein {
   from {
     opacity: 0%;
-    transform: scale(1.05, 1.05);
+    transform: scale(1.02, 1.05);
   }
 
   to {

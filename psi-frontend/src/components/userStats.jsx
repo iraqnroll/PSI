@@ -107,8 +107,10 @@ class UserStats extends Component {
 
   render() {
     return (
-      <div >
-        <h1
+
+         <div className="Box_content" style={{display: "inline"}}>
+      <div>
+             <h1
           style={{
             textAlign: "center",
             fontSize: 40,
@@ -232,7 +234,8 @@ class UserStats extends Component {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+        </div>
     );
   }
 }

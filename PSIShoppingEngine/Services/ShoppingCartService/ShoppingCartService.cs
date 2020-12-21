@@ -63,10 +63,8 @@ namespace PSIShoppingEngine.Services.ShoppingCartService
                                           Date = rec.Date,
                                           Shop = rec.Shop
                                       }).OrderByDescending(x => x.Date).FirstOrDefaultAsync(x => x.Id == itemID);
-                    if (info != null)
-                    {
+                   
                         a.Add(info);
-                    }
           
                 }
                 serviceResponse.Data = a;
@@ -100,10 +98,8 @@ namespace PSIShoppingEngine.Services.ShoppingCartService
                         {
                             var info = list.OrderByDescending(x => x.Date).FirstOrDefault(x => x.Id == itemID && x.Shop == shop);
 
-                            if (info != null)
-                            {
+                           
                                 prices.Add(info);
-                            }
 
                         }
                         if (prices != null)

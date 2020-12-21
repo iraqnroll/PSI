@@ -98,7 +98,7 @@ class Receipts extends Component {
     let newShops = [...this.state.shops];
     newShops.shift();
     return (
-      <div>
+      <div className="Box_content">
         <h1 className="m-2">Receipts</h1>
         <div className="row">
           <div className="col-3">

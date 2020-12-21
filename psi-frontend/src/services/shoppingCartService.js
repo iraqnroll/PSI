@@ -24,8 +24,9 @@ export async function getDeals() {
 export async function getShoppingCart(shopCart) {
   const names = await http.get(apiEndpointa + "all", auth.config);
   const cart = await http.post(apiEndpoint + "/best", { Cart: shopCart});
-   const mapped = cart.data.data.map( ((cart ) => makeItem(cart, names)));
-  console.log(mapped);
+  const mapped = cart.data.data.map(((cart) => makeItem(cart, names)));
+  console.log("hey");
+  console.log(cart);
   return mapped;
 }
 export async function getShoppingCartC(selected,shopCart) {

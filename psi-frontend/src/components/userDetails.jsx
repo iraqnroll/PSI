@@ -37,7 +37,7 @@ class UserDetails extends Form {
 
     render() {
         return (
-            <div>
+            <div className="Box_content">
                 <h1>Change details</h1>
                 <form onSubmit={this.handleSubmit}>
                     {this.renderInput("username", "Username")}
