@@ -11,6 +11,18 @@ class TableBody extends Component {
   createKey = (item, column) => {
     return item.id + (column.path || column.key);
   };
+  getTrProps = (state, rowInfo, instance) => {
+    if (rowInfo) {
+      return {
+        style: {
+          background: rowInfo.row.change > 0 ? "red" : "green",
+          color: "white"
+          
+        }
+      };
+    }
+    return {};
+  };
 
   render() {
     const { data, columns } = this.props;

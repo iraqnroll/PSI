@@ -67,12 +67,7 @@ namespace PSIShoppingEngine.Services.ShoppingCartService
                     {
                         a.Add(info);
                     }
-                    else
-                    {
-                        serviceResponse.Success = false;
-                        serviceResponse.Message = "Could not find specified item price";
-                        return serviceResponse;
-                    }
+          
                 }
                 serviceResponse.Data = a;
                 return serviceResponse;

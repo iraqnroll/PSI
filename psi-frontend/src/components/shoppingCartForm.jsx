@@ -2,7 +2,7 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
 
-class ItemPriceForm extends Form {
+class ShoppingCartForm extends Form {
   state = {
     data: { type: "", name: "", price: 0 },
     errors: {},
@@ -24,7 +24,7 @@ class ItemPriceForm extends Form {
   schema = {
     type: Joi.string().required().label("Type"),
     name: Joi.string().required().label("Name"),
-    price: Joi.number().required().min(0.01).label("Pricesss"),
+    price: Joi.number().required().min(0.01).label("Price"),
   };
 
   handleTypeChange = (e) => {
@@ -52,9 +52,6 @@ class ItemPriceForm extends Form {
           <div className="col-6">
             {this.renderSelect("name", "Name", filtered)}
           </div>
-          <div className="col-2">
-            {this.renderInput("price", "Price", "number")}
-          </div>
           <div className="col">
             <button type="button" className="btn btn-danger" onClick={onDelete}>
               x
@@ -66,4 +63,4 @@ class ItemPriceForm extends Form {
   }
 }
 
-export default ItemPriceForm;
+export default ShoppingCartForm;

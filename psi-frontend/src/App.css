@@ -8,8 +8,8 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  .Box_content {
+    animation: App-logo-spin infinite 1 ease-in-out;
   }
 }
 
@@ -34,5 +34,112 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+.Box {
+  margin: 40px;
+  border: 5px rgb(58, 102, 119);
+}
+.RedArrow {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  background-image: url(Arrow.svg);
+  filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg)
+    brightness(104%) contrast(97%);
+}
+.navbar-custom {
+  background-color: rgb(255, 223, 26);
+  color: rgb(0, 0, 0);
+}
+
+.table-custom {
+  color: rgb(221, 132, 29);
+  background-color: rgb(255, 255, 255);
+
+  border: 2px solid rgb(36, 29, 21);
+}
+.list-group-mine .list-group-item {
+  background-color: rgb(255, 223, 26);
+  border-color: rgb(36, 29, 21);
+}
+.list-group-mine .list-group-item:hover {
+  background-color: rgb(222, 212, 143);
+}
+.list-group-mine .list-group-item.active {
+  background-color: rgb(36, 29, 21);
+}
+.group-mine .page-link {
+  background-color: rgb(255, 223, 26);
+  color: black;
+  border-color: rgb(36, 29, 21);
+}
+.group-mine .page-link:hover {
+  color: white;
+  background-color: rgb(222, 212, 143);
+}
+.group-mine:focus {
+  background-color: rgb(46, 42, 17);
+}
+.group-mine .page-item.active {
+  color: red;
+  background-color: rgb(180, 127, 13);
+}
+.mySelected {
+  color: red;
+  border-color: rgb(216, 62, 62);
+  width: 30px;
+  height: 45px;
+  display: flex;
+}
+
+.GreenArrow {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  transform: scale(1, -1);
+  background-image: url(Arrow.svg);
+  filter: invert(59%) sepia(67%) saturate(3932%) hue-rotate(85deg)
+    brightness(119%) contrast(126%);
+}
+.pagination > li > a,
+.pagination > li > span {
+  color: green;
+}
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+  background-color: green;
+  border-color: green;
+}
+.circle {
+  background-image: url(Arrow.svg);
+  width: 500px;
+  height: 500px;
+  line-height: 500px;
+  border-radius: 50%;
+  font-size: 50px;
+  text-align: center;
+  margin-left: 100px;
+}
+
+.Box_content {
+  margin-left: 25px;
+  animation-duration: 0.5s;
+  animation-name: slidein;
+  animation-timing-function: ease-in;
+}
+@keyframes slidein {
+  from {
+    opacity: 0%;
+    transform: scale(1.05, 1.05);
+  }
+
+  to {
+    opacity: 99%;
+    transform: scale(1, 1);
   }
 }

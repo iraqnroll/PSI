@@ -10,11 +10,10 @@ import ProtectedRoute from "./components/common/protectedRoute";
 import NotFound from "./components/notFound";
 import Home from "./components/Home";
 import ReceiptDetails from "./components/receiptDetails";
-import RegisterForm from "./components/registerForm";
 import ReceiptForm from "./components/receiptForm";
 import UserStats from "./components/userStats";
-import PriceHistory from "./components/priceHistory";
-import UserDetails from "./components/userDetails";
+import DealPage from "./components/dealPage";
+import ShoppingForm from  "./components/shoppingForm";
 
 class App extends Component {
   state = {};
@@ -28,23 +27,24 @@ class App extends Component {
     const { user } = this.state;
 
     return (
-      <div className="container">
+      <div class = "backR" style={{ backgroundColor: "	rgb(0, 238, 234)"}}>
+      <div class='container-fluid'style={{ backgroundColor: "	rgb(239, 238, 234)"}}  >
         <NavBar user={user} />
         <Switch>
-          <Route path="/register" component={RegisterForm} />
-          <Route path="/change" component={UserDetails} />
           <Route path="/login" component={LoginForm} />
+          <Route path="/deals" component={DealPage} />
+          <Route path="/shoppingCart" component={ShoppingForm } />
           <ProtectedRoute path="/receipts/edit/:id" component={ReceiptForm} />
           <ProtectedRoute path="/receipts/:id" component={ReceiptDetails} />
           <ProtectedRoute path="/receipts" component={Receipts} />
-          <ProtectedRoute path="/user-statistics" component={UserStats} />
-          <ProtectedRoute path="/item-history" component={PriceHistory} />
+          <ProtectedRoute path="/user-statistics" component={UserStats} />  
           <Route path="/logout" component={Logout} />
           <Route exact path="/" component={Home} />
           <Route path="/not-found" component={NotFound} />
           <Redirect to="/not-found" />
         </Switch>
-      </div>
+        </div>
+        </div>
     );
   }
 }
