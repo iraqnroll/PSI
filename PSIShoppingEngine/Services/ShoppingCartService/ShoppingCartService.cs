@@ -98,10 +98,11 @@ namespace PSIShoppingEngine.Services.ShoppingCartService
                         {
                             var info = list.OrderByDescending(x => x.Date).FirstOrDefault(x => x.Id == itemID && x.Shop == shop);
 
-                           
+                           if(info != null) { 
                                 prices.Add(info);
-
                         }
+
+                    }
                         if (prices != null)
                         {
                             var b = prices.OrderBy(x => x.Price).FirstOrDefault();

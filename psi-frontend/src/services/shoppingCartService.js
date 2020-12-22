@@ -37,7 +37,7 @@ export async function getShoppingCartC(selected,shopCart) {
     str = makeShoppingList(selected);
     console.log(str);
     const names = await http.get(apiEndpointa + "all", auth.config);
-    const cart = await http.post(apiEndpoint + "/bestC?" + str, { Cart: shopCart});
+    const cart = await http.post(apiEndpoint + "/bestC?" + str, { Cart: shopCart });
     const mapped = cart.data.data.map(((cart) => makeItem(cart, names)));
 
     return mapped;
